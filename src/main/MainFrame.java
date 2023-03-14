@@ -17,22 +17,6 @@ public class MainFrame extends JFrame {
 		this.add(button, BorderLayout.PAGE_START);
 		this.add(panel, BorderLayout.CENTER);
 		
-		// TODO Auto-generated constructor stub
-	}
-
-	public MainFrame(GraphicsConfiguration gc) {
-		super(gc);
-		// TODO Auto-generated constructor stub
-	}
-
-	public MainFrame(String title) throws HeadlessException {
-		super(title);
-		// TODO Auto-generated constructor stub
-	}
-
-	public MainFrame(String title, GraphicsConfiguration gc) {
-		super(title, gc);
-		// TODO Auto-generated constructor stub
 	}
 
 }
