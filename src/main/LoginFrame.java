@@ -89,7 +89,7 @@ public class LoginFrame extends JFrame {
 		if (rs.next())
 		{
 			dispose();
-			MainFrame newFrame = new MainFrame();
+			MainFrame newFrame = new MainFrame((int) rs.getObject("id"));
 			newFrame.setVisible(true);
 		}
 		else
