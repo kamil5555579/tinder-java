@@ -29,18 +29,6 @@ public class RegisterFrame extends JFrame {
 		mainPanel.setLayout(new GridLayout(6,1));
 		add(mainPanel);
 		
-		JLabel fnameLabel = new JLabel("Imie");
-		mainPanel.add(fnameLabel);
-		
-		JTextField fnameText = new JTextField();
-		mainPanel.add(fnameText);
-		
-		JLabel lnameLabel = new JLabel("Nazwisko");
-		mainPanel.add(lnameLabel);
-		
-		JTextField lnameText = new JTextField();
-		mainPanel.add(lnameText);
-		
 		JLabel loginLabel = new JLabel("Login");
 		mainPanel.add(loginLabel);
 		
@@ -53,6 +41,12 @@ public class RegisterFrame extends JFrame {
 		JTextField passwordText = new JTextField();
 		mainPanel.add(passwordText);
 		
+		JLabel password2Label = new JLabel("Powtórz Hasło");
+		mainPanel.add(password2Label);
+		
+		JTextField password2Text = new JTextField();
+		mainPanel.add(password2Text);
+		
 		JButton registerButton = new JButton("zarejestruj");
 		mainPanel.add(registerButton);
 		registerButton.addActionListener( new ActionListener()
@@ -60,12 +54,10 @@ public class RegisterFrame extends JFrame {
 
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						String fname = fnameText.getText();
-						String lname = lnameText.getText();
 						String username = loginText.getText();
 						String password = passwordText.getText();
 						try {
-							registerIn(fname, lname, username, password);
+							registerIn(username, password);
 						} catch (SQLException e1) {
 							e1.printStackTrace();
 						}
@@ -76,20 +68,26 @@ public class RegisterFrame extends JFrame {
 		
 	}
 	
-	public void registerIn(String fname, String lname, String username, String password) throws SQLException
+	public void registerIn(String username, String password) throws SQLException
 	{
 		Connection conn = sqlConn.connect();
 		PreparedStatement prep;
 
-		prep = conn.prepareStatement("INSERT INTO users ( firstname, lastname, username, password) VALUES (?,?,?,?)");
-		prep.setString(1, fname);
-		prep.setString(2, lname);
-		prep.setString(3, username);
-		prep.setString(4, password);
+		prep = conn.prepareStatement("INSERT INTO users ( username, password) VALUES (?,?)");
+		prep.setString(1, username);
+		prep.setString(2, password);
 		prep.executeUpdate();
-		dispose();
-		LoginFrame newFrame = new LoginFrame();
-		newFrame.setVisible(true);
+		
+		prep = conn.prepareStatement("SELECT * FROM users WHERE username =(?) AND password =(?)");
+		prep.setString(1, username);
+		prep.setString(2, password);
+		ResultSet rs = prep.executeQuery();
+		if (rs.next())
+		{
+			dispose();
+			DataFrame newFrame = new DataFrame((int) rs.getObject("id"));
+			newFrame.setVisible(true);
+		}
 		
 	}
 

@@ -27,7 +27,7 @@ public class LoginFrame extends JFrame {
 		
 		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout(new GridLayout(4,1));
-		add(mainPanel);
+		getContentPane().add(mainPanel);
 		
 		JLabel loginLabel = new JLabel("Login");
 		mainPanel.add(loginLabel);
