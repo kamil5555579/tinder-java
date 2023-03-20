@@ -18,6 +18,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.SwingWorker;
 
 import com.mysql.jdbc.Connection;
 
@@ -59,20 +60,35 @@ public class MainFrame extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Connection conn = sqlConn.connect();
-				PreparedStatement prep;
+				SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>(){
+			       	 
+		            @Override
+		            protected Void doInBackground() throws Exception {
+		            	Connection conn = sqlConn.connect();
+		    			PreparedStatement prep;
 
-				try {
-				prep = conn.prepareStatement("INSERT INTO matches (user_id, stranger_id, interest) VALUES (?,?,?)");
-				prep.setInt(1, me.getId());
-				prep.setInt(2, users.get(i).getId());
-				prep.setBoolean(3, false);
-				prep.executeUpdate();
+						prep = conn.prepareStatement("INSERT INTO matches (user_id, stranger_id, interest) VALUES (?,?,?)");
+						prep.setInt(1, me.getId());
+						prep.setInt(2, users.get(i).getId());
+						prep.setBoolean(3, false);
+						prep.executeUpdate();
+						
+						return null;
+		            }
 
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+		            @Override
+		            protected void done() {
+		                try {
+
+		                } catch (Exception ex) {
+		                    ex.printStackTrace();
+		                }
+		            }
+
+		       };
+		       
+		       worker.execute();
+
 			}
 		});
 		JButton match = new JButton("match");
@@ -81,20 +97,35 @@ public class MainFrame extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Connection conn = sqlConn.connect();
-				PreparedStatement prep;
+				SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>(){
+			       	 
+		            @Override
+		            protected Void doInBackground() throws Exception {
+		            	Connection conn = sqlConn.connect();
+		    			PreparedStatement prep;
 
-				try {
-				prep = conn.prepareStatement("INSERT INTO matches (user_id, stranger_id, interest) VALUES (?,?,?)");
-				prep.setInt(1, me.getId());
-				prep.setInt(2, users.get(i).getId());
-				prep.setBoolean(3, true);
-				prep.executeUpdate();
+						prep = conn.prepareStatement("INSERT INTO matches (user_id, stranger_id, interest) VALUES (?,?,?)");
+						prep.setInt(1, me.getId());
+						prep.setInt(2, users.get(i).getId());
+						prep.setBoolean(3, true);
+						prep.executeUpdate();
+						
+						return null;
+		            }
 
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+		            @Override
+		            protected void done() {
+		                try {
+
+		                } catch (Exception ex) {
+		                    ex.printStackTrace();
+		                }
+		            }
+
+		       };
+		       
+		       worker.execute();
+
 			}
 		});
 		
@@ -114,47 +145,73 @@ public class MainFrame extends JFrame {
 
 	public void initializeMe(int id)
 	{
-		Connection conn = sqlConn.connect();
-		PreparedStatement prep;
+		SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>(){
+	       	 
+            @Override
+            protected Void doInBackground() throws Exception {
+            	Connection conn = sqlConn.connect();
+    			PreparedStatement prep;
 
-		try {
-		prep = conn.prepareStatement("SELECT * FROM userdata WHERE user_id =(?)");
-		prep.setString(1, Integer.toString(id));
-		ResultSet rs = prep.executeQuery();
-		if (rs.next())
-		{
-			byte[] imageData = rs.getBytes("image");
-			ImageIcon image = new ImageIcon((new ImageIcon(imageData)).getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH));
-			me = new User(id, rs.getString("firstname"), rs.getString("lastname"), rs.getString("university"), rs.getString("gender"), rs.getInt("age"), image);
-		}
+    			prep = conn.prepareStatement("SELECT * FROM userdata WHERE user_id =(?)");
+    			prep.setString(1, Integer.toString(id));
+    			ResultSet rs = prep.executeQuery();
+    			if (rs.next())
+    			{
+    				byte[] imageData = rs.getBytes("image");
+    				ImageIcon image = new ImageIcon((new ImageIcon(imageData)).getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH));
+    				me = new User(id, rs.getString("firstname"), rs.getString("lastname"), rs.getString("university"), rs.getString("gender"), rs.getInt("age"), image);
+    			}
+				return null;
+            }
 
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+            @Override
+            protected void done() {
+                try {
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+
+       };
+       
+       worker.execute();
 	}
 	
 	public void initializeOthers(int id)
 	{
-		Connection conn = sqlConn.connect();
-		PreparedStatement prep;
+		SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>(){
+	       	 
+            @Override
+            protected Void doInBackground() throws Exception {
+            	Connection conn = sqlConn.connect();
+    			PreparedStatement prep;
 
-		try {
-		prep = conn.prepareStatement("SELECT * FROM userdata WHERE user_id NOT IN (SELECT stranger_id FROM matches WHERE user_id = (?)) AND user_id !=(?)");
-		prep.setInt(1, id);
-		prep.setInt(2, id);
-		ResultSet rs = prep.executeQuery();
-		while(rs.next())
-		{
-			byte[] imageData = rs.getBytes("image");
-			ImageIcon image = new ImageIcon((new ImageIcon(imageData)).getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH));
-			users.add(new User(rs.getInt("user_id"), rs.getString("firstname"), rs.getString("lastname"), rs.getString("university"), rs.getString("gender"), rs.getInt("age"), image));
-		}
+    			prep = conn.prepareStatement("SELECT * FROM userdata WHERE user_id NOT IN (SELECT stranger_id FROM matches WHERE user_id = (?)) AND user_id !=(?)");
+    			prep.setInt(1, id);
+    			prep.setInt(2, id);
+    			ResultSet rs = prep.executeQuery();
+    			while(rs.next())
+    			{
+    				byte[] imageData = rs.getBytes("image");
+    				ImageIcon image = new ImageIcon((new ImageIcon(imageData)).getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH));
+    				users.add(new User(rs.getInt("user_id"), rs.getString("firstname"), rs.getString("lastname"), rs.getString("university"), rs.getString("gender"), rs.getInt("age"), image));
+    			}
+				return null;
+            }
 
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+            @Override
+            protected void done() {
+                try {
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+
+       };
+       
+       worker.execute();
 	}
 	
 }

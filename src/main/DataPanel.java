@@ -13,6 +13,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.swing.ImageIcon;
@@ -23,6 +24,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingWorker;
 import javax.swing.border.LineBorder;
 
 import com.mysql.jdbc.Connection;
@@ -231,21 +233,37 @@ class DataPanel extends JPanel
 	
 	public void save(String firstname, String lastname, String university, InputStream is) throws SQLException
 	{
-		Connection conn = sqlConn.connect();
-		PreparedStatement prep;
+		 SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>(){
+	       	 
+	            @Override
+	            protected Void doInBackground() throws Exception {
+	            	Connection conn = sqlConn.connect();
+	    			PreparedStatement prep;
 
-		prep = conn.prepareStatement("INSERT INTO userdata (user_id, firstname, lastname, university, image) VALUES (?,?,?,?,?)");
-		prep.setLong(1, id);
-		prep.setString(2, firstname);
-		prep.setString(3, lastname);
-		prep.setString(4, university);
-		prep.setBinaryStream(5,is, (int) f.length());
-		
-		prep.executeUpdate();
-		MainFrame frame = new MainFrame(id);
-		frame.setVisible(true);
-		
+	    			prep = conn.prepareStatement("INSERT INTO userdata (user_id, firstname, lastname, university, image) VALUES (?,?,?,?,?)");
+	    			prep.setLong(1, id);
+	    			prep.setString(2, firstname);
+	    			prep.setString(3, lastname);
+	    			prep.setString(4, university);
+	    			prep.setBinaryStream(5,is, (int) f.length());
+	    			
+	                return null;
+	            }
 
-		
+	            @Override
+	            protected void done() {
+	                try {
+	            		MainFrame frame = new MainFrame(id);
+	            		frame.setVisible(true);
+	                    
+	                } catch (Exception ex) {
+	                    ex.printStackTrace();
+	                }
+	            }
+
+	       };
+	       
+	       worker.execute();
+
 	}
 }

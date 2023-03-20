@@ -16,6 +16,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.SwingWorker;
 
 import com.mysql.jdbc.Connection;
 
@@ -33,34 +34,47 @@ public class ChatFrame extends JFrame {
 		add(label);
 		JButton next = new JButton("next");
 		add(next);
-		label.setText(users.get(0).getFirstname());
 	}
 
 	public void initializeOthers(int id)
 	{
-		Connection conn = sqlConn.connect();
-		PreparedStatement prep;
+		SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>(){
+	       	 
+            @Override
+            protected Void doInBackground() throws Exception {
+            	Connection conn = sqlConn.connect();
+    			PreparedStatement prep;
 
-		try {
-		prep = conn.prepareStatement("SELECT * FROM userdata WHERE user_id IN "
-				+ "(SELECT user_id FROM matches WHERE user_id IN "
-				+ "(SELECT stranger_id FROM matches WHERE user_id = (?) AND interest =(?)) AND interest =(?) AND stranger_id = (?))");
-		prep.setInt(1, id);
-		prep.setBoolean(2, true);
-		prep.setBoolean(3, true);
-		prep.setInt(4, id);
-		ResultSet rs = prep.executeQuery();
-		while(rs.next())
-		{
-			byte[] imageData = rs.getBytes("image");
-			ImageIcon image = new ImageIcon((new ImageIcon(imageData)).getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH));
-			users.add(new User(rs.getInt("user_id"), rs.getString("firstname"), rs.getString("lastname"), rs.getString("university"), rs.getString("gender"), rs.getInt("age"), image));
-		}
+    			prep = conn.prepareStatement("SELECT * FROM userdata WHERE user_id IN "
+    					+ "(SELECT user_id FROM matches WHERE user_id IN "
+    					+ "(SELECT stranger_id FROM matches WHERE user_id = (?) AND interest =(?)) AND interest =(?) AND stranger_id = (?))");
+    			prep.setInt(1, id);
+    			prep.setBoolean(2, true);
+    			prep.setBoolean(3, true);
+    			prep.setInt(4, id);
+    			ResultSet rs = prep.executeQuery();
+    			while(rs.next())
+    			{
+    				byte[] imageData = rs.getBytes("image");
+    				ImageIcon image = new ImageIcon((new ImageIcon(imageData)).getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH));
+    				users.add(new User(rs.getInt("user_id"), rs.getString("firstname"), rs.getString("lastname"), rs.getString("university"), rs.getString("gender"), rs.getInt("age"), image));
+    			}
+				return null;
+            }
 
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+            @Override
+            protected void done() {
+                try {
+            		label.setText(users.get(0).getFirstname());
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+
+       };
+       
+       worker.execute();
 	}
 
 }

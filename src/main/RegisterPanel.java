@@ -17,6 +17,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.SwingWorker;
 import javax.swing.border.LineBorder;
 
 import com.mysql.jdbc.Connection;
@@ -158,24 +159,40 @@ class RegisterPanel extends JPanel
 	
 	public void registerIn(String username, String password) throws SQLException
 	{
-		Connection conn = sqlConn.connect();
-		PreparedStatement prep;
+		 SwingWorker<Integer, Void> worker = new SwingWorker<Integer, Void>(){
+	       	 
+	            @Override
+	            protected Integer doInBackground() throws Exception {
+	            	Connection conn = sqlConn.connect();
+	    			PreparedStatement prep;
 
-		prep = conn.prepareStatement("INSERT INTO users ( username, password) VALUES (?,?)");
-		prep.setString(1, username);
-		prep.setString(2, password);
-		prep.executeUpdate();
-		
-		prep = conn.prepareStatement("SELECT * FROM users WHERE username =(?) AND password =(?)");
-		prep.setString(1, username);
-		prep.setString(2, password);
-		ResultSet rs = prep.executeQuery();
-		if (rs.next())
-		{
-			 data.setId(rs.getInt("id"));
-			 CardLayout cardLayout = (CardLayout) panel.getLayout();
-             cardLayout.next(panel);
-		}
-		
+	    			prep = conn.prepareStatement("INSERT INTO users ( username, password) VALUES (?,?)");
+	    			prep.setString(1, username);
+	    			prep.setString(2, password);
+	    			prep.executeUpdate();
+	    			
+	    			prep = conn.prepareStatement("SELECT * FROM users WHERE username =(?) AND password =(?)");
+	    			prep.setString(1, username);
+	    			prep.setString(2, password);
+	    			ResultSet rs = prep.executeQuery();
+	    			if (!rs.next()) throw new Exception();
+	                return rs.getInt("id");
+	            }
+
+	            @Override
+	            protected void done() {
+	                try {
+	                	data.setId(get());
+	    				 CardLayout cardLayout = (CardLayout) panel.getLayout();
+	    	             cardLayout.next(panel);
+	                    
+	                } catch (Exception ex) {
+	                    ex.printStackTrace();
+	                }
+	            }
+
+	       };
+	       
+	       worker.execute();
 	}
 }

@@ -22,6 +22,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.SwingWorker;
 import javax.swing.border.LineBorder;
 
 import com.mysql.jdbc.Connection;
@@ -92,23 +93,6 @@ public class LoginPanel extends JPanel
 			pwdPassword.setFont(new Font("Dialog", Font.ITALIC, 14));
 			pwdPassword.setBounds(12, 12, 250, 42);
 			panel_1.add(pwdPassword);
-			/*
-			char passwordChar = pwdPassword.getEchoChar();
-			pwdPassword.setEchoChar ((char) 0);
-			pwdPassword.setText("Enter password");
-			pwdPassword.addFocusListener(new FocusListener() {
-			@Override
-			public void focusGained(FocusEvent e) {
-				pwdPassword.setText("");
-				pwdPassword.setEchoChar(passwordChar);
-			}
-
-			@Override
-			public void focusLost(FocusEvent e) {
-				
-			}
-			}); */
-
 			
 			//przycisk logowania
 			
@@ -174,20 +158,38 @@ public class LoginPanel extends JPanel
 	    
 	    public void logIn(String username, String password) throws SQLException
 		{
-			Connection conn = sqlConn.connect();
-			PreparedStatement prep;
+	    	
+        SwingWorker<Integer, Void> worker = new SwingWorker<Integer, Void>(){
+       	 
+            @Override
+            protected Integer doInBackground() throws Exception {
+            	Connection conn = sqlConn.connect();
+    			PreparedStatement prep;
 
-			prep = conn.prepareStatement("SELECT * FROM users WHERE username =(?) AND password =(?)");
-			prep.setString(1, username);
-			prep.setString(2, password);
-			ResultSet rs = prep.executeQuery();
-			if (rs.next())
-			{
-				MainFrame newFrame = new MainFrame((int) rs.getObject("id"));
-				newFrame.setVisible(true);
-			}
-			else
-				System.out.println("zle");
+    			prep = conn.prepareStatement("SELECT * FROM users WHERE username =(?) AND password =(?)");
+    			prep.setString(1, username);
+    			prep.setString(2, password);
+    			ResultSet rs = prep.executeQuery();
+
+    			if(!rs.next()) throw new Exception();
+    			
+                return rs.getInt("id");
+            }
+
+            @Override
+            protected void done() {
+                try {
+                	MainFrame newFrame = new MainFrame(get());
+    				newFrame.setVisible(true);
+                    
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+
+       };
+       
+       worker.execute();
 		}
 
 
