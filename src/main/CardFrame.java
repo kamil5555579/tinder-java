@@ -8,9 +8,9 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.border.LineBorder;
 
-import project.DataPanel;
-import project.LoginPanel;
-import project.RegisterPanel;
+import main.DataPanel;
+import main.LoginPanel;
+import main.RegisterPanel;
 
 
 public class CardFrame {
