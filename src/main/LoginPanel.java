@@ -7,6 +7,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -16,6 +19,8 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
+import com.mysql.jdbc.Connection;
+
 public class LoginPanel extends JPanel 
 {
 
@@ -24,26 +29,37 @@ public class LoginPanel extends JPanel
 	 private JPasswordField pwdPassword;
 	 private JButton btnRegister, button;
 	 private JLabel lblTinder, lblX;
+	 private JPanel panel;
+	 private SqlConnection sqlConn = new SqlConnection();
 
 	    public LoginPanel(JPanel panel) 
 	    {
+	    	this.panel = panel;
+	    	
+	    	//ustawienia panelu
+	    	
 	    	setBounds(100, 100, 600, 400);
 			setBackground(new Color(255, 105, 180));
 			setBorder(new LineBorder(new Color(255, 20, 147), 3, true));
 			setLayout(null);
 
+			//login
+			
 	    	panel_2 = new JPanel();
 	    	panel_2.setBackground(new Color(255, 255, 255));
 	    	panel_2.setBounds(125, 92, 350, 66);
 			panel_2.setLayout(null);
 			add(panel_2);
 	    	
+			
 			txtUsername = new JTextField();
 			txtUsername.setFont(new Font("Dialog", Font.ITALIC, 14));
 			txtUsername.setText("Username");
 			txtUsername.setBounds(12, 12, 250, 42);
 			txtUsername.setColumns(10);
 			panel_2.add(txtUsername);
+			
+			//hasło
 			
 			panel_1 = new JPanel();
 			panel_1.setLayout(null);
@@ -57,11 +73,15 @@ public class LoginPanel extends JPanel
 			pwdPassword.setBounds(12, 12, 250, 42);
 			panel_1.add(pwdPassword);
 			
+			//label Tinder
+			
 			lblTinder = new JLabel("Tinder");
 			lblTinder.setForeground(Color.WHITE);
 			lblTinder.setFont(new Font("LM Sans 10", Font.BOLD | Font.ITALIC, 30));
 			lblTinder.setBounds(225, 25, 101, 50);
 			add(lblTinder);
+			
+			//przycisk logowania
 			
 			button = new JButton("Log in");
 			button.setBackground(new Color(255, 240, 245));
@@ -69,15 +89,29 @@ public class LoginPanel extends JPanel
 			button.setBounds(124, 279, 170, 50);
 			add(button);
 			
+			button.addActionListener( new ActionListener()
+			{
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					String username = txtUsername.getText();
+					String password = String.valueOf(pwdPassword.getPassword());
+					try {
+						logIn(username, password);
+					} catch (SQLException e1) {
+						e1.printStackTrace();
+					}
+				}
+		
+			});
+			
+			//przejscie do rejestracji
+			
 			btnRegister = new JButton("Register");
-			//btnRegister.setAlignmentY(0.0f);
 			btnRegister.setBackground(new Color(255, 240, 245));
 			btnRegister.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 14));
 			btnRegister.setBounds(306, 279, 170, 50);
 			
-	        //setBackground(Color.RED.darker().darker());
-	        //construct components
-	       // jcomp4 = new JButton ("openNewWindow");
 	        btnRegister.addActionListener( new ActionListener()
 	        {
 	            public void actionPerformed(ActionEvent e)
@@ -87,6 +121,8 @@ public class LoginPanel extends JPanel
 	            }
 	        });
 	        add(btnRegister);
+	        
+	        // wyłącznik programu
 	        
 	        lblX = new JLabel("X");
 			lblX.addMouseListener(new MouseAdapter() {
@@ -104,4 +140,26 @@ public class LoginPanel extends JPanel
 			add(lblX);
 	        
 	    }  
+	    
+	    //funkcja sprawdzająca konto w bazie i logująca
+	    
+	    public void logIn(String username, String password) throws SQLException
+		{
+			Connection conn = sqlConn.connect();
+			PreparedStatement prep;
+
+			prep = conn.prepareStatement("SELECT * FROM users WHERE username =(?) AND password =(?)");
+			prep.setString(1, username);
+			prep.setString(2, password);
+			ResultSet rs = prep.executeQuery();
+			if (rs.next())
+			{
+				MainFrame newFrame = new MainFrame((int) rs.getObject("id"));
+				newFrame.setVisible(true);
+			}
+			else
+				System.out.println("zle");
+		}
+
+
 }

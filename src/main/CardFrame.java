@@ -35,8 +35,8 @@ public class CardFrame {
         
         contentPane.setLayout(new CardLayout());
         panel1 = new LoginPanel(contentPane);
-        panel2 = new RegisterPanel(contentPane);
         panel3 = new DataPanel(contentPane);
+        panel2 = new RegisterPanel(contentPane, panel3);
         contentPane.add(panel1, "Panel 1"); 
         contentPane.add(panel2, "Panel 2");
         contentPane.add(panel3, "Panel 3");
@@ -58,4 +58,6 @@ public static void main(String[] args)
         }
     });
 }
+
+
 }
