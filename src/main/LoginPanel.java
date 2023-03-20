@@ -5,13 +5,18 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -31,10 +36,19 @@ public class LoginPanel extends JPanel
 	 private JLabel lblTinder, lblX;
 	 private JPanel panel;
 	 private SqlConnection sqlConn = new SqlConnection();
+	 
 
-	    public LoginPanel(JPanel panel) 
+	    public LoginPanel(JPanel panel, JFrame frame) 
 	    {
 	    	this.panel = panel;
+	    	
+	    	//żeby działały prompty
+	    	
+	    	frame.addWindowFocusListener(new WindowAdapter() {
+	    	    public void windowGainedFocus(WindowEvent e) {
+	    	        lblTinder.requestFocusInWindow();
+	    	    }
+	    	});
 	    	
 	    	//ustawienia panelu
 	    	
@@ -42,6 +56,14 @@ public class LoginPanel extends JPanel
 			setBackground(new Color(255, 105, 180));
 			setBorder(new LineBorder(new Color(255, 20, 147), 3, true));
 			setLayout(null);
+			
+			//label Tinder
+			
+			lblTinder = new JLabel("Tinder");
+			lblTinder.setForeground(Color.WHITE);
+			lblTinder.setFont(new Font("LM Sans 10", Font.BOLD | Font.ITALIC, 30));
+			lblTinder.setBounds(225, 25, 101, 50);
+			add(lblTinder);
 
 			//login
 			
@@ -52,9 +74,8 @@ public class LoginPanel extends JPanel
 			add(panel_2);
 	    	
 			
-			txtUsername = new JTextField();
+			txtUsername = new PTextField("Username");
 			txtUsername.setFont(new Font("Dialog", Font.ITALIC, 14));
-			txtUsername.setText("Username");
 			txtUsername.setBounds(12, 12, 250, 42);
 			txtUsername.setColumns(10);
 			panel_2.add(txtUsername);
@@ -67,19 +88,27 @@ public class LoginPanel extends JPanel
 			panel_1.setBounds(125, 183, 350, 66);
 			add(panel_1);
 			
-			pwdPassword = new JPasswordField();
+			pwdPassword = new PPasswordField("Haslo");
 			pwdPassword.setFont(new Font("Dialog", Font.ITALIC, 14));
-			pwdPassword.setText("Password");
 			pwdPassword.setBounds(12, 12, 250, 42);
 			panel_1.add(pwdPassword);
-			
-			//label Tinder
-			
-			lblTinder = new JLabel("Tinder");
-			lblTinder.setForeground(Color.WHITE);
-			lblTinder.setFont(new Font("LM Sans 10", Font.BOLD | Font.ITALIC, 30));
-			lblTinder.setBounds(225, 25, 101, 50);
-			add(lblTinder);
+			/*
+			char passwordChar = pwdPassword.getEchoChar();
+			pwdPassword.setEchoChar ((char) 0);
+			pwdPassword.setText("Enter password");
+			pwdPassword.addFocusListener(new FocusListener() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				pwdPassword.setText("");
+				pwdPassword.setEchoChar(passwordChar);
+			}
+
+			@Override
+			public void focusLost(FocusEvent e) {
+				
+			}
+			}); */
+
 			
 			//przycisk logowania
 			

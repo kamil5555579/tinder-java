@@ -34,7 +34,7 @@ public class CardFrame {
 		//frame.setLocationRelativeTo(null);
         
         contentPane.setLayout(new CardLayout());
-        panel1 = new LoginPanel(contentPane);
+        panel1 = new LoginPanel(contentPane, frame);
         panel3 = new DataPanel(contentPane);
         panel2 = new RegisterPanel(contentPane, panel3);
         contentPane.add(panel1, "Panel 1"); 
