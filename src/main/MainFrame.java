@@ -33,11 +33,12 @@ public class MainFrame extends JFrame {
 	public MainFrame(int id) throws HeadlessException {
 		setSize(800,800);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		setLayout(new GridLayout(4,1));
+		setLayout(new GridLayout(6,1));
 		initializeMe(id);
 		initializeOthers(id);
 		label = new JLabel();
 		add(label);
+		
 		JButton next = new JButton("next");
 		add(next);
 		i=-1;
@@ -97,6 +98,17 @@ public class MainFrame extends JFrame {
 			}
 		});
 		
+		JButton chat = new JButton("chat");
+		add(chat);
+		chat.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				ChatFrame chatFrame = new ChatFrame(me.getId());
+				chatFrame.setVisible(true);
+			}
+		});
 		
 	}
 
