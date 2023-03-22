@@ -24,11 +24,11 @@ import com.mysql.jdbc.Connection;
 
 class RegisterPanel extends JPanel 
 {	
-	private JTextField txtUsername;
+	private PTextField txtUsername;
 	private JPanel panel_1,panel_2, panel_3;
-	private JPasswordField pwdPassword;
+	private PPasswordField pwdPassword;
 	private JButton btnRegister;
-	private JPasswordField passwordField;
+	private PPasswordField passwordField;
 	private JPanel panel;
 	private SqlConnection sqlConn = new SqlConnection();
 	private DataPanel data;
@@ -53,9 +53,8 @@ class RegisterPanel extends JPanel
 		panel_2.setBounds(125, 92, 350, 43);
 		add(panel_2);
 		
-		txtUsername = new JTextField();
+		txtUsername = new PTextField("Username");
 		txtUsername.setFont(new Font("Dialog", Font.ITALIC, 14));
-		txtUsername.setText("Username");
 		txtUsername.setBounds(12, 12, 250, 19);
 		txtUsername.setColumns(10);
 		panel_2.add(txtUsername);
@@ -68,9 +67,8 @@ class RegisterPanel extends JPanel
 		panel_1.setBounds(125, 159, 350, 43);
 		add(panel_1);
 		
-		pwdPassword = new JPasswordField();
+		pwdPassword = new PPasswordField("Password");
 		pwdPassword.setFont(new Font("Dialog", Font.ITALIC, 14));
-		pwdPassword.setText("Password");
 		pwdPassword.setBounds(12, 12, 250, 19);
 		panel_1.add(pwdPassword);
 		
@@ -147,8 +145,7 @@ class RegisterPanel extends JPanel
 		panel_3.setBounds(125, 224, 350, 43);
 		add(panel_3);
 		
-		passwordField = new JPasswordField();
-		passwordField.setText("Password");
+		passwordField = new PPasswordField("Password");
 		passwordField.setFont(new Font("Dialog", Font.ITALIC, 14));
 		passwordField.setBounds(12, 12, 250, 19);
 		panel_3.add(passwordField);

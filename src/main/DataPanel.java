@@ -28,6 +28,8 @@ import javax.swing.SwingWorker;
 import javax.swing.border.LineBorder;
 
 import com.mysql.jdbc.Connection;
+import javax.swing.SwingConstants;
+import java.awt.ComponentOrientation;
 
 class DataPanel extends JPanel 
 {
@@ -35,10 +37,10 @@ class DataPanel extends JPanel
 	private JPanel panel_1;
 	private JButton btnRegister;
 	private JComboBox comboBox;
-	private JTextField txtAge;
-	private JTextField txtDescription;
-	private JTextField txtName;
-	private JTextField txtSurname;
+	private PTextField txtAge;
+	private PTextField txtDescription;
+	private PTextField txtName;
+	private PTextField txtSurname;
 	private JButton imgButton;
 	private JLabel imgLabel;
 	private JComboBox comboBox_2;
@@ -59,18 +61,19 @@ class DataPanel extends JPanel
 		
 		panel_1 = new JPanel();
 		panel_1.setBackground(new Color(255, 255, 255));
-		panel_1.setBounds(125, 93, 351, 174);
+		panel_1.setBounds(125, 90, 351, 227);
 		add(panel_1);
 		panel_1.setLayout(null);
 
 		//opis
 		
-		txtDescription = new JTextField();
+		txtDescription = new PTextField("Description...");
+		txtDescription.setHorizontalAlignment(SwingConstants.LEFT);
+		txtDescription.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		txtDescription.setCaretColor(new Color(0, 0, 0));
-		txtDescription.setBounds(12, 126, 110, 15);
+		txtDescription.setBounds(12, 107, 159, 108);
 		panel_1.add(txtDescription);
 		txtDescription.setFont(new Font("Dialog", Font.ITALIC, 12));
-		txtDescription.setText("Description...");
 		txtDescription.setBorder(null);
 		txtDescription.setColumns(10);
 		
@@ -79,7 +82,7 @@ class DataPanel extends JPanel
 		String[] gender = {"Gender", "Male", "Famale",
   	    "Other" };
 		comboBox = new JComboBox(gender);
-		comboBox.setBounds(12, 55, 159, 24);
+		comboBox.setBounds(12, 42, 159, 24);
 		panel_1.add(comboBox);
 		comboBox.setBackground(new Color(255, 240, 245));
 		comboBox.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 14));
@@ -89,49 +92,47 @@ class DataPanel extends JPanel
 		String[] faculty = {"Faculty", "Architecture", "Chemistry", "Mathematics and Infromation Science", "Physics", 
   	    "Other" };
 		comboBox_2 = new JComboBox(faculty);
-		comboBox_2.setBounds(12, 91, 159, 24);
+		comboBox_2.setBounds(12, 71, 159, 24);
 		panel_1.add(comboBox_2);
 		comboBox_2.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 14));
 		comboBox_2.setBackground(new Color(255, 240, 245));
 		
 		//wiek
 		
-		txtAge = new JTextField();
-		txtAge.setBounds(183, 55, 156, 26);
+		txtAge = new PTextField("Age");
+		txtAge.setBounds(184, 42, 156, 26);
 		panel_1.add(txtAge);
 		txtAge.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 14));
-		txtAge.setText("Age");
 		txtAge.setBackground(new Color(255, 240, 245));
 		txtAge.setColumns(10);
 		
 		//imię
 		
-		txtName = new JTextField();
-		txtName.setText("Name");
+		txtName = new PTextField("Name");
 		txtName.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 14));
 		txtName.setColumns(10);
 		txtName.setBackground(new Color(255, 240, 245));
-		txtName.setBounds(11, 17, 159, 26);
+		txtName.setBounds(12, 12, 159, 26);
 		panel_1.add(txtName);
 		
 		//nazwisko
 		
-		txtSurname = new JTextField();
-		txtSurname.setText("Surname");
+		txtSurname = new PTextField("Surname");
 		txtSurname.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 14));
 		txtSurname.setColumns(10);
 		txtSurname.setBackground(new Color(255, 240, 245));
-		txtSurname.setBounds(182, 17, 157, 26);
+		txtSurname.setBounds(183, 12, 157, 26);
 		panel_1.add(txtSurname);
 		
 		//zdjecie
 		
 		imgButton = new JButton("Choose image");
-		imgButton.setBounds(154, 125, 85, 21);
+		imgButton.setBackground(new Color(255, 240, 245));
+		imgButton.setBounds(184, 71, 156, 24);
 		panel_1.add(imgButton);
 		
 		imgLabel = new JLabel("");
-		imgLabel.setBounds(241, 64, 100, 100);
+		imgLabel.setBounds(184,104,156,111);
 		panel_1.add(imgLabel);
 		
 		imgButton.addActionListener(new ActionListener()
@@ -145,7 +146,7 @@ class DataPanel extends JPanel
 			      f = fileChooser.getSelectedFile();
 			      String path = f.getAbsolutePath();
 			      ImageIcon icon = new ImageIcon(path);
-			      Image img = icon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+			      Image img = icon.getImage().getScaledInstance(156, 111, Image.SCALE_SMOOTH);
 			      imgLabel.setIcon(new ImageIcon(img));
 			      
 			}
@@ -175,7 +176,7 @@ class DataPanel extends JPanel
 		btnRegister.setAlignmentY(0.0f);
 		btnRegister.setBackground(new Color(255, 240, 245));
 		btnRegister.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 14));
-		btnRegister.setBounds(306, 279, 170, 50);
+		btnRegister.setBounds(125, 319, 351, 50);
 		add(btnRegister);
 		
 		btnRegister.addActionListener( new ActionListener()
