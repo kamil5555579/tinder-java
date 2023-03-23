@@ -18,6 +18,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.SwingWorker;
 
 import com.mysql.jdbc.Connection;
@@ -29,7 +30,8 @@ public class MainFrame extends JFrame {
 	User me;
 	List<User> users = new ArrayList<User>();
 	int i;
-	JLabel label;
+	JLabel textLabel;
+	JLabel imgLabel;
 
 	public MainFrame(int id) throws HeadlessException {
 		setSize(800,800);
@@ -37,8 +39,13 @@ public class MainFrame extends JFrame {
 		setLayout(new GridLayout(6,1));
 		initializeMe(id);
 		initializeOthers(id);
-		label = new JLabel();
-		add(label);
+		textLabel = new JLabel();
+		add(textLabel);
+		JPanel imgPanel = new JPanel();
+		add(imgPanel);
+		imgLabel = new JLabel();
+		imgPanel.add(imgLabel);
+		imgLabel.setLocation(imgLabel.getX()+100, imgLabel.getY()+10);
 		
 		JButton next = new JButton("next");
 		add(next);
@@ -50,7 +57,8 @@ public class MainFrame extends JFrame {
 				if(i<users.size()-1)
 				{
 					i++;
-					label.setText(users.get(i).getFirstname());
+					textLabel.setText(users.get(i).getFirstname());
+					imgLabel.setIcon(users.get(i).getImage());
 				}
 			}
 		});
