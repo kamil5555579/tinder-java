@@ -101,7 +101,6 @@ class RegisterPanel extends JPanel
 		//przejście do uzupełniania danych
 		
 		btnRegister = new JButton("Register");
-		btnRegister.setAlignmentY(0.0f);
 		btnRegister.setBackground(new Color(255, 240, 245));
 		btnRegister.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 14));
 		btnRegister.setBounds(350, 415, 225, 65);

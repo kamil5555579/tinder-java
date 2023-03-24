@@ -2,18 +2,13 @@ package main;
 
 import java.awt.CardLayout;
 import java.awt.Color;
-import java.awt.Dimension;
+
 import java.awt.Font;
 import java.awt.GradientPaint;
-import java.awt.Graphics;
+
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.PreparedStatement;
@@ -23,7 +18,6 @@ import java.sql.SQLException;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -47,6 +41,7 @@ public class LoginPanel extends JPanel
 	    {	
 	    	this.panel = panel;
 	    	
+		      
 	    	//żeby działały prompty
 	    	
 	    	frame.addWindowFocusListener(new WindowAdapter() {
@@ -139,6 +134,7 @@ public class LoginPanel extends JPanel
 	            }
 	        });
 	        add(btnRegister);
+	        
 	      
 	        
 	    }  
@@ -186,8 +182,6 @@ public class LoginPanel extends JPanel
 			// nie rozumiem czemu to nie dziala
 			Color startColor = Color.red;
 		    Color endColor = Color.blue;
-
-		    int startX = 10, startY = 20, endX = 30, endY = 40;
 		    
 		    int panelHeight = getHeight();
 	        int panelWidth = getWidth();
@@ -196,10 +190,11 @@ public class LoginPanel extends JPanel
 	            Graphics2D graphics2D = (Graphics2D)g;
 	            graphics2D.setPaint( gradientPaint );
 	            graphics2D.fillRect( 0 , 0 , panelWidth , panelHeight );
+	            
 	        }
 	       
 			
-			System.out.println("5");
+			
 		 	
 		}
 }

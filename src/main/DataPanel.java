@@ -173,7 +173,6 @@ class DataPanel extends JPanel
 		//zapisanie i powrót do loginu
 		
 		btnRegister = new JButton("Save");
-		btnRegister.setAlignmentY(0.0f);
 		btnRegister.setBackground(new Color(255, 240, 245));
 		btnRegister.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 14));
 		btnRegister.setBounds(115, 480, 475, 50);
