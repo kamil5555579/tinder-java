@@ -2,7 +2,12 @@ package main;
 
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GradientPaint;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -34,13 +39,12 @@ public class LoginPanel extends JPanel
 	 private JPanel panel_1, panel_2;
 	 private JPasswordField pwdPassword;
 	 private JButton btnRegister, button;
-	 private JLabel lblTinder, lblX;
+	 private JLabel lblTinder;
 	 private JPanel panel;
 	 private SqlConnection sqlConn = new SqlConnection();
-	 
 
 	    public LoginPanel(JPanel panel, JFrame frame) 
-	    {
+	    {	
 	    	this.panel = panel;
 	    	
 	    	//żeby działały prompty
@@ -53,7 +57,7 @@ public class LoginPanel extends JPanel
 	    	
 	    	//ustawienia panelu
 	    	
-	    	setBounds(100, 100, 600, 400);
+	    	setBounds(100, 100, 700, 600);
 			setBackground(new Color(255, 105, 180));
 			setBorder(new LineBorder(new Color(255, 20, 147), 3, true));
 			setLayout(null);
@@ -62,22 +66,22 @@ public class LoginPanel extends JPanel
 			
 			lblTinder = new JLabel("Tinder");
 			lblTinder.setForeground(Color.WHITE);
-			lblTinder.setFont(new Font("LM Sans 10", Font.BOLD | Font.ITALIC, 30));
-			lblTinder.setBounds(225, 25, 101, 50);
+			lblTinder.setFont(new Font("LM Sans 10", Font.BOLD | Font.ITALIC, 42));
+			lblTinder.setBounds(274, 23, 127, 61);
 			add(lblTinder);
 
 			//login
 			
 	    	panel_2 = new JPanel();
 	    	panel_2.setBackground(new Color(255, 255, 255));
-	    	panel_2.setBounds(125, 92, 350, 66);
+	    	panel_2.setBounds(105, 195, 470, 80);
 			panel_2.setLayout(null);
 			add(panel_2);
 	    	
 			
 			txtUsername = new PTextField("Username");
-			txtUsername.setFont(new Font("Dialog", Font.ITALIC, 14));
-			txtUsername.setBounds(12, 12, 250, 42);
+			txtUsername.setFont(new Font("Dialog", Font.ITALIC, 16));
+			txtUsername.setBounds(12, 12, 445, 55);
 			txtUsername.setColumns(10);
 			panel_2.add(txtUsername);
 			
@@ -86,20 +90,21 @@ public class LoginPanel extends JPanel
 			panel_1 = new JPanel();
 			panel_1.setLayout(null);
 			panel_1.setBackground(Color.WHITE);
-			panel_1.setBounds(125, 183, 350, 66);
+			panel_1.setBounds(105, 305, 470, 80);
 			add(panel_1);
 			
 			pwdPassword = new PPasswordField("Haslo");
-			pwdPassword.setFont(new Font("Dialog", Font.ITALIC, 14));
-			pwdPassword.setBounds(12, 12, 250, 42);
+			pwdPassword.setText("Password");
+			pwdPassword.setFont(new Font("Dialog", Font.ITALIC, 16));
+			pwdPassword.setBounds(12, 12, 445, 55);
 			panel_1.add(pwdPassword);
 			
 			//przycisk logowania
 			
 			button = new JButton("Log in");
 			button.setBackground(new Color(255, 240, 245));
-			button.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 14));
-			button.setBounds(124, 279, 170, 50);
+			button.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 16));
+			button.setBounds(105, 415, 225, 65);
 			add(button);
 			
 			button.addActionListener( new ActionListener()
@@ -122,8 +127,8 @@ public class LoginPanel extends JPanel
 			
 			btnRegister = new JButton("Register");
 			btnRegister.setBackground(new Color(255, 240, 245));
-			btnRegister.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 14));
-			btnRegister.setBounds(306, 279, 170, 50);
+			btnRegister.setFont(new Font("Dialog", Font.BOLD, 16));
+			btnRegister.setBounds(350, 415, 225, 65);
 			
 	        btnRegister.addActionListener( new ActionListener()
 	        {
@@ -134,23 +139,7 @@ public class LoginPanel extends JPanel
 	            }
 	        });
 	        add(btnRegister);
-	        
-	        // wyłącznik programu
-	        
-	        lblX = new JLabel("X");
-			lblX.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseClicked(MouseEvent e) {
-					if(JOptionPane.showConfirmDialog(null, "Are you sure you want to close this application?", "Confirmation", JOptionPane.YES_NO_OPTION)==0){
-						System.exit(ABORT);
-					}
-				}
-			});
-			
-			lblX.setForeground(new Color(255, 255, 255));
-			lblX.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 14));
-			lblX.setBounds(578, 3, 11, 17);
-			add(lblX);
+	      
 	        
 	    }  
 	    
@@ -191,6 +180,26 @@ public class LoginPanel extends JPanel
        
        worker.execute();
 		}
+	    
+	    public void paintComponent(Graphics2D g) {
+			super.paintComponent(g);
+			// nie rozumiem czemu to nie dziala
+			Color startColor = Color.red;
+		    Color endColor = Color.blue;
 
-
+		    int startX = 10, startY = 20, endX = 30, endY = 40;
+		    
+		    int panelHeight = getHeight();
+	        int panelWidth = getWidth();
+	        GradientPaint gradientPaint = new GradientPaint( panelWidth / 2 , 0 , startColor , panelWidth / 2 , panelHeight , endColor );
+	        if( g instanceof Graphics2D ) {
+	            Graphics2D graphics2D = (Graphics2D)g;
+	            graphics2D.setPaint( gradientPaint );
+	            graphics2D.fillRect( 0 , 0 , panelWidth , panelHeight );
+	        }
+	       
+			
+			System.out.println("5");
+		 	
+		}
 }

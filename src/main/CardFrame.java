@@ -2,10 +2,14 @@ package main;
 
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+import javax.swing.WindowConstants;
 import javax.swing.border.LineBorder;
 
 import main.DataPanel;
@@ -20,12 +24,29 @@ public class CardFrame {
     private RegisterPanel panel2;
     private DataPanel panel3;
 
+    
     private void displayGUI()
     {
         JFrame frame = new JFrame("Login & Register");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setBounds(100, 100, 600, 400);
-		frame.setUndecorated(true);
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        frame.addWindowListener(new WindowAdapter() {
+            
+
+            @Override
+            public void windowClosing(WindowEvent e) {
+                super.windowClosing(e); 
+                if(JOptionPane.showConfirmDialog(null, "Are you sure you want to close this application?", "Confirmation", JOptionPane.YES_NO_OPTION)==0){
+					frame.dispose();
+				}
+            }
+        });
+        
+       
+        
+		frame.setBounds(100, 100, 700, 600);
+		frame.setResizable(false);
+
+		//frame.setUndecorated(true);
 
         JPanel contentPane = new JPanel();
 		contentPane.setBackground(new Color(255, 105, 180));

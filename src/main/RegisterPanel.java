@@ -40,7 +40,7 @@ class RegisterPanel extends JPanel
 		
 		//ustawienia panelu
 		
-		setBounds(100, 100, 600, 400);
+		setBounds(100, 100, 700, 600);
 		setBackground(new Color(255, 105, 180));
 		setBorder(new LineBorder(new Color(255, 20, 147), 3, true));
 		setLayout(null);
@@ -50,12 +50,12 @@ class RegisterPanel extends JPanel
 		panel_2 = new JPanel();
 		panel_2.setLayout(null);
 		panel_2.setBackground(new Color(255, 255, 255));
-		panel_2.setBounds(125, 92, 350, 43);
+		panel_2.setBounds(105, 115, 470, 80);
 		add(panel_2);
 		
 		txtUsername = new PTextField("Username");
 		txtUsername.setFont(new Font("Dialog", Font.ITALIC, 14));
-		txtUsername.setBounds(12, 12, 250, 19);
+		txtUsername.setBounds(12, 12, 445, 55);
 		txtUsername.setColumns(10);
 		panel_2.add(txtUsername);
 		
@@ -64,12 +64,12 @@ class RegisterPanel extends JPanel
 		panel_1 = new JPanel();
 		panel_1.setLayout(null);
 		panel_1.setBackground(Color.WHITE);
-		panel_1.setBounds(125, 159, 350, 43);
+		panel_1.setBounds(105, 215, 470, 80);
 		add(panel_1);
 		
 		pwdPassword = new PPasswordField("Password");
 		pwdPassword.setFont(new Font("Dialog", Font.ITALIC, 14));
-		pwdPassword.setBounds(12, 12, 250, 19);
+		pwdPassword.setBounds(12, 12, 445, 55);
 		panel_1.add(pwdPassword);
 		
 		
@@ -77,8 +77,8 @@ class RegisterPanel extends JPanel
 		
 		JLabel lblTinder = new JLabel("Register");
 		lblTinder.setForeground(Color.WHITE);
-		lblTinder.setFont(new Font("LM Sans 10", Font.BOLD | Font.ITALIC, 30));
-		lblTinder.setBounds(225, 25, 112, 43);
+		lblTinder.setFont(new Font("LM Sans 10", Font.BOLD | Font.ITALIC, 42));
+		lblTinder.setBounds(255, 20, 157, 61);
 		add(lblTinder);
 		
 		//wracanie do logowania
@@ -86,7 +86,7 @@ class RegisterPanel extends JPanel
 		JButton button = new JButton("Log in");
 		button.setBackground(new Color(255, 240, 245));
 		button.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 14));
-		button.setBounds(124, 279, 170, 50);
+		button.setBounds(105, 415, 225, 65);
 		//add(button);
 		button.addActionListener( new ActionListener()
         {
@@ -104,7 +104,7 @@ class RegisterPanel extends JPanel
 		btnRegister.setAlignmentY(0.0f);
 		btnRegister.setBackground(new Color(255, 240, 245));
 		btnRegister.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 14));
-		btnRegister.setBounds(306, 279, 170, 50);
+		btnRegister.setBounds(350, 415, 225, 65);
 		btnRegister.addActionListener( new ActionListener()
         {
             public void actionPerformed(ActionEvent e)
@@ -121,33 +121,17 @@ class RegisterPanel extends JPanel
         });
 		add(btnRegister);
 		
-		//wyłącznik programu
-		
-		JLabel lblX = new JLabel("X");
-		lblX.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				if(JOptionPane.showConfirmDialog(null, "Are you sure you want to close this application?", "Confirmation", JOptionPane.YES_NO_OPTION)==0){
-					System.exit(ABORT);
-				}
-			}
-		});
-		lblX.setForeground(new Color(255, 255, 255));
-		lblX.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 14));
-		lblX.setBounds(578, 3, 11, 17);
-		add(lblX);
-		
 		//powtórz hasło
 		
 		panel_3 = new JPanel();
 		panel_3.setLayout(null);
 		panel_3.setBackground(Color.WHITE);
-		panel_3.setBounds(125, 224, 350, 43);
+		panel_3.setBounds(105, 315, 470, 80);
 		add(panel_3);
 		
 		passwordField = new PPasswordField("Password");
 		passwordField.setFont(new Font("Dialog", Font.ITALIC, 14));
-		passwordField.setBounds(12, 12, 250, 19);
+		passwordField.setBounds(12, 12, 445, 55);
 		panel_3.add(passwordField);
 	
 	}
