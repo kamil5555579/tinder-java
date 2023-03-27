@@ -19,7 +19,7 @@ public class SqlConnection {
 					"ProjektJava2023!");
 
 		} catch (SQLException e) {
-			e.printStackTrace();//problem z polczeniem do bazy
+			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} 

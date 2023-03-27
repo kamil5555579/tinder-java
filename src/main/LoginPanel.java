@@ -1,19 +1,16 @@
 package main;
 
-import java.awt.BasicStroke;
 import java.awt.CardLayout;
 import java.awt.Color;
 
 import java.awt.Font;
 import java.awt.GradientPaint;
-import java.awt.Graphics;
+
 import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.geom.Rectangle2D;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -21,7 +18,6 @@ import java.sql.SQLException;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -30,12 +26,11 @@ import javax.swing.border.LineBorder;
 
 import com.mysql.jdbc.Connection;
 
-
 public class LoginPanel extends JPanel 
 {
 
 	 private JTextField txtUsername;
-	 private JPanel panel_1,panel_2;
+	 private JPanel panel_1, panel_2;
 	 private JPasswordField pwdPassword;
 	 private JButton btnRegister, button;
 	 private JLabel lblTinder;
@@ -46,6 +41,7 @@ public class LoginPanel extends JPanel
 	    {	
 	    	this.panel = panel;
 	    	
+		      
 	    	//żeby działały prompty
 	    	
 	    	frame.addWindowFocusListener(new WindowAdapter() {
@@ -113,7 +109,11 @@ public class LoginPanel extends JPanel
 				public void actionPerformed(ActionEvent e) {
 					String username = txtUsername.getText();
 					String password = String.valueOf(pwdPassword.getPassword());
-					logIn(username, password);
+					try {
+						logIn(username, password);
+					} catch (SQLException e1) {
+						e1.printStackTrace();
+					}
 				}
 		
 			});
@@ -141,7 +141,7 @@ public class LoginPanel extends JPanel
 	    
 	    //funkcja sprawdzająca konto w bazie i logująca
 	    
-	    public void logIn(String username, String password) 
+	    public void logIn(String username, String password) throws SQLException
 		{
 	    	
         SwingWorker<Integer, Void> worker = new SwingWorker<Integer, Void>(){
@@ -164,41 +164,37 @@ public class LoginPanel extends JPanel
             @Override
             protected void done() {
                 try {
-                	CardFrame2 newFrame = new CardFrame2(get());
+                	MainFrame newFrame = new MainFrame(get());
     				newFrame.setVisible(true);
-                  
+                    
                 } catch (Exception ex) {
-                	JOptionPane.showMessageDialog(
-                            null,"Uncorrect login or password. Try again.",
-                            "Login o error",
-                            JOptionPane.ERROR_MESSAGE);            }
+                    ex.printStackTrace();
+                }
             }
 
        };
        
        worker.execute();
 		}
+	    
+	    public void paintComponent(Graphics2D g) {
+			super.paintComponent(g);
+			// nie rozumiem czemu to nie dziala
+			Color startColor = Color.red;
+		    Color endColor = Color.blue;
+		    
+		    int panelHeight = getHeight();
+	        int panelWidth = getWidth();
+	        GradientPaint gradientPaint = new GradientPaint( panelWidth / 2 , 0 , startColor , panelWidth / 2 , panelHeight , endColor );
+	        if( g instanceof Graphics2D ) {
+	            Graphics2D graphics2D = (Graphics2D)g;
+	            graphics2D.setPaint( gradientPaint );
+	            graphics2D.fillRect( 0 , 0 , panelWidth , panelHeight );
+	            
+	        }
+	       
 			
-		/* 	
-		 public void paint(Graphics g) {
-		      super.paint(g);
-		      
-		      Graphics2D g2 = (Graphics2D)g;
-
-		      //Rectangle2D r0=new Rectangle2D.Double(50,50,50,50);
-		     // Rectangle2D r1=new Rectangle2D.Double(200,50,50,50);
-		      Rectangle2D r2=new Rectangle2D.Double(0,0,getWidth(),getHeight());
-
-		      Color c0=Color.magenta, c1=Color.orange;
-
-		      //GradientPaint gp=new GradientPaint(0, 0, c0, 5, 5, c1, true);
-		      //g2.setPaint(gp);
-		      //g2.fill(r0);
-		     //g2.setStroke(new BasicStroke(10));
-		      //g2.draw(r1);
-
-		      GradientPaint  gp = new GradientPaint(150, 200, c1, 450, 200, c0, false);
-		      g2.setPaint(gp);
-		      g2.fill(r2);
-		     }*/
+			
+		 	
+		}
 }
