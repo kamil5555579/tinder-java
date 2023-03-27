@@ -20,6 +20,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -52,7 +53,7 @@ class DataPanel extends JPanel
 	private InputStream is=null;
 	private Connection conn;
 
-	public DataPanel(JPanel panel)  {
+	public DataPanel(JPanel panel, JFrame frame)  {
 		
 		//ustawienia panelu
 		
@@ -190,8 +191,8 @@ class DataPanel extends JPanel
 						String university = (String) comboBox_2.getSelectedItem();
 						if (f==null) {
 							JOptionPane.showMessageDialog(
-		                            null,"Wybierz zdjęcie!",
-		                            "Data error",
+		                            null,"Nie wybrano zdjęcia. Wybierz zdjęcie!",
+		                            "Błąd uzupełniania danych",
 		                            JOptionPane.ERROR_MESSAGE);
 						}else {
 							
@@ -200,10 +201,10 @@ class DataPanel extends JPanel
 						} catch (FileNotFoundException e1) {
 							JOptionPane.showMessageDialog(
 		                            null,"Błąd dostępu do pliku.",
-		                            "Data error",
+		                            "Błąd dostępu do danych",
 		                            JOptionPane.ERROR_MESSAGE);
 						}
-						save(firstname, lastname, university, is);
+						save(firstname, lastname, university, is, frame);
 						
 						}
 					}
@@ -223,7 +224,7 @@ class DataPanel extends JPanel
 	
 	//zapisanie danych i przejście do aplikacji
 	
-	public void save(String firstname, String lastname, String university, InputStream is) 
+	public void save(String firstname, String lastname, String university, InputStream is, JFrame frame) 
 	{
 		 SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>(){
 	       	 
@@ -246,16 +247,17 @@ class DataPanel extends JPanel
 	            @Override
 	            protected void done() {
 	                try {
-	            		CardFrame2 frame = new CardFrame2(id);
-	            		frame.setVisible(true);
+	            		CardFrame2 newFrame = new CardFrame2(id);
+	            		newFrame.setVisible(true);
 	            		if (conn!= null)
 	    	    			conn.close();
+	            		frame.dispose();
 	            	
 	                    
 	                } catch (Exception ex) {
 	                	JOptionPane.showMessageDialog(
-	                            null,"Błąd zapisu",
-	                            "Data error",
+	                            null,"Błąd zapisu danych",
+	                            "Błąd zapisu danych",
 	                            JOptionPane.ERROR_MESSAGE);
 	                }
 	            }

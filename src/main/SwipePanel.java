@@ -263,7 +263,7 @@ public class SwipePanel extends JPanel {
 
 								prep = conn.prepareStatement("INSERT INTO matches (user_id, stranger_id, interest) VALUES (?,?,?)");
 								prep.setInt(1, me.getId());
-								prep.setInt(2, users.get(i).getId());
+								prep.setInt(2, users.get(id).getId());
 								prep.setBoolean(3, false);
 								prep.executeUpdate();
 								
@@ -303,7 +303,7 @@ public class SwipePanel extends JPanel {
 
 								prep = conn.prepareStatement("INSERT INTO matches (user_id, stranger_id, interest) VALUES (?,?,?)");
 								prep.setInt(1, me.getId());
-								prep.setInt(2, users.get(i).getId());
+								prep.setInt(2, users.get(id).getId());
 								prep.setBoolean(3, true);
 								prep.executeUpdate();
 								

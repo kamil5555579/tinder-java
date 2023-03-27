@@ -18,7 +18,7 @@ public class ChatPanel extends JPanel {
 	
 	private JButton buttonSwipe;
 	
-	public ChatPanel(JPanel panel) {
+	public ChatPanel(JPanel panel, int id) {
 			
 				setBounds(100, 100, 1000, 1000);
 				//setBackground(new Color(255, 153, 204));

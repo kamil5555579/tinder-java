@@ -47,7 +47,7 @@ public CardFrame() throws HeadlessException {
         
         contentPane.setLayout(new CardLayout());
         panel1 = new LoginPanel(contentPane, this);
-        panel3 = new DataPanel(contentPane);
+        panel3 = new DataPanel(contentPane, this);
         panel2 = new RegisterPanel(contentPane, panel3);
         contentPane.add(panel1, "Panel 1"); ;
         contentPane.add(panel2, "Panel 2");
@@ -63,7 +63,7 @@ public CardFrame() throws HeadlessException {
             @Override
             public void windowClosing(WindowEvent e) {
                 super.windowClosing(e); 
-                if(JOptionPane.showConfirmDialog(null, "Are you sure you want to close this application?", "Confirmation", JOptionPane.YES_NO_OPTION)==0){
+                if(JOptionPane.showConfirmDialog(null, "Czy na pewno chcesz wyjść z aplikacji?", "Potwierdzenie", JOptionPane.YES_NO_OPTION)==0){
 					dispose();
 				}
             }

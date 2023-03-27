@@ -39,7 +39,7 @@ public class CardFrame2 extends JFrame{
             @Override
             public void windowClosing(WindowEvent e) {
                 super.windowClosing(e); 
-                if(JOptionPane.showConfirmDialog(null, "Are you sure you want to close this application?", "Confirmation", JOptionPane.YES_NO_OPTION)==0){
+                if(JOptionPane.showConfirmDialog(null, "Czy na pewno chcesz wyjść z aplikacji?", "Potwierdzenie", JOptionPane.YES_NO_OPTION)==0){
 					dispose();
 				}
             }
@@ -55,8 +55,8 @@ public class CardFrame2 extends JFrame{
         
         contentPane.setLayout(new CardLayout());
         panel4 = new SwipePanel(contentPane, this, id);
-        panel6 = new ChatPanel(contentPane);
-        panel5 = new SettingsPanel(contentPane);
+        panel6 = new ChatPanel(contentPane, id);
+        panel5 = new SettingsPanel(contentPane,id);
         contentPane.add(panel4, "Panel 4"); 
         contentPane.add(panel5, "Panel 5");
         contentPane.add(panel6, "Panel 6");
