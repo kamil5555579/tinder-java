@@ -189,14 +189,19 @@ class DataPanel extends JPanel
 						try {
 							is = new FileInputStream(f);
 						} catch (FileNotFoundException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
+							JOptionPane.showMessageDialog(
+		                            null,"Unable to find a file or path for saving your data. ",
+		                            "Data error",
+		                            JOptionPane.ERROR_MESSAGE);
 						}
 
 						try {
 							save(firstname, lastname, university, is);
 						} catch (SQLException e1) {
-							e1.printStackTrace();
+							JOptionPane.showMessageDialog(
+		                            null,"Unable to save data.",
+		                            "Data error",
+		                            JOptionPane.ERROR_MESSAGE);
 						}
 					}
 			
@@ -237,11 +242,15 @@ class DataPanel extends JPanel
 	            @Override
 	            protected void done() {
 	                try {
-	            		MainFrame frame = new MainFrame(id);
+	            		CardFrame2 frame = new CardFrame2(id);
 	            		frame.setVisible(true);
+	            	
 	                    
 	                } catch (Exception ex) {
-	                    ex.printStackTrace();
+	                	JOptionPane.showMessageDialog(
+	                            null,"Unabled to open the main frame of application.",
+	                            "Data error",
+	                            JOptionPane.ERROR_MESSAGE);
 	                }
 	            }
 

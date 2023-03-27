@@ -26,9 +26,9 @@ class RegisterPanel extends JPanel
 {	
 	private PTextField txtUsername;
 	private JPanel panel_1,panel_2, panel_3;
-	private PPasswordField pwdPassword;
+	private PPasswordField password1;
 	private JButton btnRegister;
-	private PPasswordField passwordField;
+	private PPasswordField password2;
 	private JPanel panel;
 	private SqlConnection sqlConn = new SqlConnection();
 	private DataPanel data;
@@ -67,10 +67,10 @@ class RegisterPanel extends JPanel
 		panel_1.setBounds(105, 215, 470, 80);
 		add(panel_1);
 		
-		pwdPassword = new PPasswordField("Password");
-		pwdPassword.setFont(new Font("Dialog", Font.ITALIC, 14));
-		pwdPassword.setBounds(12, 12, 445, 55);
-		panel_1.add(pwdPassword);
+		password1 = new PPasswordField("Password");
+		password1.setFont(new Font("Dialog", Font.ITALIC, 14));
+		password1.setBounds(12, 12, 445, 55);
+		panel_1.add(password1);
 		
 		
 		//label Register
@@ -109,11 +109,14 @@ class RegisterPanel extends JPanel
             public void actionPerformed(ActionEvent e)
             {
             	String username = txtUsername.getText();
-				String password = String.valueOf(pwdPassword.getPassword());
+				String password = String.valueOf(password1.getPassword());
 				try {
 					registerIn(username, password);
 				} catch (SQLException e1) {
-					e1.printStackTrace();
+					JOptionPane.showMessageDialog(
+                            null,"This username is already in use.",
+                            "Register error",
+                            JOptionPane.ERROR_MESSAGE);
 				}
 			}
             
@@ -128,14 +131,20 @@ class RegisterPanel extends JPanel
 		panel_3.setBounds(105, 315, 470, 80);
 		add(panel_3);
 		
-		passwordField = new PPasswordField("Password");
-		passwordField.setFont(new Font("Dialog", Font.ITALIC, 14));
-		passwordField.setBounds(12, 12, 445, 55);
-		panel_3.add(passwordField);
+		password2 = new PPasswordField("Password");
+		password2.setFont(new Font("Dialog", Font.ITALIC, 14));
+		password2.setBounds(12, 12, 445, 55);
+		panel_3.add(password2);
+		
+		
 	
 	}
 	
 	// funkcja tworząca konto i przechodząca do uzupełniania danych
+	
+	
+
+	
 	
 	public void registerIn(String username, String password) throws SQLException
 	{
@@ -167,7 +176,10 @@ class RegisterPanel extends JPanel
 	    	             cardLayout.next(panel);
 	                    
 	                } catch (Exception ex) {
-	                    ex.printStackTrace();
+	                	JOptionPane.showMessageDialog(
+	                            null,"Unable to open next card.",
+	                            "Register error",
+	                            JOptionPane.ERROR_MESSAGE);
 	                }
 	            }
 

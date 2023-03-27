@@ -2,6 +2,7 @@ package main;
 
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.HeadlessException;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -17,56 +18,58 @@ import main.LoginPanel;
 import main.RegisterPanel;
 
 
-public class CardFrame {
+public class CardFrame extends JFrame {
 
 	private JPanel contentPane;
     private LoginPanel panel1;
     private RegisterPanel panel2;
     private DataPanel panel3;
-
-    
-    private void displayGUI()
-    {
-        JFrame frame = new JFrame("Login & Register");
-        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        frame.addWindowListener(new WindowAdapter() {
-            
-
-            @Override
-            public void windowClosing(WindowEvent e) {
-                super.windowClosing(e); 
-                if(JOptionPane.showConfirmDialog(null, "Are you sure you want to close this application?", "Confirmation", JOptionPane.YES_NO_OPTION)==0){
-					frame.dispose();
-				}
-            }
-        });
-        
        
+
+
+
+public CardFrame() throws HeadlessException {
+		super();
+
+		setTitle("Login & Register");
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         
-		frame.setBounds(100, 100, 700, 600);
-		frame.setResizable(false);
+		setBounds(100, 100, 700, 600);
+		setResizable(false);
 
 		//frame.setUndecorated(true);
 
         JPanel contentPane = new JPanel();
 		contentPane.setBackground(new Color(255, 105, 180));
 		contentPane.setBorder(new LineBorder(new Color(255, 20, 147), 3, true));
-		frame.setContentPane(contentPane);
+		setContentPane(contentPane);
 		//frame.setLocationRelativeTo(null);
         
         contentPane.setLayout(new CardLayout());
-        panel1 = new LoginPanel(contentPane, frame);
+        panel1 = new LoginPanel(contentPane, this);
         panel3 = new DataPanel(contentPane);
         panel2 = new RegisterPanel(contentPane, panel3);
-        contentPane.add(panel1, "Panel 1"); 
+        contentPane.add(panel1, "Panel 1"); ;
         contentPane.add(panel2, "Panel 2");
         contentPane.add(panel3, "Panel 3");
-        frame.setContentPane(contentPane); //to nie do konca rozumiem co robi  
-        frame.setLocationRelativeTo(null);
+        setContentPane(contentPane); //to nie do konca rozumiem co robi  
+        setLocationRelativeTo(null);
         //frame.setLocationByPlatform(true); //nie otwiera sie w rogu
-        frame.setVisible(true);
+        setVisible(true);
+        
+        this.addWindowListener(new WindowAdapter() {
+            
 
-    }
+            @Override
+            public void windowClosing(WindowEvent e) {
+                super.windowClosing(e); 
+                if(JOptionPane.showConfirmDialog(null, "Are you sure you want to close this application?", "Confirmation", JOptionPane.YES_NO_OPTION)==0){
+					dispose();
+				}
+            }
+        });
+    }  
+	
 
 
 public static void main(String[] args)
@@ -75,10 +78,11 @@ public static void main(String[] args)
     {
         public void run()
         {
-            new CardFrame().displayGUI();
+            new CardFrame();
         }
     });
 }
+
 
 
 }
