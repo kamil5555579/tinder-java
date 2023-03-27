@@ -2,64 +2,72 @@ package main;
 
 import java.awt.CardLayout;
 import java.awt.Color;
-
-
+import java.awt.GradientPaint;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.HeadlessException;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.geom.Rectangle2D;
+
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.border.LineBorder;
 
-public class CardFrame2 {
+public class CardFrame2 extends JFrame{
 
 	private JPanel contentPane;
     private SwipePanel panel4;
     private SettingsPanel panel5;
     private ChatPanel panel6;
-
+    private static int id;
     
-    private void displayGUI()
-    {
-        JFrame frame = new JFrame("Tinder");
-        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        frame.addWindowListener(new WindowAdapter() {
+    
+    public CardFrame2(int id) throws HeadlessException {
+		super();
+		this.id = id;
+		this.setBackground(Color.white);
+		setBounds(100, 100, 1000, 1000);
+		setResizable(false);
+
+
+        setTitle("Tinder");
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
                 super.windowClosing(e); 
                 if(JOptionPane.showConfirmDialog(null, "Are you sure you want to close this application?", "Confirmation", JOptionPane.YES_NO_OPTION)==0){
-					frame.dispose();
+					dispose();
 				}
             }
         });
-        
-       
-		frame.setBounds(100, 100, 1000, 1000);
-		frame.setResizable(false);
 
 		//frame.setUndecorated(true);
 
         JPanel contentPane = new JPanel();
 		//contentPane.setBackground(new Color(200, 105, 180));
-		contentPane.setBorder(new LineBorder(new Color(255, 20, 147), 3, true));
-		frame.setContentPane(contentPane);
+		//contentPane.setBorder(new LineBorder(new Color(255, 20, 147), 3, true));
+		setContentPane(contentPane);
 		//frame.setLocationRelativeTo(null);
         
         contentPane.setLayout(new CardLayout());
-        panel4 = new SwipePanel(contentPane, frame);
+        panel4 = new SwipePanel(contentPane, this, id);
         panel6 = new ChatPanel(contentPane);
         panel5 = new SettingsPanel(contentPane);
         contentPane.add(panel4, "Panel 4"); 
         contentPane.add(panel5, "Panel 5");
         contentPane.add(panel6, "Panel 6");
-        frame.setContentPane(contentPane); //to nie do konca rozumiem co robi  
-        frame.setLocationRelativeTo(null);
+        setContentPane(contentPane); //to nie do konca rozumiem co robi  
+        setLocationRelativeTo(null);
         //frame.setLocationByPlatform(true); //nie otwiera sie w rogu
-        frame.setVisible(true);
+        setVisible(true);
+	}
 
-    }
 
+	
 
 public static void main(String[] args)
 {
@@ -67,10 +75,10 @@ public static void main(String[] args)
     {
         public void run()
         {
-            new CardFrame2().displayGUI();
+            new CardFrame2(id);
         }
     });
+	}
 }
 
 
-}
