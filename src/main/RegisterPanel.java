@@ -72,6 +72,18 @@ class RegisterPanel extends JPanel
 		password1.setBounds(12, 12, 445, 55);
 		panel_1.add(password1);
 		
+		//powtórz hasło
+		
+				panel_3 = new JPanel();
+				panel_3.setLayout(null);
+				panel_3.setBackground(Color.WHITE);
+				panel_3.setBounds(105, 315, 470, 80);
+				add(panel_3);
+				
+				password2 = new PPasswordField("Password");
+				password2.setFont(new Font("Dialog", Font.ITALIC, 14));
+				password2.setBounds(12, 12, 445, 55);
+				panel_3.add(password2);
 		
 		//label Register
 		
@@ -107,14 +119,18 @@ class RegisterPanel extends JPanel
 		btnRegister.addActionListener( new ActionListener()
         {
             public void actionPerformed(ActionEvent e)
-            {
+            {	
             	String username = txtUsername.getText();
 				String password = String.valueOf(password1.getPassword());
-				try {
+				String pwd2 = String.valueOf(password2.getPassword());
+				System.out.println(password);
+				System.out.println(pwd2);
+				if(pwd2.equals(password)) {
 					registerIn(username, password);
-				} catch (SQLException e1) {
+				} else {
+					
 					JOptionPane.showMessageDialog(
-                            null,"This username is already in use.",
+                            null,"Dwa różne hasła",
                             "Register error",
                             JOptionPane.ERROR_MESSAGE);
 				}
@@ -123,18 +139,7 @@ class RegisterPanel extends JPanel
         });
 		add(btnRegister);
 		
-		//powtórz hasło
 		
-		panel_3 = new JPanel();
-		panel_3.setLayout(null);
-		panel_3.setBackground(Color.WHITE);
-		panel_3.setBounds(105, 315, 470, 80);
-		add(panel_3);
-		
-		password2 = new PPasswordField("Password");
-		password2.setFont(new Font("Dialog", Font.ITALIC, 14));
-		password2.setBounds(12, 12, 445, 55);
-		panel_3.add(password2);
 		
 		
 	
@@ -146,7 +151,7 @@ class RegisterPanel extends JPanel
 
 	
 	
-	public void registerIn(String username, String password) throws SQLException
+	public void registerIn(String username, String password) 
 	{
 		 SwingWorker<Integer, Void> worker = new SwingWorker<Integer, Void>(){
 	       	 
@@ -177,7 +182,7 @@ class RegisterPanel extends JPanel
 	                    
 	                } catch (Exception ex) {
 	                	JOptionPane.showMessageDialog(
-	                            null,"Unable to open next card.",
+	                            null,"Nazwa uzytkownika zajeta",
 	                            "Register error",
 	                            JOptionPane.ERROR_MESSAGE);
 	                }

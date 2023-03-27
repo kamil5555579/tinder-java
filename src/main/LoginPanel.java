@@ -5,15 +5,12 @@ import java.awt.CardLayout;
 import java.awt.Color;
 
 import java.awt.Font;
-import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.geom.Rectangle2D;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -34,9 +31,9 @@ import com.mysql.jdbc.Connection;
 public class LoginPanel extends JPanel 
 {
 
-	 private JTextField txtUsername;
+	 private PTextField txtUsername;
 	 private JPanel panel_1,panel_2;
-	 private JPasswordField pwdPassword;
+	 private PPasswordField pwdPassword;
 	 private JButton btnRegister, button;
 	 private JLabel lblTinder;
 	 private JPanel panel;
@@ -93,7 +90,6 @@ public class LoginPanel extends JPanel
 			add(panel_1);
 			
 			pwdPassword = new PPasswordField("Haslo");
-			pwdPassword.setText("Password");
 			pwdPassword.setFont(new Font("Dialog", Font.ITALIC, 16));
 			pwdPassword.setBounds(12, 12, 445, 55);
 			panel_1.add(pwdPassword);

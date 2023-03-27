@@ -67,7 +67,7 @@ public class SwipePanel extends JPanel {
 		    	super();
 		    
 		    	setBounds(100, 100, 1000, 1000);
-				setBackground(new Color(225, 85, 160));
+				//setBackground(new Color(225, 85, 160));
 				setBorder(new LineBorder(new Color(255, 20, 147), 3, true));
 				setLayout(null);
 				
@@ -242,7 +242,7 @@ public class SwipePanel extends JPanel {
 				initializeOthers(id);
 				textLabel = new JLabel();
 				add(textLabel);
-				textLabel.setBounds(400, 650, 200, 100);
+				textLabel.setBounds(381, 73, 200, 100);
 				JPanel imgPanel = new JPanel();
 				imgPanel.setSize(161, 150);
 				imgPanel.setLocation(73, 364);
@@ -293,7 +293,7 @@ public class SwipePanel extends JPanel {
 				            @Override
 				            protected void done() {
 				                try {
-
+				                	//będzie wyświetlać nastepną osobę
 				                } catch (Exception ex) {
 				                    ex.printStackTrace();
 				                }
@@ -344,17 +344,6 @@ public class SwipePanel extends JPanel {
 					}
 				});
 				
-				JButton chat = new JButton("chat");
-				add(chat);
-				chat.addActionListener(new ActionListener() {
-					
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						//dispose();
-						//ChatFrame chatFrame = new ChatFrame(me.getId());
-						//chatFrame.setVisible(true);
-					}
-				});
 				
 				
 				

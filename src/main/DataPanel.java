@@ -24,6 +24,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.JTextPane;
 import javax.swing.SwingWorker;
 import javax.swing.border.LineBorder;
 
@@ -38,7 +39,7 @@ class DataPanel extends JPanel
 	private JButton btnRegister;
 	private JComboBox comboBox;
 	private PTextField txtAge;
-	private PTextField txtDescription;
+	private JTextPane txtDescription;
 	private PTextField txtName;
 	private PTextField txtSurname;
 	private JButton imgButton;
@@ -67,15 +68,15 @@ class DataPanel extends JPanel
 
 		//opis
 		
-		txtDescription = new PTextField("Description...");
-		txtDescription.setHorizontalAlignment(SwingConstants.LEFT);
+		txtDescription = new JTextPane();
+		//txtDescription.setHorizontalAlignment(SwingConstants.LEFT);
 		txtDescription.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		txtDescription.setCaretColor(new Color(0, 0, 0));
 		txtDescription.setBounds(15, 145, 215, 210);
 		panel_1.add(txtDescription);
 		txtDescription.setFont(new Font("Dialog", Font.ITALIC, 12));
 		txtDescription.setBorder(null);
-		txtDescription.setColumns(10);
+		//txtDescription.setColumns(10);
 		
 		//wybór płci
 		
@@ -186,22 +187,23 @@ class DataPanel extends JPanel
 						String firstname = txtName.getText();
 						String lastname = txtSurname.getText();
 						String university = (String) comboBox_2.getSelectedItem();
+						if (f==null) {
+							JOptionPane.showMessageDialog(
+		                            null,"Wybierz zdjęcie!",
+		                            "Data error",
+		                            JOptionPane.ERROR_MESSAGE);
+						}else {
+							
 						try {
 							is = new FileInputStream(f);
 						} catch (FileNotFoundException e1) {
 							JOptionPane.showMessageDialog(
-		                            null,"Unable to find a file or path for saving your data. ",
+		                            null,"Błąd dostępu do pliku.",
 		                            "Data error",
 		                            JOptionPane.ERROR_MESSAGE);
 						}
-
-						try {
-							save(firstname, lastname, university, is);
-						} catch (SQLException e1) {
-							JOptionPane.showMessageDialog(
-		                            null,"Unable to save data.",
-		                            "Data error",
-		                            JOptionPane.ERROR_MESSAGE);
+						save(firstname, lastname, university, is);
+						
 						}
 					}
 			
@@ -220,7 +222,7 @@ class DataPanel extends JPanel
 	
 	//zapisanie danych i przejście do aplikacji
 	
-	public void save(String firstname, String lastname, String university, InputStream is) throws SQLException
+	public void save(String firstname, String lastname, String university, InputStream is) 
 	{
 		 SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>(){
 	       	 
@@ -248,7 +250,7 @@ class DataPanel extends JPanel
 	                    
 	                } catch (Exception ex) {
 	                	JOptionPane.showMessageDialog(
-	                            null,"Unabled to open the main frame of application.",
+	                            null,"Błąd zapisu",
 	                            "Data error",
 	                            JOptionPane.ERROR_MESSAGE);
 	                }
