@@ -16,11 +16,16 @@ import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -29,7 +34,10 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
 import javax.swing.border.LineBorder;
+
+import com.mysql.jdbc.Connection;
 
 public class SwipePanel extends JPanel {
 
@@ -42,16 +50,24 @@ public class SwipePanel extends JPanel {
 	int panelWidth;
 	int panelHeight;
 	Timer slideTimer = new Timer();
+	
+	SqlConnection sqlConn = new SqlConnection();
+	User me;
+	List<User> users = new ArrayList<User>();
+	int i;
+	private JLabel textLabel;
+	private JLabel imgLabel;
 
 	private JButton buttonChat, buttonSettings;
 	private JLabel lblTinder;
+	private JButton next,reject,match;
 
-		    public SwipePanel(JPanel panel, JFrame frame) 
+		    public SwipePanel(JPanel panel, JFrame frame, int id) 
 		    {
 		    	super();
 		    
 		    	setBounds(100, 100, 1000, 1000);
-				setBackground(new Color(225, 85, 160));
+				//setBackground(new Color(225, 85, 160));
 				setBorder(new LineBorder(new Color(255, 20, 147), 3, true));
 				setLayout(null);
 				
@@ -222,7 +238,115 @@ public class SwipePanel extends JPanel {
 					}
 				});
 		       
-		        
+				initializeMe(id);
+				initializeOthers(id);
+				textLabel = new JLabel();
+				add(textLabel);
+				textLabel.setBounds(381, 73, 200, 100);
+				JPanel imgPanel = new JPanel();
+				imgPanel.setSize(161, 150);
+				imgPanel.setLocation(73, 364);
+				add(imgPanel);
+				imgLabel = new JLabel();
+				imgPanel.add(imgLabel);
+				imgLabel.setLocation(imgLabel.getX()+100, imgLabel.getY()+10);
+				
+				next = new JButton("next");
+				next.setBounds(600, 740, 100, 50);
+				add(next);
+				i=-1;
+				next.addActionListener(new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						if(i<users.size()-1)
+						{
+							i++;
+							textLabel.setText(users.get(i).getFirstname());
+							imgLabel.setIcon(users.get(i).getImage());
+						}
+					}
+				});
+				reject = new JButton("reject");
+				reject.setBounds(300,740,100,50);
+				add(reject);
+				reject.addActionListener(new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>(){
+					       	 
+				            @Override
+				            protected Void doInBackground() throws Exception {
+				            	Connection conn = sqlConn.connect();
+				    			PreparedStatement prep;
+
+								prep = conn.prepareStatement("INSERT INTO matches (user_id, stranger_id, interest) VALUES (?,?,?)");
+								prep.setInt(1, me.getId());
+								prep.setInt(2, users.get(i).getId());
+								prep.setBoolean(3, false);
+								prep.executeUpdate();
+								
+								return null;
+				            }
+
+				            @Override
+				            protected void done() {
+				                try {
+				                	//będzie wyświetlać nastepną osobę
+				                } catch (Exception ex) {
+				                    ex.printStackTrace();
+				                }
+				            }
+
+				       };
+				       
+				       worker.execute();
+
+					}
+				});
+				match = new JButton("match");
+				match.setBounds(450,740,100,50);
+				add(match);
+				match.addActionListener(new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>(){
+					       	 
+				            @Override
+				            protected Void doInBackground() throws Exception {
+				            	Connection conn = sqlConn.connect();
+				    			PreparedStatement prep;
+
+								prep = conn.prepareStatement("INSERT INTO matches (user_id, stranger_id, interest) VALUES (?,?,?)");
+								prep.setInt(1, me.getId());
+								prep.setInt(2, users.get(i).getId());
+								prep.setBoolean(3, true);
+								prep.executeUpdate();
+								
+								return null;
+				            }
+
+				            @Override
+				            protected void done() {
+				                try {
+
+				                } catch (Exception ex) {
+				                    ex.printStackTrace();
+				                }
+				            }
+
+				       };
+				       
+				       worker.execute();
+
+					}
+				});
+				
+				
+				
+				
 		    }  
 		    
 		    public void paintComponent(Graphics g) {
@@ -270,6 +394,77 @@ public class SwipePanel extends JPanel {
 			            newImage.setRGB( height-1-j, i, img.getRGB(i,j) );
 
 			    return newImage;
-			}	    
+			}	   
+			
+			public void initializeMe(int id)
+			{
+				SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>(){
+			       	 
+		            @Override
+		            protected Void doInBackground() throws Exception {
+		            	Connection conn = sqlConn.connect();
+		    			PreparedStatement prep;
+
+		    			prep = conn.prepareStatement("SELECT * FROM userdata WHERE user_id =(?)");
+		    			prep.setString(1, Integer.toString(id));
+		    			ResultSet rs = prep.executeQuery();
+		    			if (rs.next())
+		    			{
+		    				byte[] imageData = rs.getBytes("image");
+		    				ImageIcon image = new ImageIcon((new ImageIcon(imageData)).getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH));
+		    				me = new User(id, rs.getString("firstname"), rs.getString("lastname"), rs.getString("university"), rs.getString("gender"), rs.getInt("age"), image);
+		    			}
+						return null;
+		            }
+
+		            @Override
+		            protected void done() {
+		                try {
+
+		                } catch (Exception ex) {
+		                    ex.printStackTrace();
+		                }
+		            }
+
+		       };
+		       
+		       worker.execute();
+			}
+			
+			public void initializeOthers(int id)
+			{
+				SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>(){
+			       	 
+		            @Override
+		            protected Void doInBackground() throws Exception {
+		            	Connection conn = sqlConn.connect();
+		    			PreparedStatement prep;
+
+		    			prep = conn.prepareStatement("SELECT * FROM userdata WHERE user_id NOT IN (SELECT stranger_id FROM matches WHERE user_id = (?)) AND user_id !=(?)");
+		    			prep.setInt(1, id);
+		    			prep.setInt(2, id);
+		    			ResultSet rs = prep.executeQuery();
+		    			while(rs.next())
+		    			{
+		    				byte[] imageData = rs.getBytes("image");
+		    				ImageIcon image = new ImageIcon((new ImageIcon(imageData)).getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH));
+		    				users.add(new User(rs.getInt("user_id"), rs.getString("firstname"), rs.getString("lastname"), rs.getString("university"), rs.getString("gender"), rs.getInt("age"), image));
+		    			}
+						return null;
+		            }
+
+		            @Override
+		            protected void done() {
+		                try {
+
+		                } catch (Exception ex) {
+		                    ex.printStackTrace();
+		                }
+		            }
+
+		       };
+		       
+		       worker.execute();
+			}
 
 }

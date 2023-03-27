@@ -26,9 +26,9 @@ class RegisterPanel extends JPanel
 {	
 	private PTextField txtUsername;
 	private JPanel panel_1,panel_2, panel_3;
-	private PPasswordField pwdPassword;
+	private PPasswordField password1;
 	private JButton btnRegister;
-	private PPasswordField passwordField;
+	private PPasswordField password2;
 	private JPanel panel;
 	private SqlConnection sqlConn = new SqlConnection();
 	private DataPanel data;
@@ -67,11 +67,23 @@ class RegisterPanel extends JPanel
 		panel_1.setBounds(105, 215, 470, 80);
 		add(panel_1);
 		
-		pwdPassword = new PPasswordField("Password");
-		pwdPassword.setFont(new Font("Dialog", Font.ITALIC, 14));
-		pwdPassword.setBounds(12, 12, 445, 55);
-		panel_1.add(pwdPassword);
+		password1 = new PPasswordField("Password");
+		password1.setFont(new Font("Dialog", Font.ITALIC, 14));
+		password1.setBounds(12, 12, 445, 55);
+		panel_1.add(password1);
 		
+		//powtórz hasło
+		
+				panel_3 = new JPanel();
+				panel_3.setLayout(null);
+				panel_3.setBackground(Color.WHITE);
+				panel_3.setBounds(105, 315, 470, 80);
+				add(panel_3);
+				
+				password2 = new PPasswordField("Password");
+				password2.setFont(new Font("Dialog", Font.ITALIC, 14));
+				password2.setBounds(12, 12, 445, 55);
+				panel_3.add(password2);
 		
 		//label Register
 		
@@ -107,37 +119,39 @@ class RegisterPanel extends JPanel
 		btnRegister.addActionListener( new ActionListener()
         {
             public void actionPerformed(ActionEvent e)
-            {
+            {	
             	String username = txtUsername.getText();
-				String password = String.valueOf(pwdPassword.getPassword());
-				try {
+				String password = String.valueOf(password1.getPassword());
+				String pwd2 = String.valueOf(password2.getPassword());
+				System.out.println(password);
+				System.out.println(pwd2);
+				if(pwd2.equals(password)) {
 					registerIn(username, password);
-				} catch (SQLException e1) {
-					e1.printStackTrace();
+				} else {
+					
+					JOptionPane.showMessageDialog(
+                            null,"Dwa różne hasła",
+                            "Register error",
+                            JOptionPane.ERROR_MESSAGE);
 				}
 			}
             
         });
 		add(btnRegister);
 		
-		//powtórz hasło
 		
-		panel_3 = new JPanel();
-		panel_3.setLayout(null);
-		panel_3.setBackground(Color.WHITE);
-		panel_3.setBounds(105, 315, 470, 80);
-		add(panel_3);
 		
-		passwordField = new PPasswordField("Password");
-		passwordField.setFont(new Font("Dialog", Font.ITALIC, 14));
-		passwordField.setBounds(12, 12, 445, 55);
-		panel_3.add(passwordField);
+		
 	
 	}
 	
 	// funkcja tworząca konto i przechodząca do uzupełniania danych
 	
-	public void registerIn(String username, String password) throws SQLException
+	
+
+	
+	
+	public void registerIn(String username, String password) 
 	{
 		 SwingWorker<Integer, Void> worker = new SwingWorker<Integer, Void>(){
 	       	 
@@ -167,7 +181,10 @@ class RegisterPanel extends JPanel
 	    	             cardLayout.next(panel);
 	                    
 	                } catch (Exception ex) {
-	                    ex.printStackTrace();
+	                	JOptionPane.showMessageDialog(
+	                            null,"Nazwa uzytkownika zajeta",
+	                            "Register error",
+	                            JOptionPane.ERROR_MESSAGE);
 	                }
 	            }
 
