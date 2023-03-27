@@ -50,6 +50,7 @@ class DataPanel extends JPanel
 	private JFileChooser fileChooser = new JFileChooser();
 	private File f=null;
 	private InputStream is=null;
+	private Connection conn;
 
 	public DataPanel(JPanel panel)  {
 		
@@ -228,7 +229,7 @@ class DataPanel extends JPanel
 	       	 
 	            @Override
 	            protected Void doInBackground() throws Exception {
-	            	Connection conn = sqlConn.connect();
+	            	conn = sqlConn.connect();
 	    			PreparedStatement prep;
 
 	    			prep = conn.prepareStatement("INSERT INTO userdata (user_id, firstname, lastname, university, image) VALUES (?,?,?,?,?)");
@@ -237,6 +238,7 @@ class DataPanel extends JPanel
 	    			prep.setString(3, lastname);
 	    			prep.setString(4, university);
 	    			prep.setBinaryStream(5,is, (int) f.length());
+	    			prep.executeUpdate();
 	    			
 	                return null;
 	            }
@@ -246,6 +248,8 @@ class DataPanel extends JPanel
 	                try {
 	            		CardFrame2 frame = new CardFrame2(id);
 	            		frame.setVisible(true);
+	            		if (conn!= null)
+	    	    			conn.close();
 	            	
 	                    
 	                } catch (Exception ex) {

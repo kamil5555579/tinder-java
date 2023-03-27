@@ -1,5 +1,7 @@
 package main;
 
+import java.awt.Image;
+
 import javax.swing.ImageIcon;
 
 public class User {
@@ -9,10 +11,10 @@ public class User {
 	String university;
 	String gender;
 	int age;
-	ImageIcon image;
+	Image image;
 	int id;
 	
-	public User(int id, String firstname, String lastname, String university, String gender, int age, ImageIcon image) {
+	public User(int id, String firstname, String lastname, String university, String gender, int age, Image image) {
 		this.id=id;
 		this.firstname=firstname;
 		this.lastname=lastname;
@@ -52,7 +54,7 @@ public class User {
 		return age;
 	}
 	
-	public ImageIcon getImage()
+	public Image getImage()
 	{
 		return image;
 	}

@@ -32,6 +32,7 @@ class RegisterPanel extends JPanel
 	private JPanel panel;
 	private SqlConnection sqlConn = new SqlConnection();
 	private DataPanel data;
+	private Connection conn;
 
 	public RegisterPanel(JPanel panel, DataPanel data) {
 		
@@ -157,7 +158,7 @@ class RegisterPanel extends JPanel
 	       	 
 	            @Override
 	            protected Integer doInBackground() throws Exception {
-	            	Connection conn = sqlConn.connect();
+	            	conn = sqlConn.connect();
 	    			PreparedStatement prep;
 
 	    			prep = conn.prepareStatement("INSERT INTO users ( username, password) VALUES (?,?)");
@@ -179,6 +180,8 @@ class RegisterPanel extends JPanel
 	                	data.setId(get());
 	    				 CardLayout cardLayout = (CardLayout) panel.getLayout();
 	    	             cardLayout.next(panel);
+	    	             if (conn!= null)
+	    	     			conn.close();
 	                    
 	                } catch (Exception ex) {
 	                	JOptionPane.showMessageDialog(

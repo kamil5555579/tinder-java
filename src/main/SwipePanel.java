@@ -14,12 +14,14 @@ import java.awt.event.MouseMotionListener;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -43,29 +45,29 @@ public class SwipePanel extends JPanel {
 
 	
 	private BufferedImage bufferedImage;
-	private Image image;
 	double x,y,fi;
 	int imgWidth=400;
-	int imgHeight=500;
+	int imgHeight=400;
 	int panelWidth;
 	int panelHeight;
 	Timer slideTimer = new Timer();
 	
 	SqlConnection sqlConn = new SqlConnection();
+	private Connection conn;
 	User me;
 	List<User> users = new ArrayList<User>();
-	int i;
-	private JLabel textLabel;
-	private JLabel imgLabel;
-
+	Iterator<User> it = null;
+	
 	private JButton buttonChat, buttonSettings;
 	private JLabel lblTinder;
-	private JButton next,reject,match;
+	private JButton reject,match;
 
 		    public SwipePanel(JPanel panel, JFrame frame, int id) 
 		    {
 		    	super();
 		    
+		    	//ustawienia panelu
+		    	
 		    	setBounds(100, 100, 1000, 1000);
 				//setBackground(new Color(225, 85, 160));
 				setBorder(new LineBorder(new Color(255, 20, 147), 3, true));
@@ -73,6 +75,16 @@ public class SwipePanel extends JPanel {
 				
 				panelWidth=getWidth();
 				panelHeight=getHeight();
+				x = this.getWidth()/2 - imgWidth/2;
+				y = this.getHeight()/2 - imgHeight/2;
+				fi=0;
+				
+				// załadowanie osób
+				
+				initializeMe(id);
+				initializeOthers(id);
+				
+				// label Tinder
 				
 				lblTinder = new JLabel("Tinder");
 				lblTinder.setForeground(new Color(255, 100, 153));
@@ -80,7 +92,8 @@ public class SwipePanel extends JPanel {
 				lblTinder.setBounds(400, 20, 151, 72);
 				add(lblTinder);
 	
-		        
+		        // przycisk przejscia do wiadomosci
+				
 				buttonChat = new JButton("Messages");
 				buttonChat.setBackground(new Color(255, 240, 245));
 				buttonChat.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 16));
@@ -95,6 +108,8 @@ public class SwipePanel extends JPanel {
 		        });
 				add(buttonChat);
 				
+				
+				// przycisk przejscia do ustawień
 				
 				buttonSettings = new JButton("Settings");
 				buttonSettings.setBackground(new Color(255, 240, 245));
@@ -111,22 +126,7 @@ public class SwipePanel extends JPanel {
 		        });
 		        add(buttonSettings);
 
-				setSize(panelWidth, panelHeight);
-				x = this.getWidth()/2 - imgWidth/2;
-				y = this.getHeight()/2 - imgHeight/2;
-				fi=0;
-				System.out.println(x);
-				System.out.println(y);
-				URL resource = getClass().getResource("zdjecie.jpg");
-				try {
-				bufferedImage = ImageIO.read(resource);
-				image = bufferedImage.getScaledInstance(imgWidth, imgHeight, Image.SCALE_DEFAULT);
-				bufferedImage = new BufferedImage(imgWidth, imgHeight, BufferedImage.TYPE_INT_RGB);
-				bufferedImage.getGraphics().drawImage(image, 0, 0 , null);
-				} catch (IOException e) {
-				System.err.println("Blad odczytu obrazka");
-				e.printStackTrace();
-				}
+				
 				addMouseMotionListener(new MouseMotionListener() {
 					
 					@Override
@@ -171,6 +171,10 @@ public class SwipePanel extends JPanel {
 						                		 x = panelWidth/2 - imgWidth/2;
 						                		 y=panelHeight/2- imgHeight/2;
 						                		 fi=0;
+						                		 if(it.hasNext())
+						 						{
+						 							setImage(it.next().getImage());
+						 						}
 						 						repaint();
 						                		 cancel();
 						                	 }
@@ -196,6 +200,10 @@ public class SwipePanel extends JPanel {
 						                		 x = panelWidth/2 - imgWidth/2;
 						                		 y=panelHeight/2- imgHeight/2;
 						                		 fi=0;
+						                		 if(it.hasNext())
+						 						{
+						 							setImage(it.next().getImage());
+						 						}
 						 						repaint();
 						                		 cancel();
 						                	 }
@@ -238,35 +246,7 @@ public class SwipePanel extends JPanel {
 					}
 				});
 		       
-				initializeMe(id);
-				initializeOthers(id);
-				textLabel = new JLabel();
-				add(textLabel);
-				textLabel.setBounds(381, 73, 200, 100);
-				JPanel imgPanel = new JPanel();
-				imgPanel.setSize(161, 150);
-				imgPanel.setLocation(73, 364);
-				add(imgPanel);
-				imgLabel = new JLabel();
-				imgPanel.add(imgLabel);
-				imgLabel.setLocation(imgLabel.getX()+100, imgLabel.getY()+10);
-				
-				next = new JButton("next");
-				next.setBounds(600, 740, 100, 50);
-				add(next);
-				i=-1;
-				next.addActionListener(new ActionListener() {
-					
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						if(i<users.size()-1)
-						{
-							i++;
-							textLabel.setText(users.get(i).getFirstname());
-							imgLabel.setIcon(users.get(i).getImage());
-						}
-					}
-				});
+
 				reject = new JButton("reject");
 				reject.setBounds(300,740,100,50);
 				add(reject);
@@ -294,6 +274,8 @@ public class SwipePanel extends JPanel {
 				            protected void done() {
 				                try {
 				                	//będzie wyświetlać nastepną osobę
+				                	if (conn!= null)
+				    	    			conn.close();
 				                } catch (Exception ex) {
 				                    ex.printStackTrace();
 				                }
@@ -331,6 +313,8 @@ public class SwipePanel extends JPanel {
 				            @Override
 				            protected void done() {
 				                try {
+				                	if (conn!= null)
+				    	    			conn.close();
 
 				                } catch (Exception ex) {
 				                    ex.printStackTrace();
@@ -350,51 +334,23 @@ public class SwipePanel extends JPanel {
 		    }  
 		    
 		    public void paintComponent(Graphics g) {
-				Graphics2D g2d = (Graphics2D) g;
-				g2d.clearRect(0, 0, panelWidth, panelHeight);
-				//bufferedImage = rotate(bufferedImage, 45.0);
-				//bufferedImage = rotateCw(bufferedImage);
-				double rotationRequired = Math.toRadians (fi);
-				double locationX = image.getWidth(null) / 2;
-				double locationY = image.getHeight(null) / 2;
-				AffineTransform tx = AffineTransform.getRotateInstance(rotationRequired, locationX, locationY);
-				AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
-				
-				// Drawing the rotated image at the required drawing locations
-				g2d.drawImage(op.filter(bufferedImage, null), (int) x, (int) y, null);
-				//g2d.drawImage(bufferedImage, x, y, this);
-				
+		    	if(bufferedImage!=null)
+		    	{
+					Graphics2D g2d = (Graphics2D) g;
+					g2d.clearRect(0, 0, panelWidth, panelHeight);
+					double rotationRequired = Math.toRadians (fi);
+					double locationX = imgWidth / 2;
+					double locationY = imgHeight / 2;
+					AffineTransform tx = AffineTransform.getRotateInstance(rotationRequired, locationX, locationY);
+					AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
+					
+					// Drawing the rotated image at the required drawing locations
+					g2d.drawImage(op.filter(bufferedImage, null), (int) x, (int) y, null);
+		    	}
+		    	else
+		    		g.drawChars(("xd").toCharArray(), 0, 2, (int) x, (int) y);
 				}
 			
-			public static BufferedImage rotate(BufferedImage bimg, Double angle) {
-			    double sin = Math.abs(Math.sin(Math.toRadians(angle))),
-			           cos = Math.abs(Math.cos(Math.toRadians(angle)));
-			    int w = bimg.getWidth();
-			    int h = bimg.getHeight();
-			    int neww = (int) Math.floor(w*cos + h*sin),
-			        newh = (int) Math.floor(h*cos + w*sin);
-			    BufferedImage rotated = new BufferedImage(neww, newh, bimg.getType());
-			    Graphics2D graphic = rotated.createGraphics();
-			    graphic.translate((neww-w)/2, (newh-h)/2);
-			    graphic.rotate(Math.toRadians(angle), w/2, h/2);
-			    graphic.drawRenderedImage(bimg, null);
-			    graphic.dispose();
-			   
-			    return rotated;
-			}
-			
-			public static BufferedImage rotateCw( BufferedImage img )
-			{
-			    int         width  = img.getWidth();
-			    int         height = img.getHeight();
-			    BufferedImage   newImage = new BufferedImage( height, width, img.getType() );
-
-			    for( int i=0 ; i < width ; i++ )
-			        for( int j=0 ; j < height ; j++ )
-			            newImage.setRGB( height-1-j, i, img.getRGB(i,j) );
-
-			    return newImage;
-			}	   
 			
 			public void initializeMe(int id)
 			{
@@ -411,8 +367,8 @@ public class SwipePanel extends JPanel {
 		    			if (rs.next())
 		    			{
 		    				byte[] imageData = rs.getBytes("image");
-		    				ImageIcon image = new ImageIcon((new ImageIcon(imageData)).getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH));
-		    				me = new User(id, rs.getString("firstname"), rs.getString("lastname"), rs.getString("university"), rs.getString("gender"), rs.getInt("age"), image);
+		    				Image imageTemp = new ImageIcon(imageData).getImage().getScaledInstance(imgWidth, imgHeight, Image.SCALE_SMOOTH);
+		    				me = new User(id, rs.getString("firstname"), rs.getString("lastname"), rs.getString("university"), rs.getString("gender"), rs.getInt("age"), imageTemp);
 		    			}
 						return null;
 		            }
@@ -421,6 +377,8 @@ public class SwipePanel extends JPanel {
 		            protected void done() {
 		                try {
 
+		                	if (conn!= null)
+		    	    			conn.close();
 		                } catch (Exception ex) {
 		                    ex.printStackTrace();
 		                }
@@ -447,15 +405,26 @@ public class SwipePanel extends JPanel {
 		    			while(rs.next())
 		    			{
 		    				byte[] imageData = rs.getBytes("image");
-		    				ImageIcon image = new ImageIcon((new ImageIcon(imageData)).getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH));
-		    				users.add(new User(rs.getInt("user_id"), rs.getString("firstname"), rs.getString("lastname"), rs.getString("university"), rs.getString("gender"), rs.getInt("age"), image));
+		    				Image imageTemp = new ImageIcon(new ImageIcon(imageData).getImage().getScaledInstance(imgWidth, imgHeight, Image.SCALE_SMOOTH)).getImage();
+		    				users.add(new User(rs.getInt("user_id"), rs.getString("firstname"), rs.getString("lastname"), rs.getString("university"), rs.getString("gender"), rs.getInt("age"), imageTemp));
 		    			}
+		    			it = users.listIterator();
+		    			if(it.hasNext())
+						{
+							setImage(it.next().getImage());
+							repaint();
+						}
+		    			
 						return null;
 		            }
 
 		            @Override
 		            protected void done() {
 		                try {
+		                
+		                	
+		                	if (conn!= null)
+		    	    			conn.close();
 
 		                } catch (Exception ex) {
 		                    ex.printStackTrace();
@@ -465,6 +434,12 @@ public class SwipePanel extends JPanel {
 		       };
 		       
 		       worker.execute();
+			}
+			
+			void setImage(Image image)
+			{
+				bufferedImage = new BufferedImage(imgWidth, imgHeight, BufferedImage.TYPE_INT_RGB);
+				bufferedImage.getGraphics().drawImage(image, 0, 0 , null);
 			}
 
 }

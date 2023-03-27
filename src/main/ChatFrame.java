@@ -56,8 +56,8 @@ public class ChatFrame extends JFrame {
     			while(rs.next())
     			{
     				byte[] imageData = rs.getBytes("image");
-    				ImageIcon image = new ImageIcon((new ImageIcon(imageData)).getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH));
-    				users.add(new User(rs.getInt("user_id"), rs.getString("firstname"), rs.getString("lastname"), rs.getString("university"), rs.getString("gender"), rs.getInt("age"), image));
+    				Image imageTemp = new ImageIcon(imageData).getImage().getScaledInstance(300, 300, Image.SCALE_SMOOTH);
+    				users.add(new User(rs.getInt("user_id"), rs.getString("firstname"), rs.getString("lastname"), rs.getString("university"), rs.getString("gender"), rs.getInt("age"), imageTemp));
     			}
 				return null;
             }

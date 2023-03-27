@@ -38,6 +38,7 @@ public class LoginPanel extends JPanel
 	 private JLabel lblTinder;
 	 private JPanel panel;
 	 private SqlConnection sqlConn = new SqlConnection();
+	 private Connection conn;
 
 	    public LoginPanel(JPanel panel, JFrame frame) 
 	    {	
@@ -144,16 +145,16 @@ public class LoginPanel extends JPanel
        	 
             @Override
             protected Integer doInBackground() throws Exception {
-            	Connection conn = sqlConn.connect();
+            	conn = sqlConn.connect();
     			PreparedStatement prep;
 
+    			System.out.println(conn);
     			prep = conn.prepareStatement("SELECT * FROM users WHERE username =(?) AND password =(?)");
     			prep.setString(1, username);
     			prep.setString(2, password);
     			ResultSet rs = prep.executeQuery();
-
+    		
     			if(!rs.next()) throw new Exception();
-    			
                 return rs.getInt("id");
             }
 
@@ -162,6 +163,11 @@ public class LoginPanel extends JPanel
                 try {
                 	CardFrame2 newFrame = new CardFrame2(get());
     				newFrame.setVisible(true);
+    				MainFrame neFrame = new MainFrame(get());
+    				neFrame.setVisible(true);
+
+    				if (conn!= null)
+    	    			conn.close();
                   
                 } catch (Exception ex) {
                 	JOptionPane.showMessageDialog(

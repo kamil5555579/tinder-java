@@ -45,7 +45,6 @@ public class MainFrame extends JFrame {
 		add(imgPanel);
 		imgLabel = new JLabel();
 		imgPanel.add(imgLabel);
-		imgLabel.setLocation(imgLabel.getX()+100, imgLabel.getY()+10);
 		
 		JButton next = new JButton("next");
 		add(next);
@@ -58,7 +57,7 @@ public class MainFrame extends JFrame {
 				{
 					i++;
 					textLabel.setText(users.get(i).getFirstname());
-					imgLabel.setIcon(users.get(i).getImage());
+					imgLabel.setIcon(new ImageIcon(users.get(i).getImage()));
 				}
 			}
 		});
@@ -166,7 +165,7 @@ public class MainFrame extends JFrame {
     			if (rs.next())
     			{
     				byte[] imageData = rs.getBytes("image");
-    				ImageIcon image = new ImageIcon((new ImageIcon(imageData)).getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH));
+    				Image image = new ImageIcon(imageData).getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
     				me = new User(id, rs.getString("firstname"), rs.getString("lastname"), rs.getString("university"), rs.getString("gender"), rs.getInt("age"), image);
     			}
 				return null;
@@ -202,7 +201,7 @@ public class MainFrame extends JFrame {
     			while(rs.next())
     			{
     				byte[] imageData = rs.getBytes("image");
-    				ImageIcon image = new ImageIcon((new ImageIcon(imageData)).getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH));
+    				Image image =(new ImageIcon(imageData).getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH));
     				users.add(new User(rs.getInt("user_id"), rs.getString("firstname"), rs.getString("lastname"), rs.getString("university"), rs.getString("gender"), rs.getInt("age"), image));
     			}
 				return null;
