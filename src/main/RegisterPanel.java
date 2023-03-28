@@ -75,16 +75,16 @@ class RegisterPanel extends JPanel
 		
 		//powtórz hasło
 		
-				panel_3 = new JPanel();
-				panel_3.setLayout(null);
-				panel_3.setBackground(Color.WHITE);
-				panel_3.setBounds(105, 315, 470, 80);
-				add(panel_3);
+		panel_3 = new JPanel();
+		panel_3.setLayout(null);
+		panel_3.setBackground(Color.WHITE);
+		panel_3.setBounds(105, 315, 470, 80);
+		add(panel_3);
 				
-				password2 = new PPasswordField("Password");
-				password2.setFont(new Font("Dialog", Font.ITALIC, 14));
-				password2.setBounds(12, 12, 445, 55);
-				panel_3.add(password2);
+		password2 = new PPasswordField("Password");
+		password2.setFont(new Font("Dialog", Font.ITALIC, 14));
+		password2.setBounds(12, 12, 445, 55);
+		panel_3.add(password2);
 		
 		//label Register
 		
@@ -131,8 +131,8 @@ class RegisterPanel extends JPanel
 				} else {
 					
 					JOptionPane.showMessageDialog(
-                            null,"Dwa różne hasła",
-                            "Register error",
+                            null,"Niepoprawnie powtórzone hasło! Spróbuj ponownie.",
+                            "Błąd rejestracji",
                             JOptionPane.ERROR_MESSAGE);
 				}
 			}
@@ -185,8 +185,8 @@ class RegisterPanel extends JPanel
 	                    
 	                } catch (Exception ex) {
 	                	JOptionPane.showMessageDialog(
-	                            null,"Nazwa uzytkownika zajeta",
-	                            "Register error",
+	                            null,"Nazwa użytkownika zajęta. Wybierz inną nazwę użytkownika.",
+	                            "Błąd rejestracji",
 	                            JOptionPane.ERROR_MESSAGE);
 	                }
 	            }

@@ -15,7 +15,7 @@ public class SettingsPanel extends JPanel {
 	
 	private JButton buttonSwipe;
 	
-	public SettingsPanel(JPanel panel) {
+	public SettingsPanel(JPanel panel, int id) {
 		//ustawienia panelu
 		setBounds(100, 100, 1000, 1000);
 		setBackground(new Color(200, 105, 180));

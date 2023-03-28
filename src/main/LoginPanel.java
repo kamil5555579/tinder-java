@@ -110,7 +110,7 @@ public class LoginPanel extends JPanel
 				public void actionPerformed(ActionEvent e) {
 					String username = txtUsername.getText();
 					String password = String.valueOf(pwdPassword.getPassword());
-					logIn(username, password);
+					logIn(username, password, frame);
 				}
 		
 			});
@@ -138,7 +138,7 @@ public class LoginPanel extends JPanel
 	    
 	    //funkcja sprawdzająca konto w bazie i logująca
 	    
-	    public void logIn(String username, String password) 
+	    public void logIn(String username, String password, JFrame frame) 
 		{
 	    	
         SwingWorker<Integer, Void> worker = new SwingWorker<Integer, Void>(){
@@ -163,14 +163,13 @@ public class LoginPanel extends JPanel
                 try {
                 	CardFrame2 newFrame = new CardFrame2(get());
     				newFrame.setVisible(true);
-    				
     				if (conn!= null)
     	    			conn.close();
-                  
+    				frame.dispose();
                 } catch (Exception ex) {
                 	JOptionPane.showMessageDialog(
-                            null,"Uncorrect login or password. Try again.",
-                            "Login o error",
+                            null,"Niepoprawny login lub hasło. Spróbuj ponownie.",
+                            "Błąd logowania",
                             JOptionPane.ERROR_MESSAGE);            }
             }
 
@@ -178,7 +177,7 @@ public class LoginPanel extends JPanel
        
        worker.execute();
 		}
-			
+		//na razie nie działa nie wiadomo czemu	
 		/* 	
 		 public void paint(Graphics g) {
 		      super.paint(g);
