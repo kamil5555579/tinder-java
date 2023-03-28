@@ -60,7 +60,7 @@ public class SwipePanel extends JPanel {
 	User current;
 	List<User> users = new ArrayList<User>();
 	Iterator<User> it = null;
-	
+	int id;
 	private JButton buttonChat, buttonSettings;
 	private JLabel lblTinder;
 	private JButton reject,match;
@@ -68,7 +68,7 @@ public class SwipePanel extends JPanel {
 		    public SwipePanel(JPanel panel, JFrame frame, int id) 
 		    {
 		    	super();
-		    
+		    	this.id=id;
 		    	//ustawienia panelu
 		    	
 		    	setBounds(100, 100, 1000, 1000);
@@ -84,7 +84,7 @@ public class SwipePanel extends JPanel {
 				
 				// załadowanie osób
 				
-				initializeMe(id);
+				//initializeMe(id); tutaj raczej niepotrzebne
 				initializeOthers(id);
 				
 				// label Tinder
@@ -180,6 +180,7 @@ public class SwipePanel extends JPanel {
 					
 					@Override
 					public void actionPerformed(ActionEvent e) {
+						if (bufferedImage!=null)
 						goLeft();
 					}
 				});
@@ -193,6 +194,7 @@ public class SwipePanel extends JPanel {
 					
 					@Override
 					public void actionPerformed(ActionEvent e) {
+					if (bufferedImage!=null)
 					goRight();
 					}
 				});
@@ -223,16 +225,16 @@ public class SwipePanel extends JPanel {
 			       	 
 		            @Override
 		            protected Void doInBackground() throws Exception {
-		            	Connection conn = sqlConn.connect();
+		            	conn = sqlConn.connect();
 		    			PreparedStatement prep;
 
 		    			prep = conn.prepareStatement("SELECT * FROM userdata WHERE user_id =(?)");
-		    			prep.setString(1, Integer.toString(id));
+		    			prep.setInt(1, id);
 		    			ResultSet rs = prep.executeQuery();
 		    			if (rs.next())
 		    			{
 		    				byte[] imageData = rs.getBytes("image");
-		    				Image imageTemp = new ImageIcon(imageData).getImage().getScaledInstance(imgWidth, imgHeight, Image.SCALE_SMOOTH);
+		    				Image imageTemp = new ImageIcon(new ImageIcon(imageData).getImage().getScaledInstance(imgWidth, imgHeight, Image.SCALE_SMOOTH)).getImage();
 		    				me = new User(id, rs.getString("firstname"), rs.getString("lastname"), rs.getString("university"), rs.getString("gender"), rs.getInt("age"), imageTemp);
 		    			}
 						return null;
@@ -241,7 +243,6 @@ public class SwipePanel extends JPanel {
 		            @Override
 		            protected void done() {
 		                try {
-
 		                	if (conn!= null)
 		    	    			conn.close();
 		                } catch (Exception ex) {
@@ -260,7 +261,7 @@ public class SwipePanel extends JPanel {
 			       	 
 		            @Override
 		            protected Void doInBackground() throws Exception {
-		            	Connection conn = sqlConn.connect();
+		            	conn = sqlConn.connect();
 		    			PreparedStatement prep;
 
 		    			prep = conn.prepareStatement("SELECT * FROM userdata WHERE user_id NOT IN (SELECT stranger_id FROM matches WHERE user_id = (?)) AND user_id !=(?)");
@@ -314,15 +315,13 @@ public class SwipePanel extends JPanel {
 			       	 
 		            @Override
 		            protected Void doInBackground() throws Exception {
-		            	Connection conn = sqlConn.connect();
+		            	conn = sqlConn.connect();
 		    			PreparedStatement prep;
-						System.out.println("ha");
 						prep = conn.prepareStatement("INSERT INTO matches (user_id, stranger_id, interest) VALUES (?,?,?)");
-						prep.setInt(1, me.getId());
+						prep.setInt(1, id);
 						prep.setInt(2, current.getId());
 						prep.setBoolean(3, decision);
 						prep.executeUpdate();
-						System.out.println("haha");
 						return null;
 		            }
 
@@ -364,6 +363,11 @@ public class SwipePanel extends JPanel {
 			             				current=it.next();
 			 							setImage(current.getImage());
 			 						}
+			                		 else
+			                		 {
+			                			 match(current, true);
+			                			 bufferedImage=null;
+			                		 }
 			                		 cancel();
 			 						repaint();
 			                	 }
@@ -396,6 +400,11 @@ public class SwipePanel extends JPanel {
 				             			current=it.next();
 				 						setImage(current.getImage());
 			 						}
+			                		 else
+			                		 {
+			                			 match(current, false);
+			                			 bufferedImage=null;
+			                		 }
 			                		 cancel();
 				 					repaint();
 			                	 }
