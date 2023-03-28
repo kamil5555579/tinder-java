@@ -274,13 +274,6 @@ public class SwipePanel extends JPanel {
 		    				Image imageTemp = new ImageIcon(new ImageIcon(imageData).getImage().getScaledInstance(imgWidth, imgHeight, Image.SCALE_SMOOTH)).getImage();
 		    				users.add(new User(rs.getInt("user_id"), rs.getString("firstname"), rs.getString("lastname"), rs.getString("university"), rs.getString("gender"), rs.getInt("age"), imageTemp));
 		    			}
-		    			it = users.listIterator();
-		    			if(it.hasNext())
-						{
-		    				current=it.next();
-							setImage(current.getImage());
-							repaint();
-						}
 		    			
 						return null;
 		            }
@@ -288,8 +281,13 @@ public class SwipePanel extends JPanel {
 		            @Override
 		            protected void done() {
 		                try {
-		                
-		                	
+		                	it = users.listIterator();
+			    			if(it.hasNext())
+							{
+			    				current=it.next();
+								setImage(current.getImage());
+								repaint();
+							}
 		                	if (conn!= null)
 		    	    			conn.close();
 
