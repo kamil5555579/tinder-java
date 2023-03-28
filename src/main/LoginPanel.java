@@ -163,9 +163,7 @@ public class LoginPanel extends JPanel
                 try {
                 	CardFrame2 newFrame = new CardFrame2(get());
     				newFrame.setVisible(true);
-    				MainFrame neFrame = new MainFrame(get());
-    				neFrame.setVisible(true);
-
+    				
     				if (conn!= null)
     	    			conn.close();
                   

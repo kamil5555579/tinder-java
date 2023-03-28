@@ -8,8 +8,10 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionAdapter;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
@@ -55,6 +57,7 @@ public class SwipePanel extends JPanel {
 	SqlConnection sqlConn = new SqlConnection();
 	private Connection conn;
 	User me;
+	User current;
 	List<User> users = new ArrayList<User>();
 	Iterator<User> it = null;
 	
@@ -126,126 +129,49 @@ public class SwipePanel extends JPanel {
 		        });
 		        add(buttonSettings);
 
-				
-				addMouseMotionListener(new MouseMotionListener() {
-					
-					@Override
-					public void mouseMoved(MouseEvent e) {
-						// TODO Auto-generated method stub
-						
-					}
-					
-					@Override
-					public void mouseDragged(MouseEvent e) {
-						x=e.getX()- imgWidth/2;
-						
-						if(e.getX() >= panelWidth/2)
-						{
-							y= (3*panelWidth/4 - 0.5*e.getX()- imgHeight/2);
-							fi= (0.25*(e.getX() - panelWidth/2));
-						}
-						else
-							y= (0.5*e.getX() +panelWidth/4 - imgHeight/2);
-							fi= (0.25*(e.getX() - panelWidth/2));
-						repaint();
-					}
+				// przesuwanie obrazka myszką
+		        
+		        addMouseMotionListener(new MouseMotionAdapter() {
+		        	public void mouseDragged(MouseEvent e) {
+		        		if(bufferedImage!=null)
+		        		{
+							x=e.getX()- imgWidth/2;
+							
+							if(e.getX() >= panelWidth/2)
+							{
+								y= (3*panelWidth/4 - 0.5*e.getX()- imgHeight/2);
+								fi= (0.25*(e.getX() - panelWidth/2));
+							}
+							else
+								y= (0.5*e.getX() +panelWidth/4 - imgHeight/2);
+								fi= (0.25*(e.getX() - panelWidth/2));
+							repaint();
+		        		}}
 				});
 				
-				addMouseListener(new MouseListener() {
+				//dalsza animacja obrazka
+				
+				addMouseListener(new MouseAdapter() {
 					
 					@Override
 					public void mouseReleased(MouseEvent e) {
-						if(x >= panelWidth-imgWidth)
-						{
-							slideTimer.schedule(new TimerTask() {
-								 public void run() {
-									 SwingUtilities.invokeLater(new Runnable() {  //InvokeLater
-						                 @Override
-						                 public void run() {
-						                	 x+=1;
-						                	 y-=0.5;
-						                	 fi+=0.25;
-						                	 repaint();
-						                	 if(x>=panelWidth)
-						                	 {
-						                		 x = panelWidth/2 - imgWidth/2;
-						                		 y=panelHeight/2- imgHeight/2;
-						                		 fi=0;
-						                		 if(it.hasNext())
-						 						{
-						 							setImage(it.next().getImage());
-						 						}
-						 						repaint();
-						                		 cancel();
-						                	 }
-						                 }
-						             });
-								 }
-
-								 }, 0,1);
-							
-						}
-						else if(x <=0)
-							slideTimer.schedule(new TimerTask() {
-								 public void run() {
-									 SwingUtilities.invokeLater(new Runnable() {  //InvokeLater
-						                 @Override
-						                 public void run() {
-						                	 x-=1;
-						                	 y-=0.5;
-						                	 fi-=0.25;
-						                	 repaint();
-						                	 if(x<=-imgWidth)
-						                	 {
-						                		 x = panelWidth/2 - imgWidth/2;
-						                		 y=panelHeight/2- imgHeight/2;
-						                		 fi=0;
-						                		 if(it.hasNext())
-						 						{
-						 							setImage(it.next().getImage());
-						 						}
-						 						repaint();
-						                		 cancel();
-						                	 }
-						                 }
-						             });
-								 }
-								 }, 0,1);
-						else
-						{
-							 x = panelWidth/2 - imgWidth/2;
-		           		 y=panelHeight/2- imgHeight/2;
-		           		 fi=0;
-							repaint();
-						}
-						
-					}
-					
-					@Override
-					public void mousePressed(MouseEvent e) {
-						// TODO Auto-generated method stub
-						
-					}
-					
-					@Override
-					public void mouseExited(MouseEvent e) {
-						// TODO Auto-generated method stub
-						
-					}
-					
-					@Override
-					public void mouseEntered(MouseEvent e) {
-						// TODO Auto-generated method stub
-						
-					}
-					
-					@Override
-					public void mouseClicked(MouseEvent e) {
-						// TODO Auto-generated method stub
-						
-					}
+						if(bufferedImage!=null)
+		        		{
+							if(x >= panelWidth-imgWidth)
+								goRight();				
+							else if(x <=0)
+								goLeft();
+							else
+							{
+								x = panelWidth/2 - imgWidth/2;
+			           		 	y = panelHeight/2- imgHeight/2;
+			           		 	fi=0;
+			           		 	repaint();
+							}
+					}}
 				});
 		       
+				// przycisk reject
 
 				reject = new JButton("reject");
 				reject.setBounds(300,740,100,50);
@@ -254,39 +180,12 @@ public class SwipePanel extends JPanel {
 					
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>(){
-					       	 
-				            @Override
-				            protected Void doInBackground() throws Exception {
-				            	Connection conn = sqlConn.connect();
-				    			PreparedStatement prep;
-
-								prep = conn.prepareStatement("INSERT INTO matches (user_id, stranger_id, interest) VALUES (?,?,?)");
-								prep.setInt(1, me.getId());
-								prep.setInt(2, users.get(i).getId());
-								prep.setBoolean(3, false);
-								prep.executeUpdate();
-								
-								return null;
-				            }
-
-				            @Override
-				            protected void done() {
-				                try {
-				                	//będzie wyświetlać nastepną osobę
-				                	if (conn!= null)
-				    	    			conn.close();
-				                } catch (Exception ex) {
-				                    ex.printStackTrace();
-				                }
-				            }
-
-				       };
-				       
-				       worker.execute();
-
+						goLeft();
 					}
 				});
+				
+				// przycisk match
+				
 				match = new JButton("match");
 				match.setBounds(450,740,100,50);
 				add(match);
@@ -294,43 +193,9 @@ public class SwipePanel extends JPanel {
 					
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>(){
-					       	 
-				            @Override
-				            protected Void doInBackground() throws Exception {
-				            	Connection conn = sqlConn.connect();
-				    			PreparedStatement prep;
-
-								prep = conn.prepareStatement("INSERT INTO matches (user_id, stranger_id, interest) VALUES (?,?,?)");
-								prep.setInt(1, me.getId());
-								prep.setInt(2, users.get(i).getId());
-								prep.setBoolean(3, true);
-								prep.executeUpdate();
-								
-								return null;
-				            }
-
-				            @Override
-				            protected void done() {
-				                try {
-				                	if (conn!= null)
-				    	    			conn.close();
-
-				                } catch (Exception ex) {
-				                    ex.printStackTrace();
-				                }
-				            }
-
-				       };
-				       
-				       worker.execute();
-
+					goRight();
 					}
 				});
-				
-				
-				
-				
 		    }  
 		    
 		    public void paintComponent(Graphics g) {
@@ -348,7 +213,7 @@ public class SwipePanel extends JPanel {
 					g2d.drawImage(op.filter(bufferedImage, null), (int) x, (int) y, null);
 		    	}
 		    	else
-		    		g.drawChars(("xd").toCharArray(), 0, 2, (int) x, (int) y);
+		    		g.drawChars(("Czekaj ładujemy osoby").toCharArray(), 0, 21, (int) x+(imgWidth/4), (int) y+(imgHeight/4));
 				}
 			
 			
@@ -411,7 +276,8 @@ public class SwipePanel extends JPanel {
 		    			it = users.listIterator();
 		    			if(it.hasNext())
 						{
-							setImage(it.next().getImage());
+		    				current=it.next();
+							setImage(current.getImage());
 							repaint();
 						}
 		    			
@@ -440,6 +306,103 @@ public class SwipePanel extends JPanel {
 			{
 				bufferedImage = new BufferedImage(imgWidth, imgHeight, BufferedImage.TYPE_INT_RGB);
 				bufferedImage.getGraphics().drawImage(image, 0, 0 , null);
+			}
+			
+			void match(User current, boolean decision)
+			{
+				SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>(){
+			       	 
+		            @Override
+		            protected Void doInBackground() throws Exception {
+		            	Connection conn = sqlConn.connect();
+		    			PreparedStatement prep;
+						System.out.println("ha");
+						prep = conn.prepareStatement("INSERT INTO matches (user_id, stranger_id, interest) VALUES (?,?,?)");
+						prep.setInt(1, me.getId());
+						prep.setInt(2, current.getId());
+						prep.setBoolean(3, decision);
+						prep.executeUpdate();
+						System.out.println("haha");
+						return null;
+		            }
+
+		            @Override
+		            protected void done() {
+		                try {
+		                	if (conn!= null)
+		    	    			conn.close();
+
+		                } catch (Exception ex) {
+		                    ex.printStackTrace();
+		                }
+		            }
+
+		       };
+		       
+		       worker.execute();
+			}
+			
+			void goRight()
+			{
+				slideTimer.schedule(new TimerTask() {
+					 public void run() {
+						 SwingUtilities.invokeLater(new Runnable() {  //InvokeLater
+			                 @Override
+			                 public void run() {
+			                	 x+=1;
+			                	 y-=0.5;
+			                	 fi+=0.25;
+			                	 repaint();
+			                	 if(x>=panelWidth)
+			                	 {
+			                		 x = panelWidth/2 - imgWidth/2;
+			                		 y = panelHeight/2- imgHeight/2;
+			                		 fi=0;
+			                		 if(it.hasNext())
+			 						{
+			             				match(current, true);
+			             				current=it.next();
+			 							setImage(current.getImage());
+			 						}
+			                		 cancel();
+			 						repaint();
+			                	 }
+			                 }
+			             });
+					 }
+
+					 }, 0,1);
+			}
+			
+			void goLeft()
+			{
+				slideTimer.schedule(new TimerTask() {
+					 public void run() {
+						 SwingUtilities.invokeLater(new Runnable() {  //InvokeLater
+			                 @Override
+			                 public void run() {
+			                	 x-=1;
+			                	 y-=0.5;
+			                	 fi-=0.25;
+			                	 repaint();
+			                	 if(x<=-imgWidth)
+			                	 {
+			                		 x = panelWidth/2 - imgWidth/2;
+			                		 y = panelHeight/2- imgHeight/2;
+			                		 fi=0;
+			                		 if(it.hasNext())
+			 						{
+			                			match(current, false);
+				             			current=it.next();
+				 						setImage(current.getImage());
+			 						}
+			                		 cancel();
+				 					repaint();
+			                	 }
+			                 }
+			             });
+					 }
+					 }, 0,1);
 			}
 
 }
