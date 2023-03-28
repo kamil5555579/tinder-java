@@ -1,4 +1,4 @@
-package main;
+package loginSystem;
 
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -21,6 +21,10 @@ import javax.swing.SwingWorker;
 import javax.swing.border.LineBorder;
 
 import com.mysql.jdbc.Connection;
+
+import utilities.PPasswordField;
+import utilities.PTextField;
+import utilities.SqlConnection;
 
 class RegisterPanel extends JPanel 
 {	

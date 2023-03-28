@@ -1,4 +1,4 @@
-package main;
+package mainApp;
 
 import java.awt.CardLayout;
 import java.awt.Color;

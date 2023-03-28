@@ -1,4 +1,4 @@
-package main;
+package mainApp;
 
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -42,6 +42,9 @@ import javax.swing.SwingWorker;
 import javax.swing.border.LineBorder;
 
 import com.mysql.jdbc.Connection;
+
+import utilities.SqlConnection;
+import utilities.User;
 
 public class SwipePanel extends JPanel {
 

@@ -1,4 +1,4 @@
-package main;
+package loginSystem;
 
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -30,6 +30,11 @@ import javax.swing.SwingWorker;
 import javax.swing.border.LineBorder;
 
 import com.mysql.jdbc.Connection;
+
+import mainApp.CardFrame2;
+import utilities.PTextField;
+import utilities.SqlConnection;
+
 import javax.swing.SwingConstants;
 import java.awt.ComponentOrientation;
 

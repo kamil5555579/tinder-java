@@ -1,4 +1,4 @@
-package main;
+package loginSystem;
 
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -12,10 +12,6 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 import javax.swing.border.LineBorder;
-
-import main.DataPanel;
-import main.LoginPanel;
-import main.RegisterPanel;
 
 
 public class CardFrame extends JFrame {
