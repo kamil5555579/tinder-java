@@ -27,7 +27,7 @@ public class CardFrame extends JFrame {
 			// ustawienia
 			
 			setTitle("Login & Register");
-	        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+	        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	        
 			setBounds(100, 100, 700, 600);
 			setResizable(false);
@@ -59,7 +59,7 @@ public class CardFrame extends JFrame {
 	            public void windowClosing(WindowEvent e) {
 	                super.windowClosing(e); 
 	                if(JOptionPane.showConfirmDialog(null, "Czy na pewno chcesz wyjść z aplikacji?", "Potwierdzenie", JOptionPane.YES_NO_OPTION)==0){
-	                	setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	                	//setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 					}
 	            }
 	        });

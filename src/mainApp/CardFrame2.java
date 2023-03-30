@@ -35,7 +35,7 @@ public class CardFrame2 extends JFrame{
 		setBounds(100, 100, 1000, 1000);
 		setResizable(false);
         setTitle("Tinder");
-        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         // dodawanie paneli
         
@@ -64,7 +64,7 @@ public class CardFrame2 extends JFrame{
             public void windowClosing(WindowEvent e) {
                 super.windowClosing(e); 
                 if(JOptionPane.showConfirmDialog(null, "Czy na pewno chcesz wyjść z aplikacji?", "Potwierdzenie", JOptionPane.YES_NO_OPTION)==0){
-                	setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                	//setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 				}
             }
         });
