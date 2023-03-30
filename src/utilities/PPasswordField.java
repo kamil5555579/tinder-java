@@ -14,6 +14,8 @@ public class PPasswordField extends JPasswordField {
 		setEchoChar ((char) 0);
         addFocusListener(new FocusListener() {
 
+        	// pokazanie tymczasowego napisu
+        	
             @Override
             public void focusLost(FocusEvent e) {
                 if(String.valueOf(getPassword()).isEmpty()) {
@@ -22,6 +24,8 @@ public class PPasswordField extends JPasswordField {
                 }
             }
 
+            // znikanie tymczasowego napisu
+            
             @Override
             public void focusGained(FocusEvent e) {
                 if(String.valueOf(getPassword()).equals(proptText)) {

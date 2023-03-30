@@ -72,6 +72,7 @@ public class SwipePanel extends JPanel {
 		    {
 		    	super();
 		    	this.id=id;
+		    	
 		    	//ustawienia panelu
 		    	
 		    	setBounds(100, 100, 1000, 1000);
@@ -203,6 +204,8 @@ public class SwipePanel extends JPanel {
 				});
 		    }  
 		    
+		    // rysowanie obrazka lub napisu
+		    
 		    public void paintComponent(Graphics g) {
 		    	if(bufferedImage!=null)
 		    	{
@@ -221,6 +224,8 @@ public class SwipePanel extends JPanel {
 		    		g.drawChars(("Czekaj ładujemy osoby").toCharArray(), 0, 21, (int) x+(imgWidth/4), (int) y+(imgHeight/4));
 				}
 			
+		    
+		    // funkcja ładująca dane użytkownika
 			
 			public void initializeMe(int id)
 			{
@@ -257,6 +262,8 @@ public class SwipePanel extends JPanel {
 		       
 		       worker.execute();
 			}
+			
+			// funkcja ładująca innych użytkowników
 			
 			public void initializeOthers(int id)
 			{
@@ -304,11 +311,15 @@ public class SwipePanel extends JPanel {
 		       worker.execute();
 			}
 			
+			// ustawienie zdjęcia
+			
 			void setImage(Image image)
 			{
 				bufferedImage = new BufferedImage(imgWidth, imgHeight, BufferedImage.TYPE_INT_RGB);
 				bufferedImage.getGraphics().drawImage(image, 0, 0 , null);
 			}
+			
+			// dodanie matcha do bazy danych
 			
 			void match(User current, boolean decision)
 			{
@@ -341,6 +352,8 @@ public class SwipePanel extends JPanel {
 		       
 		       worker.execute();
 			}
+			
+			// animacja lotu w prawo
 			
 			void goRight()
 			{
@@ -378,6 +391,8 @@ public class SwipePanel extends JPanel {
 
 					 }, 0,1);
 			}
+			
+			// animacja lotu w lewo
 			
 			void goLeft()
 			{

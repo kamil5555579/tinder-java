@@ -152,10 +152,6 @@ class RegisterPanel extends JPanel
 	
 	// funkcja tworząca konto i przechodząca do uzupełniania danych
 	
-	
-
-	
-	
 	public void registerIn(String username, String password) 
 	{
 		 SwingWorker<Integer, Void> worker = new SwingWorker<Integer, Void>(){

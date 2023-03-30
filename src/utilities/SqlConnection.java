@@ -11,6 +11,9 @@ public class SqlConnection {
 
 	public com.mysql.jdbc.Connection connect()
 	{
+		
+		// łączenie z bazą
+		
 		Connection conn = null;
 		try {
 			Class.forName("com.mysql.jdbc.Driver");  

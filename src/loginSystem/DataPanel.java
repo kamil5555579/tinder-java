@@ -178,7 +178,7 @@ class DataPanel extends JPanel
 		add(button);
 		*/
 		
-		//zapisanie i powrót do loginu
+		//zapisanie i przejscie do aplikacji
 		
 		btnRegister = new JButton("Save");
 		btnRegister.setBackground(new Color(255, 240, 245));

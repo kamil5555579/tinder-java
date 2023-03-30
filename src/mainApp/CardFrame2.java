@@ -27,26 +27,18 @@ public class CardFrame2 extends JFrame{
     
     public CardFrame2(int id) throws HeadlessException {
 		super();
+		
+		// ustawienia
+		
 		this.id = id;
 		this.setBackground(Color.white);
 		setBounds(100, 100, 1000, 1000);
 		setResizable(false);
-
-
         setTitle("Tinder");
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                super.windowClosing(e); 
-                if(JOptionPane.showConfirmDialog(null, "Czy na pewno chcesz wyjść z aplikacji?", "Potwierdzenie", JOptionPane.YES_NO_OPTION)==0){
-                	setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-				}
-            }
-        });
-
-		//frame.setUndecorated(true);
-
+        
+        // dodawanie paneli
+        
         JPanel contentPane = new JPanel();
 		//contentPane.setBackground(new Color(200, 105, 180));
 		//contentPane.setBorder(new LineBorder(new Color(255, 20, 147), 3, true));
@@ -64,21 +56,34 @@ public class CardFrame2 extends JFrame{
         setLocationRelativeTo(null);
         //frame.setLocationByPlatform(true); //nie otwiera sie w rogu
         setVisible(true);
+        
+        // powiadomienie przy wyłączaniu
+        
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                super.windowClosing(e); 
+                if(JOptionPane.showConfirmDialog(null, "Czy na pewno chcesz wyjść z aplikacji?", "Potwierdzenie", JOptionPane.YES_NO_OPTION)==0){
+                	setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+				}
+            }
+        });
+
 	}
 
 
 	
 
-public static void main(String[] args)
-{
-    SwingUtilities.invokeLater(new Runnable()
-    {
-        public void run()
-        {
-            new CardFrame2(id);
-        }
-    });
-	}
+	public static void main(String[] args)
+	{
+	    SwingUtilities.invokeLater(new Runnable()
+	    {
+	        public void run()
+	        {
+	            new CardFrame2(id);
+	        }
+	    });
+		}
 }
 
 

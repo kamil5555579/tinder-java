@@ -11,12 +11,16 @@ public class PTextField extends JTextField {
         super(proptText);
         addFocusListener(new FocusListener() {
 
+        	// pokazanie tymczasowego napisu
+        	
             @Override
             public void focusLost(FocusEvent e) {
                 if(getText().isEmpty()) {
                     setText(proptText);
                 }
             }
+            
+            // znikanie tymczasowego napisu
 
             @Override
             public void focusGained(FocusEvent e) {
