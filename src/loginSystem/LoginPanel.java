@@ -5,12 +5,15 @@ import java.awt.CardLayout;
 import java.awt.Color;
 
 import java.awt.Font;
+import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.geom.Rectangle2D;
+import java.awt.geom.RoundRectangle2D;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -23,6 +26,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingWorker;
+import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
 import com.mysql.jdbc.Connection;
@@ -31,6 +35,8 @@ import mainApp.CardFrame2;
 import utilities.PPasswordField;
 import utilities.PTextField;
 import utilities.SqlConnection;
+import java.awt.SystemColor;
+import javax.swing.UIManager;
 
 
 public class LoginPanel extends JPanel 
@@ -61,51 +67,57 @@ public class LoginPanel extends JPanel
 	    	
 	    	setBounds(100, 100, 700, 600);
 			setBackground(new Color(255, 105, 180));
-			setBorder(new LineBorder(new Color(255, 20, 147), 3, true));
+			setBorder(new LineBorder(new Color(255, 20, 147), 5, true));
 			setLayout(null);
 			
 			//label Tinder
 			
 			lblTinder = new JLabel("Tinder");
 			lblTinder.setForeground(Color.WHITE);
-			lblTinder.setFont(new Font("LM Sans 10", Font.BOLD | Font.ITALIC, 42));
-			lblTinder.setBounds(274, 23, 127, 61);
+			lblTinder.setFont(new Font("LM Sans 10", Font.BOLD | Font.ITALIC, 50));
+			lblTinder.setBounds(275, 12, 234, 131);
 			add(lblTinder);
 
 			//login
 			
-	    	panel_2 = new JPanel();
+	    	/*panel_2 = new JPanel();
 	    	panel_2.setBackground(new Color(255, 255, 255));
 	    	panel_2.setBounds(105, 195, 470, 80);
 			panel_2.setLayout(null);
 			add(panel_2);
-	    	
+	    	*/
 			
-			txtUsername = new PTextField("Username");
-			txtUsername.setFont(new Font("Dialog", Font.ITALIC, 16));
-			txtUsername.setBounds(12, 12, 445, 55);
+			txtUsername = new PTextField("Nazwa użytkownika");
+			txtUsername.setBorder(null);
+			txtUsername.setBackground(new Color(240, 240, 240));
+			txtUsername.setFont(new Font("Dialog", Font.ITALIC, 18));
+			txtUsername.setBounds(125, 250, 445, 55);
 			txtUsername.setColumns(10);
-			panel_2.add(txtUsername);
+			add(txtUsername);
 			
 			//hasło
-			
+			/*
 			panel_1 = new JPanel();
 			panel_1.setLayout(null);
 			panel_1.setBackground(Color.WHITE);
 			panel_1.setBounds(105, 305, 470, 80);
 			add(panel_1);
-			
+			*/
 			pwdPassword = new PPasswordField("Haslo");
-			pwdPassword.setFont(new Font("Dialog", Font.ITALIC, 16));
-			pwdPassword.setBounds(12, 12, 445, 55);
-			panel_1.add(pwdPassword);
+			pwdPassword.setText("Hasło");
+			pwdPassword.setBorder(null);
+			pwdPassword.setBackground(new Color(240, 240, 240));
+			pwdPassword.setFont(new Font("Dialog", Font.ITALIC, 18));
+			pwdPassword.setBounds(125, 330, 445, 55);
+			add(pwdPassword);
 			
 			//przycisk logowania
 			
-			button = new JButton("Log in");
+			button = new JButton("Zaloguj");
+			button.setBorder(null);
 			button.setBackground(new Color(255, 240, 245));
 			button.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 16));
-			button.setBounds(105, 415, 225, 65);
+			button.setBounds(115, 423, 195, 45);
 			add(button);
 			
 			button.addActionListener( new ActionListener()
@@ -122,10 +134,11 @@ public class LoginPanel extends JPanel
 			
 			//przejscie do rejestracji
 			
-			btnRegister = new JButton("Register");
+			btnRegister = new JButton("Zarejestruj");
+			btnRegister.setBorder(null);
 			btnRegister.setBackground(new Color(255, 240, 245));
 			btnRegister.setFont(new Font("Dialog", Font.BOLD, 16));
-			btnRegister.setBounds(350, 415, 225, 65);
+			btnRegister.setBounds(365, 423, 195, 45);
 			
 	        btnRegister.addActionListener( new ActionListener()
 	        {
@@ -182,27 +195,28 @@ public class LoginPanel extends JPanel
        
        worker.execute();
 		}
-		//na razie nie działa nie wiadomo czemu	
-		/* 	
-		 public void paint(Graphics g) {
-		      super.paint(g);
+		
+		 public void paintComponent(Graphics g) {
+		      super.paintComponent(g);
 		      
 		      Graphics2D g2 = (Graphics2D)g;
 
-		      //Rectangle2D r0=new Rectangle2D.Double(50,50,50,50);
-		     // Rectangle2D r1=new Rectangle2D.Double(200,50,50,50);
 		      Rectangle2D r2=new Rectangle2D.Double(0,0,getWidth(),getHeight());
 
-		      Color c0=Color.magenta, c1=Color.orange;
-
-		      //GradientPaint gp=new GradientPaint(0, 0, c0, 5, 5, c1, true);
-		      //g2.setPaint(gp);
-		      //g2.fill(r0);
-		     //g2.setStroke(new BasicStroke(10));
-		      //g2.draw(r1);
+		      Color c0=new Color(255,0,128), c1= new Color(255,128,0);
 
 		      GradientPaint  gp = new GradientPaint(150, 200, c1, 450, 200, c0, false);
 		      g2.setPaint(gp);
 		      g2.fill(r2);
-		     }*/
-}
+		      
+		      g2.setPaint(new Color(240, 240, 240)); //szary
+		 
+		      g2.fill(new RoundRectangle2D.Double(100, 325, 485, 60, 40, 40));
+		      g2.fill(new RoundRectangle2D.Double(100, 245, 485, 60, 40, 40));
+		      
+		      g2.setPaint(new Color(255, 240, 245)); // jasnorozowy
+		      g2.fill(new RoundRectangle2D.Double(100, 420, 225, 50, 40, 40));
+		      g2.fill(new RoundRectangle2D.Double(350, 420, 225, 50, 40, 40));
+		      
+		     }
+		 }

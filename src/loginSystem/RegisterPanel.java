@@ -3,10 +3,14 @@ package loginSystem;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.GradientPaint;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Rectangle2D;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -195,4 +199,20 @@ class RegisterPanel extends JPanel
 	       
 	       worker.execute();
 	}
+	
+	 public void paintComponent(Graphics g) {
+	      super.paintComponent(g);
+	      
+	      Graphics2D g2 = (Graphics2D)g;
+
+	      Rectangle2D r2=new Rectangle2D.Double(0,0,getWidth(),getHeight());
+
+	      Color c0=new Color(255,0,128), c1= new Color(255,128,0);
+
+	      GradientPaint  gp = new GradientPaint(150, 200, c1, 450, 200, c0, false);
+	      g2.setPaint(gp);
+	      g2.fill(r2);
+	      
+	    
+	     }
 }
