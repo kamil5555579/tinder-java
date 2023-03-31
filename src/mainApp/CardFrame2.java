@@ -64,7 +64,6 @@ public class CardFrame2 extends JFrame{
             public void windowClosing(WindowEvent e) {
                 super.windowClosing(e); 
                 if(JOptionPane.showConfirmDialog(null, "Czy na pewno chcesz wyjść z aplikacji?", "Potwierdzenie", JOptionPane.YES_NO_OPTION)==0){
-                	//setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 				}
             }
         });
