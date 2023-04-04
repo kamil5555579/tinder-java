@@ -44,10 +44,12 @@ public class ImagePanel extends JPanel {
 	SwipePanel panel;
 	boolean running;
 	
-	public ImagePanel(int id, User current, SwipePanel panel) {
+	public ImagePanel(int id, Iterator<User> it, SwipePanel panel) {
 		
 		this.id = id;
-		this.current = current;
+		this.it=it;
+		if(it.hasNext())
+			current=it.next();
 		this.panel = panel;
 		setSize(1000,1000);
 		x = this.getWidth()/2 - imgWidth/2;
@@ -172,7 +174,7 @@ public class ImagePanel extends JPanel {
 		                		 x = panelWidth/2 - imgWidth/2;
 		                		 y = panelHeight/2- imgHeight/2;
 		                		 fi=0;
-		                		 /*if(it.hasNext())
+		                		 if(it.hasNext())
 		 						{
 		             				match(current, true);
 		             				current=it.next();
@@ -182,7 +184,7 @@ public class ImagePanel extends JPanel {
 		                		 {
 		                			 match(current, true);
 		                			 bufferedImage=null;
-		                		 }*/
+		                		 }
 		                		running=false;
 		                		cancel();
 		 						repaint();
@@ -217,7 +219,7 @@ public class ImagePanel extends JPanel {
 		                		 x = panelWidth/2 - imgWidth/2;
 		                		 y = panelHeight/2- imgHeight/2;
 		                		 fi=0;
-		                		 /*if(it.hasNext())
+		                		 if(it.hasNext())
 		 						{
 		                			match(current, false);
 			             			current=it.next();
@@ -227,7 +229,7 @@ public class ImagePanel extends JPanel {
 		                		 {
 		                			 match(current, false);
 		                			 bufferedImage=null;
-		                		 }*/
+		                		 }
 		                		running=false;
 		                		cancel();
 			 					repaint();
