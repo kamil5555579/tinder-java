@@ -67,6 +67,7 @@ public class SwipePanel extends JPanel {
 	private JButton buttonChat, buttonSettings;
 	private JLabel lblTinder;
 	private JButton reject,match;
+	ImagePanel imgPanel;
 
 		    public SwipePanel(JPanel panel, JFrame frame, int id) 
 		    {
@@ -137,7 +138,7 @@ public class SwipePanel extends JPanel {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						if (bufferedImage!=null);
-						//goLeft();
+						imgPanel.goLeft();
 					}
 				});
 				
@@ -153,7 +154,7 @@ public class SwipePanel extends JPanel {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 					if (bufferedImage!=null);
-					//goRight();
+					imgPanel.goRight();
 					}
 				});
 		    }  
@@ -229,10 +230,9 @@ public class SwipePanel extends JPanel {
 		                	it = users.listIterator();
 			    			if(it.hasNext())
 							{
-			    				current=it.next();
-			    				ImagePanel panel = new ImagePanel(id, current, SwipePanel.this);
-			    				panel.setBounds(0, 0, 1000, 1000);
-			    				add(panel);
+			    				imgPanel = new ImagePanel(id, it, SwipePanel.this);
+			    				imgPanel.setBounds(0, 0, 1000, 1000);
+			    				add(imgPanel);
 								repaint();
 							}
 		                	if (conn!= null)
