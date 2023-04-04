@@ -297,10 +297,6 @@ public class SwipePanel extends JPanel {
 			    				current=it.next();
 								setImage(current.getImage());
 								repaint();
-								JFrame frame = new JFrame();
-								ImagePanel panel = new ImagePanel(id, current);
-								frame.add(panel);
-								frame.setVisible(true);
 							}
 		                	if (conn!= null)
 		    	    			conn.close();
