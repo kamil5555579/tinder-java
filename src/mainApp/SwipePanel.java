@@ -67,6 +67,7 @@ public class SwipePanel extends JPanel {
 	private JButton buttonChat, buttonSettings;
 	private JLabel lblTinder;
 	private JButton reject,match;
+	ImagePanel imgPanel;
 
 		    public SwipePanel(JPanel panel, JFrame frame, int id) 
 		    {
@@ -79,12 +80,6 @@ public class SwipePanel extends JPanel {
 				//setBackground(new Color(225, 85, 160));
 				setBorder(new LineBorder(new Color(255, 20, 147), 3, true));
 				setLayout(null);
-				
-				panelWidth=getWidth();
-				panelHeight=getHeight();
-				x = this.getWidth()/2 - imgWidth/2;
-				y = this.getHeight()/2 - imgHeight/2;
-				fi=0;
 				
 				// załadowanie osób
 				
@@ -133,48 +128,6 @@ public class SwipePanel extends JPanel {
 		        });
 		        add(buttonSettings);
 
-				// przesuwanie obrazka myszką
-		        
-		        addMouseMotionListener(new MouseMotionAdapter() {
-		        	public void mouseDragged(MouseEvent e) {
-		        		if(bufferedImage!=null)
-		        		{
-							x=e.getX()- imgWidth/2;
-							
-							if(e.getX() >= panelWidth/2)
-							{
-								y= (3*panelWidth/4 - 0.5*e.getX()- imgHeight/2);
-								fi= (0.25*(e.getX() - panelWidth/2));
-							}
-							else
-								y= (0.5*e.getX() +panelWidth/4 - imgHeight/2);
-								fi= (0.25*(e.getX() - panelWidth/2));
-							repaint();
-		        		}}
-				});
-				
-				//dalsza animacja obrazka
-				
-				addMouseListener(new MouseAdapter() {
-					
-					@Override
-					public void mouseReleased(MouseEvent e) {
-						if(bufferedImage!=null)
-		        		{
-							if(x >= panelWidth-imgWidth)
-								goRight();				
-							else if(x <=0)
-								goLeft();
-							else
-							{
-								x = panelWidth/2 - imgWidth/2;
-			           		 	y = panelHeight/2- imgHeight/2;
-			           		 	fi=0;
-			           		 	repaint();
-							}
-					}}
-				});
-		       
 				// przycisk reject
 
 				reject = new JButton("reject");
@@ -184,8 +137,8 @@ public class SwipePanel extends JPanel {
 					
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						if (bufferedImage!=null)
-						goLeft();
+						if (bufferedImage!=null);
+						imgPanel.goLeft();
 					}
 				});
 				
@@ -194,36 +147,18 @@ public class SwipePanel extends JPanel {
 				match = new JButton("match");
 				match.setBounds(450,740,100,50);
 				add(match);
+				
+				
 				match.addActionListener(new ActionListener() {
 					
 					@Override
 					public void actionPerformed(ActionEvent e) {
-					if (bufferedImage!=null)
-					goRight();
+					if (bufferedImage!=null);
+					imgPanel.goRight();
 					}
 				});
-				repaint();		   
-				}  
+		    }  
 		    
-		    // rysowanie obrazka lub napisu
-		    
-		    public void paintComponent(Graphics g) {
-		    	if(bufferedImage!=null)
-		    	{
-					Graphics2D g2d = (Graphics2D) g;
-					g2d.clearRect(0, 0, panelWidth, panelHeight);
-					double rotationRequired = Math.toRadians (fi);
-					double locationX = imgWidth / 2;
-					double locationY = imgHeight / 2;
-					AffineTransform tx = AffineTransform.getRotateInstance(rotationRequired, locationX, locationY);
-					AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
-					
-					// Drawing the rotated image at the required drawing locations
-					g2d.drawImage(op.filter(bufferedImage, null), (int) x, (int) y, null);
-		    	}
-		    	else
-		    		g.drawChars(("Czekaj ładujemy osoby").toCharArray(), 0, 21, (int) x+(imgWidth/4), (int) y+(imgHeight/4));
-				}
 			
 		    
 		    // funkcja ładująca dane użytkownika
@@ -295,8 +230,9 @@ public class SwipePanel extends JPanel {
 		                	it = users.listIterator();
 			    			if(it.hasNext())
 							{
-			    				current=it.next();
-								setImage(current.getImage());
+			    				imgPanel = new ImagePanel(id, it, SwipePanel.this);
+			    				imgPanel.setBounds(0, 0, 1000, 1000);
+			    				add(imgPanel);
 								repaint();
 							}
 		                	if (conn!= null)
@@ -311,124 +247,4 @@ public class SwipePanel extends JPanel {
 		       
 		       worker.execute();
 			}
-			
-			// ustawienie zdjęcia
-			
-			void setImage(Image image)
-			{
-				bufferedImage = new BufferedImage(imgWidth, imgHeight, BufferedImage.TYPE_INT_RGB);
-				bufferedImage.getGraphics().drawImage(image, 0, 0 , null);
-			}
-			
-			// dodanie matcha do bazy danych
-			
-			void match(User current, boolean decision)
-			{
-				SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>(){
-			       	 
-		            @Override
-		            protected Void doInBackground() throws Exception {
-		            	conn = sqlConn.connect();
-		    			PreparedStatement prep;
-						prep = conn.prepareStatement("INSERT INTO matches (user_id, stranger_id, interest) VALUES (?,?,?)");
-						prep.setInt(1, id);
-						prep.setInt(2, current.getId());
-						prep.setBoolean(3, decision);
-						prep.executeUpdate();
-						return null;
-		            }
-
-		            @Override
-		            protected void done() {
-		                try {
-		                	if (conn!= null)
-		    	    			conn.close();
-
-		                } catch (Exception ex) {
-		                    ex.printStackTrace();
-		                }
-		            }
-
-		       };
-		       
-		       worker.execute();
-			}
-			
-			// animacja lotu w prawo
-			
-			void goRight()
-			{
-				slideTimer.schedule(new TimerTask() {
-					 public void run() {
-						 SwingUtilities.invokeLater(new Runnable() {  //InvokeLater
-			                 @Override
-			                 public void run() {
-			                	 x+=1;
-			                	 y-=0.5;
-			                	 fi+=0.25;
-			                	 repaint();
-			                	 if(x>=panelWidth)
-			                	 {
-			                		 x = panelWidth/2 - imgWidth/2;
-			                		 y = panelHeight/2- imgHeight/2;
-			                		 fi=0;
-			                		 if(it.hasNext())
-			 						{
-			             				match(current, true);
-			             				current=it.next();
-			 							setImage(current.getImage());
-			 						}
-			                		 else
-			                		 {
-			                			 match(current, true);
-			                			 bufferedImage=null;
-			                		 }
-			                		 cancel();
-			 						repaint();
-			                	 }
-			                 }
-			             });
-					 }
-
-					 }, 0,1);
-			}
-			
-			// animacja lotu w lewo
-			
-			void goLeft()
-			{
-				slideTimer.schedule(new TimerTask() {
-					 public void run() {
-						 SwingUtilities.invokeLater(new Runnable() {  //InvokeLater
-			                 @Override
-			                 public void run() {
-			                	 x-=1;
-			                	 y-=0.5;
-			                	 fi-=0.25;
-			                	 repaint();
-			                	 if(x<=-imgWidth)
-			                	 {
-			                		 x = panelWidth/2 - imgWidth/2;
-			                		 y = panelHeight/2- imgHeight/2;
-			                		 fi=0;
-			                		 if(it.hasNext())
-			 						{
-			                			match(current, false);
-				             			current=it.next();
-				 						setImage(current.getImage());
-			 						}
-			                		 else
-			                		 {
-			                			 match(current, false);
-			                			 bufferedImage=null;
-			                		 }
-			                		 cancel();
-				 					repaint();
-			                	 }
-			                 }
-			             });
-					 }
-					 }, 0,1);
-			}
-
 }
