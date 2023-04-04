@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.RoundRectangle2D;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -33,7 +34,6 @@ import utilities.SqlConnection;
 class RegisterPanel extends JPanel 
 {	
 	private PTextField txtUsername;
-	private JPanel panel_1,panel_2, panel_3;
 	private PPasswordField password1;
 	private JButton btnRegister;
 	private PPasswordField password2;
@@ -55,59 +55,68 @@ class RegisterPanel extends JPanel
 		setLayout(null);
 		
 		//login
-		
+		/*
 		panel_2 = new JPanel();
 		panel_2.setLayout(null);
 		panel_2.setBackground(new Color(255, 255, 255));
 		panel_2.setBounds(105, 115, 470, 80);
 		add(panel_2);
+		*/
 		
-		txtUsername = new PTextField("Username");
-		txtUsername.setFont(new Font("Dialog", Font.ITALIC, 14));
-		txtUsername.setBounds(12, 12, 445, 55);
+		txtUsername = new PTextField("Nazwa użytkownika");
+		txtUsername.setFont(new Font("Dialog", Font.ITALIC, 18));
+		txtUsername.setBounds(125, 183, 445, 55);
+		txtUsername.setBackground(new Color(240, 240, 240));
+		txtUsername.setBorder(null);
 		txtUsername.setColumns(10);
-		panel_2.add(txtUsername);
+		add(txtUsername);
 		
 		//hasło
-		
+		/*
 		panel_1 = new JPanel();
 		panel_1.setLayout(null);
 		panel_1.setBackground(Color.WHITE);
 		panel_1.setBounds(105, 215, 470, 80);
 		add(panel_1);
+		*/
 		
-		password1 = new PPasswordField("Password");
-		password1.setFont(new Font("Dialog", Font.ITALIC, 14));
-		password1.setBounds(12, 12, 445, 55);
-		panel_1.add(password1);
+		password1 = new PPasswordField("Hasło");
+		password1.setFont(new Font("Dialog", Font.ITALIC, 18));
+		password1.setBackground(new Color(240, 240, 240));
+		password1.setBorder(null);
+		password1.setBounds(125, 265, 445, 55);
+		add(password1);
 		
 		//powtórz hasło
-		
+		/*
 		panel_3 = new JPanel();
 		panel_3.setLayout(null);
 		panel_3.setBackground(Color.WHITE);
 		panel_3.setBounds(105, 315, 470, 80);
 		add(panel_3);
-				
-		password2 = new PPasswordField("Password");
-		password2.setFont(new Font("Dialog", Font.ITALIC, 14));
-		password2.setBounds(12, 12, 445, 55);
-		panel_3.add(password2);
+		*/		
+		password2 = new PPasswordField("Powtórz hasło");
+		password2.setFont(new Font("Dialog", Font.ITALIC, 18));
+		password2.setBackground(new Color(240, 240, 240));
+		password2.setBorder(null);
+		password2.setBounds(125, 343, 445, 55);
+		add(password2);
 		
 		//label Register
 		
-		JLabel lblTinder = new JLabel("Register");
+		JLabel lblTinder = new JLabel("Rejestracja");
 		lblTinder.setForeground(Color.WHITE);
 		lblTinder.setFont(new Font("LM Sans 10", Font.BOLD | Font.ITALIC, 42));
-		lblTinder.setBounds(255, 20, 157, 61);
+		lblTinder.setBounds(231, 22, 272, 89);
 		add(lblTinder);
 		
 		//wracanie do logowania
 		
-		JButton button = new JButton("Log in");
+		JButton button = new JButton("Zaloguj");
 		button.setBackground(new Color(255, 240, 245));
-		button.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 14));
-		button.setBounds(105, 415, 225, 65);
+		button.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 16));
+		button.setBorder(null);
+		button.setBounds(115, 423, 195, 45);
 		//add(button);
 		button.addActionListener( new ActionListener()
         {
@@ -121,10 +130,11 @@ class RegisterPanel extends JPanel
 		
 		//przejście do uzupełniania danych
 		
-		btnRegister = new JButton("Register");
+		btnRegister = new JButton("Zarejestruj");
 		btnRegister.setBackground(new Color(255, 240, 245));
-		btnRegister.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 14));
-		btnRegister.setBounds(350, 415, 225, 65);
+		btnRegister.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 16));
+		btnRegister.setBounds(370, 423, 195, 45);
+		btnRegister.setBorder(null);
 		btnRegister.addActionListener( new ActionListener()
         {
             public void actionPerformed(ActionEvent e)
@@ -212,6 +222,17 @@ class RegisterPanel extends JPanel
 	      GradientPaint  gp = new GradientPaint(150, 200, c1, 450, 200, c0, false);
 	      g2.setPaint(gp);
 	      g2.fill(r2);
+	      
+	      g2.setPaint(new Color(240, 240, 240)); //szary
+	 
+	      g2.fill(new RoundRectangle2D.Double(100, 340, 485, 60, 40, 40));
+	      g2.fill(new RoundRectangle2D.Double(100, 260, 485, 60, 40, 40));
+	      g2.fill(new RoundRectangle2D.Double(100, 180, 485, 60, 40, 40));
+	      
+	      g2.setPaint(new Color(255, 240, 245)); // jasnorozowy
+	      g2.fill(new RoundRectangle2D.Double(100, 420, 230, 50, 40, 40));
+	      g2.fill(new RoundRectangle2D.Double(355, 420, 230, 50, 40, 40));
+
 	      
 	    
 	     }

@@ -43,7 +43,6 @@ public class LoginPanel extends JPanel
 {
 
 	 private PTextField txtUsername;
-	 private JPanel panel_1,panel_2;
 	 private PPasswordField pwdPassword;
 	 private JButton btnRegister, button;
 	 private JLabel lblTinder;
@@ -104,7 +103,6 @@ public class LoginPanel extends JPanel
 			add(panel_1);
 			*/
 			pwdPassword = new PPasswordField("Haslo");
-			pwdPassword.setText("Hasło");
 			pwdPassword.setBorder(null);
 			pwdPassword.setBackground(new Color(240, 240, 240));
 			pwdPassword.setFont(new Font("Dialog", Font.ITALIC, 18));
@@ -138,7 +136,7 @@ public class LoginPanel extends JPanel
 			btnRegister.setBorder(null);
 			btnRegister.setBackground(new Color(255, 240, 245));
 			btnRegister.setFont(new Font("Dialog", Font.BOLD, 16));
-			btnRegister.setBounds(365, 423, 195, 45);
+			btnRegister.setBounds(370, 423, 195, 45);
 			
 	        btnRegister.addActionListener( new ActionListener()
 	        {
@@ -215,8 +213,8 @@ public class LoginPanel extends JPanel
 		      g2.fill(new RoundRectangle2D.Double(100, 245, 485, 60, 40, 40));
 		      
 		      g2.setPaint(new Color(255, 240, 245)); // jasnorozowy
-		      g2.fill(new RoundRectangle2D.Double(100, 420, 225, 50, 40, 40));
-		      g2.fill(new RoundRectangle2D.Double(350, 420, 225, 50, 40, 40));
+		      g2.fill(new RoundRectangle2D.Double(100, 420, 230, 50, 40, 40));
+		      g2.fill(new RoundRectangle2D.Double(355, 420, 230, 50, 40, 40));
 		      
 		     }
 		 }
