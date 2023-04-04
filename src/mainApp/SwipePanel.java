@@ -202,7 +202,8 @@ public class SwipePanel extends JPanel {
 					goRight();
 					}
 				});
-		    }  
+				repaint();		   
+				}  
 		    
 		    // rysowanie obrazka lub napisu
 		    
