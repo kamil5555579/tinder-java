@@ -9,6 +9,7 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
@@ -27,10 +28,13 @@ import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
+import javax.swing.KeyStroke;
 import javax.swing.SwingWorker;
 import javax.swing.border.LineBorder;
 
@@ -42,11 +46,10 @@ import utilities.SqlConnection;
 
 import javax.swing.SwingConstants;
 import java.awt.ComponentOrientation;
+import javax.swing.border.EtchedBorder;
 
 class DataPanel extends JPanel 
 {
-
-	private JPanel panel_1;
 	private JButton btnRegister;
 	private JComboBox comboBox;
 	private PTextField txtAge;
@@ -71,12 +74,6 @@ class DataPanel extends JPanel
 		setBackground(new Color(255, 105, 180));
 		setBorder(new LineBorder(new Color(255, 20, 147), 3, true));
 		setLayout(null);
-		
-		panel_1 = new JPanel();
-		panel_1.setBackground(new Color(255, 255, 255));
-		panel_1.setBounds(115, 90, 475, 375);
-		add(panel_1);
-		panel_1.setLayout(null);
 
 		//opis
 		
@@ -84,69 +81,82 @@ class DataPanel extends JPanel
 		//txtDescription.setHorizontalAlignment(SwingConstants.LEFT);
 		txtDescription.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		txtDescription.setCaretColor(new Color(0, 0, 0));
-		txtDescription.setBounds(15, 145, 215, 210);
-		panel_1.add(txtDescription);
+		txtDescription.setBounds(135, 240, 215, 210);
+		add(txtDescription);
 		txtDescription.setFont(new Font("Dialog", Font.ITALIC, 12));
 		txtDescription.setBorder(null);
 		//txtDescription.setColumns(10);
 		
 		//wybór płci
 		
-		String[] gender = {"Gender", "Male", "Famale",
-  	    "Other" };
+		String[] gender = {"Płeć", "Mężczyzna", "Kobieta",
+  	    "Inna" };
 		comboBox = new JComboBox(gender);
-		comboBox.setBounds(15, 57, 215, 30);
-		panel_1.add(comboBox);
-		comboBox.setBackground(new Color(255, 240, 245));
+		comboBox.setBackground(new Color(255, 255, 255));
+		comboBox.setBounds(135, 137, 215, 30);
+		add(comboBox);
+		//comboBox.setBackground(new Color(255, 240, 245));
 		comboBox.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 14));
 		
 		//wybór wydziału
 		
-		String[] faculty = {"Faculty", "Architecture", "Chemistry", "Mathematics and Infromation Science", "Physics", 
-  	    "Other" };
+		String[] faculty = {"Wydział", "Architektury", "Chemii", "Matematyki", "Fizyki", 
+  	    "Inny" };
+		
 		comboBox_2 = new JComboBox(faculty);
-		comboBox_2.setBounds(15, 100, 215, 30);
-		panel_1.add(comboBox_2);
+		comboBox_2.setBackground(new Color(255, 255, 255));
+		//comboBox_2.setOpaque(true);
+		comboBox_2.setBorder(null);
+		comboBox_2.setBounds(135, 185, 215, 30);
 		comboBox_2.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 14));
-		comboBox_2.setBackground(new Color(255, 240, 245));
+		//comboBox_2.setBackground(new Color(240, 240, 240));
+		add(comboBox_2);
+	
+
+		
 		
 		//wiek
 		
-		txtAge = new PTextField("Age");
-		txtAge.setBounds(245, 57, 215, 30);
-		panel_1.add(txtAge);
+		txtAge = new PTextField("Wiek");
+		txtAge.setBorder(null);
+		txtAge.setBounds(362, 137, 215, 30);
+		add(txtAge);
 		txtAge.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 14));
-		txtAge.setBackground(new Color(255, 240, 245));
+		//txtAge.setBackground(new Color(255, 240, 245));
 		txtAge.setColumns(10);
 		
 		//imię
 		
-		txtName = new PTextField("Name");
+		txtName = new PTextField("Imię");
+		txtName.setBorder(null);
 		txtName.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 14));
 		txtName.setColumns(10);
-		txtName.setBackground(new Color(255, 240, 245));
-		txtName.setBounds(15, 15, 215, 30);
-		panel_1.add(txtName);
+		//txtName.setBackground(new Color(240, 240, 240));
+		txtName.setBounds(135, 94, 215, 30);
+		add(txtName);
 		
 		//nazwisko
 		
-		txtSurname = new PTextField("Surname");
+		txtSurname = new PTextField("Nazwisko");
+		txtSurname.setBorder(null);
 		txtSurname.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 14));
 		txtSurname.setColumns(10);
-		txtSurname.setBackground(new Color(255, 240, 245));
-		txtSurname.setBounds(245, 15, 215, 30);
-		panel_1.add(txtSurname);
+		//txtSurname.setBackground(new Color(255, 240, 245));
+		txtSurname.setBounds(362, 95, 215, 30);
+		add(txtSurname);
 		
 		//zdjecie
 		
-		imgButton = new JButton("Choose image");
-		imgButton.setBackground(new Color(255, 240, 245));
-		imgButton.setBounds(245, 100, 215, 30);
-		panel_1.add(imgButton);
+		imgButton = new JButton("Wybierz zdjęcie");
+		imgButton.setBackground(new Color(255, 255, 255));
+		imgButton.setBorder(null);
+		//imgButton.setBackground(new Color(255, 240, 245));
+		imgButton.setBounds(360, 185, 215, 30);
+		add(imgButton);
 		
 		imgLabel = new JLabel("");
-		imgLabel.setBounds(245,145,215,215);
-		panel_1.add(imgLabel);
+		imgLabel.setBounds(360,240,215,215);
+		add(imgLabel);
 		
 		imgButton.addActionListener(new ActionListener()
 		{
@@ -169,10 +179,10 @@ class DataPanel extends JPanel
 		
 		//label Fill your data
 		
-		JLabel lblTinder = new JLabel("Fill your data");
+		JLabel lblTinder = new JLabel("Stwórz swój profil!");
 		lblTinder.setForeground(Color.WHITE);
 		lblTinder.setFont(new Font("LM Sans 10", Font.BOLD | Font.ITALIC, 42));
-		lblTinder.setBounds(220, 20, 258, 61);
+		lblTinder.setBounds(155, 12, 410, 65);
 		add(lblTinder);
 		
 		/* logowanie
@@ -185,10 +195,11 @@ class DataPanel extends JPanel
 		
 		//zapisanie i przejscie do aplikacji
 		
-		btnRegister = new JButton("Save");
+		btnRegister = new JButton("Zapisz");
 		btnRegister.setBackground(new Color(255, 240, 245));
-		btnRegister.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 14));
-		btnRegister.setBounds(115, 480, 475, 50);
+		btnRegister.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 18));
+		btnRegister.setBounds(120, 490, 475, 40);
+		btnRegister.setBorder(null);
 		add(btnRegister);
 		
 		btnRegister.addActionListener( new ActionListener()
@@ -222,6 +233,11 @@ class DataPanel extends JPanel
 				});
 		
         add(btnRegister);
+        
+        JLabel lblOpowiedzOSobie = new JLabel("Opowiedz o sobie");
+        lblOpowiedzOSobie.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 14));
+        lblOpowiedzOSobie.setBounds(165, 220, 180, 25);
+        add(lblOpowiedzOSobie);
 	
 	}
 	
@@ -291,7 +307,16 @@ class DataPanel extends JPanel
 	      g2.setPaint(gp);
 	      g2.fill(r2);
 	      
+	      g2.setPaint(new Color(240, 240, 240)); //szary
+	      g2.fill(new RoundRectangle2D.Double(115, 80, 485, 400, 40, 40));
+	   
+	      //g2.setPaint(new Color(0, 0, 0)); //czarny
+	      //g2.draw(new RoundRectangle2D.Double(125, 90, 225, 40, 40, 40));
+	     // g2.draw(new RoundRectangle2D.Double(125, 180, 225, 40, 40, 40));
+	      
+	      g2.setPaint(new Color(255, 240, 245)); // jasnorozowy
+	      g2.fill(new RoundRectangle2D.Double(110, 485, 495, 50, 40, 40));
+	    
 	    
 	     }
-	 
 }

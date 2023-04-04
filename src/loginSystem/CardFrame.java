@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.HeadlessException;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.event.WindowFocusListener;
+import java.awt.event.WindowListener;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -26,7 +28,7 @@ public class CardFrame extends JFrame {
 	
 			// ustawienia
 			
-			setTitle("Login & Register");
+			setTitle("Logowanie i rejestracja");
 	        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	        
 			setBounds(100, 100, 700, 600);
@@ -59,7 +61,6 @@ public class CardFrame extends JFrame {
 	            public void windowClosing(WindowEvent e) {
 	                super.windowClosing(e); 
 	                if(JOptionPane.showConfirmDialog(null, "Czy na pewno chcesz wyjść z aplikacji?", "Potwierdzenie", JOptionPane.YES_NO_OPTION)==0){
-	                	//setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 					}
 	            }
 	        });
