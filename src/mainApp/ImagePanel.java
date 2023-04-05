@@ -2,8 +2,12 @@ package mainApp;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GraphicsConfiguration;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.LayoutManager;
+import java.awt.Transparency;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
@@ -116,8 +120,9 @@ public class ImagePanel extends JPanel {
 
 				//g2d.drawImage(op.filter(bufferedImage, null), (int) x, (int) y, null);
 				//g2d.translate((int) x, (int) y);
-				g2d.rotate(Math.toRadians(fi), imgWidth / 2, imgHeight / 2);
+				g2d.rotate(Math.toRadians(fi), (int) x + imgWidth / 2, (int) y + imgHeight / 2);
 				g2d.drawImage(bufferedImage, (int) x, (int) y, null);
+				//g2d.drawImage(rotate(bufferedImage, Math.toRadians(fi)), (int) x, (int) y, null);
 	    	}
 	    	else
 	    		g.drawChars(("Nie ma więcej :(").toCharArray(), 0, 21, (int) x+(imgWidth/4), (int) y+(imgHeight/4));
@@ -248,6 +253,5 @@ public class ImagePanel extends JPanel {
 		bufferedImage = new BufferedImage(imgWidth, imgHeight, BufferedImage.TYPE_INT_RGB);
 		bufferedImage.getGraphics().drawImage(image, 0, 0 , null);
 	}
-
-
 }
+
