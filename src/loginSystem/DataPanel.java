@@ -14,14 +14,20 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
+import java.awt.image.BufferedImage;
+import java.awt.image.RenderedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -65,6 +71,7 @@ class DataPanel extends JPanel
 	private File f=null;
 	private InputStream is=null;
 	private Connection conn;
+	Image img;
 
 	public DataPanel(JPanel panel, JFrame frame)  {
 		
@@ -174,7 +181,7 @@ class DataPanel extends JPanel
 			      f = fileChooser.getSelectedFile();
 			      String path = f.getAbsolutePath();
 			      ImageIcon icon = new ImageIcon(path);
-			      Image img = icon.getImage().getScaledInstance(215, 215, Image.SCALE_SMOOTH);
+			      img = icon.getImage().getScaledInstance(400, 400, Image.SCALE_SMOOTH);
 			      imgLabel.setIcon(new ImageIcon(img));
 			      
 			}
@@ -223,12 +230,20 @@ class DataPanel extends JPanel
 						}else {
 							
 						try {
-							is = new FileInputStream(f);
+							ByteArrayOutputStream os = new ByteArrayOutputStream();
+							BufferedImage bufferedImage = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_RGB);
+							bufferedImage.getGraphics().drawImage(img, 0, 0 , null);
+							ImageIO.write( bufferedImage, "gif", os);
+							is = new ByteArrayInputStream(os.toByteArray());
+							os.close();
 						} catch (FileNotFoundException e1) {
 							JOptionPane.showMessageDialog(
 		                            null,"Błąd dostępu do pliku.",
 		                            "Błąd dostępu do danych",
 		                            JOptionPane.ERROR_MESSAGE);
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
 						}
 						save(firstname, lastname, university, is, frame);
 						

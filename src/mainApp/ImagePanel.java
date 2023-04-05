@@ -108,24 +108,16 @@ public class ImagePanel extends JPanel {
 		
 	}
 	  public void paintComponent(Graphics g) {
+			Graphics2D g2d = (Graphics2D) g;
+			panel.repaint();
 	    	if(bufferedImage!=null)
 	    	{
-				Graphics2D g2d = (Graphics2D) g;
-				panel.repaint();
-				//double rotationRequired = Math.toRadians(fi);
-				//double locationX = imgWidth / 2;
-				//double locationY = imgHeight / 2;
-				//AffineTransform tx = AffineTransform.getRotateInstance(rotationRequired, locationX, locationY);
-				//AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
-
-				//g2d.drawImage(op.filter(bufferedImage, null), (int) x, (int) y, null);
-				//g2d.translate((int) x, (int) y);
 				g2d.rotate(Math.toRadians(fi), (int) x + imgWidth / 2, (int) y + imgHeight / 2);
 				g2d.drawImage(bufferedImage, (int) x, (int) y, null);
-				//g2d.drawImage(rotate(bufferedImage, Math.toRadians(fi)), (int) x, (int) y, null);
+				g2d.drawString("osoba", (int) x, (int) y + imgHeight + 20);
 	    	}
 	    	else
-	    		g.drawChars(("Nie ma więcej :(").toCharArray(), 0, 21, (int) x+(imgWidth/4), (int) y+(imgHeight/4));
+	    		g2d.drawString("Nie ma więcej :(",(int) x+(imgWidth/4), (int) y+(imgHeight/4));
 			}
 	  
 	
@@ -252,6 +244,11 @@ public class ImagePanel extends JPanel {
 	{
 		bufferedImage = new BufferedImage(imgWidth, imgHeight, BufferedImage.TYPE_INT_RGB);
 		bufferedImage.getGraphics().drawImage(image, 0, 0 , null);
+	}
+	
+	BufferedImage getImage()
+	{
+		return bufferedImage;
 	}
 }
 

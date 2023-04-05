@@ -45,6 +45,7 @@ import com.mysql.jdbc.Connection;
 
 import utilities.SqlConnection;
 import utilities.User;
+import javax.swing.JProgressBar;
 
 public class SwipePanel extends JPanel {
 
@@ -65,9 +66,10 @@ public class SwipePanel extends JPanel {
 	Iterator<User> it = null;
 	int id;
 	private JButton buttonChat, buttonSettings;
-	private JLabel lblTinder;
+	private JLabel lblTinder, lblWait;
 	private JButton reject,match;
 	ImagePanel imgPanel;
+	JProgressBar progressBar;
 
 		    public SwipePanel(JPanel panel, JFrame frame, int id) 
 		    {
@@ -137,7 +139,7 @@ public class SwipePanel extends JPanel {
 					
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						if (imgPanel!=null);
+						if (imgPanel!=null && imgPanel.getImage()!=null)
 						imgPanel.goLeft();
 					}
 				});
@@ -147,17 +149,29 @@ public class SwipePanel extends JPanel {
 				match = new JButton("match");
 				match.setBounds(450,740,100,50);
 				add(match);
-				
-				
 				match.addActionListener(new ActionListener() {
 					
 					@Override
 					public void actionPerformed(ActionEvent e) {
-					if (imgPanel!=null);
+					if (imgPanel!=null && imgPanel.getImage()!=null)
 					imgPanel.goRight();
 					}
 				});
+				
+				// progress
+				
+				progressBar = new JProgressBar();
+				progressBar.setBounds(400, 366, 203, 32);
+				add(progressBar);
+				progressBar.setIndeterminate(true);
+						
+				lblWait = new JLabel("czekaj");
+				lblWait.setBounds(400, 336, 203, 20);
+				add(lblWait);
+				
 		    }  
+		    
+		    
 		    
 			
 		    
@@ -233,8 +247,16 @@ public class SwipePanel extends JPanel {
 			    				imgPanel = new ImagePanel(id, it, SwipePanel.this);
 			    				imgPanel.setBounds(0, 0, 1000, 1000);
 			    				add(imgPanel);
+			    				progressBar.setVisible(false);
+			    				lblWait.setVisible(false);
 								repaint();
+								
 							}
+			    			else
+			    			{
+			    				progressBar.setVisible(false);
+			    				lblWait.setText("zadnych nowych osób");
+			    			}
 		                	if (conn!= null)
 		    	    			conn.close();
 
