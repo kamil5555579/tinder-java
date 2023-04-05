@@ -82,6 +82,7 @@ class DataPanel extends JPanel
 		txtDescription.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		txtDescription.setCaretColor(new Color(0, 0, 0));
 		txtDescription.setBounds(135, 240, 215, 210);
+		txtDescription.setBackground(new Color(240, 240, 240));
 		add(txtDescription);
 		txtDescription.setFont(new Font("Dialog", Font.ITALIC, 12));
 		txtDescription.setBorder(null);
@@ -92,7 +93,7 @@ class DataPanel extends JPanel
 		String[] gender = {"Płeć", "Mężczyzna", "Kobieta",
   	    "Inna" };
 		comboBox = new JComboBox(gender);
-		comboBox.setBackground(new Color(255, 255, 255));
+		comboBox.setBackground(new Color(240, 240, 240));
 		comboBox.setBounds(135, 137, 215, 30);
 		add(comboBox);
 		//comboBox.setBackground(new Color(255, 240, 245));
@@ -109,7 +110,7 @@ class DataPanel extends JPanel
 		comboBox_2.setBorder(null);
 		comboBox_2.setBounds(135, 185, 215, 30);
 		comboBox_2.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 14));
-		//comboBox_2.setBackground(new Color(240, 240, 240));
+		comboBox_2.setBackground(new Color(240, 240, 240));
 		add(comboBox_2);
 	
 
@@ -122,6 +123,7 @@ class DataPanel extends JPanel
 		txtAge.setBounds(362, 137, 215, 30);
 		add(txtAge);
 		txtAge.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 14));
+		txtAge.setBackground(new Color(240, 240, 240));
 		//txtAge.setBackground(new Color(255, 240, 245));
 		txtAge.setColumns(10);
 		
@@ -131,7 +133,7 @@ class DataPanel extends JPanel
 		txtName.setBorder(null);
 		txtName.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 14));
 		txtName.setColumns(10);
-		//txtName.setBackground(new Color(240, 240, 240));
+		txtName.setBackground(new Color(240, 240, 240));
 		txtName.setBounds(135, 94, 215, 30);
 		add(txtName);
 		
@@ -142,15 +144,18 @@ class DataPanel extends JPanel
 		txtSurname.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 14));
 		txtSurname.setColumns(10);
 		//txtSurname.setBackground(new Color(255, 240, 245));
+		txtSurname.setBackground(new Color(240, 240, 240));
 		txtSurname.setBounds(362, 95, 215, 30);
 		add(txtSurname);
 		
 		//zdjecie
 		
 		imgButton = new JButton("Wybierz zdjęcie");
+		imgButton.setHorizontalAlignment(SwingConstants.LEFT);
 		imgButton.setBackground(new Color(255, 255, 255));
 		imgButton.setBorder(null);
 		//imgButton.setBackground(new Color(255, 240, 245));
+		imgButton.setBackground(new Color(240, 240, 240));
 		imgButton.setBounds(360, 185, 215, 30);
 		add(imgButton);
 		

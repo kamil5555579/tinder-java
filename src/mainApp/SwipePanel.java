@@ -248,4 +248,3 @@ public class SwipePanel extends JPanel {
 		       worker.execute();
 			}
 }
-
