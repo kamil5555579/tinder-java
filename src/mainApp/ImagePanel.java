@@ -110,6 +110,7 @@ public class ImagePanel extends JPanel {
 	  public void paintComponent(Graphics g) {
 			Graphics2D g2d = (Graphics2D) g;
 			panel.repaint();
+			panel.validate();
 	    	if(bufferedImage!=null)
 	    	{
 				g2d.rotate(Math.toRadians(fi), (int) x + imgWidth / 2, (int) y + imgHeight / 2);
