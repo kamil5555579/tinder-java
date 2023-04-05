@@ -137,7 +137,7 @@ public class SwipePanel extends JPanel {
 					
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						if (bufferedImage!=null);
+						if (imgPanel!=null);
 						imgPanel.goLeft();
 					}
 				});
@@ -153,7 +153,7 @@ public class SwipePanel extends JPanel {
 					
 					@Override
 					public void actionPerformed(ActionEvent e) {
-					if (bufferedImage!=null);
+					if (imgPanel!=null);
 					imgPanel.goRight();
 					}
 				});

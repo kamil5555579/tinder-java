@@ -108,17 +108,19 @@ public class ImagePanel extends JPanel {
 	    	{
 				Graphics2D g2d = (Graphics2D) g;
 				panel.repaint();
-				double rotationRequired = Math.toRadians (fi);
-				double locationX = imgWidth / 2;
-				double locationY = imgHeight / 2;
-				AffineTransform tx = AffineTransform.getRotateInstance(rotationRequired, locationX, locationY);
-				AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
-				
-				// Drawing the rotated image at the required drawing locations
-				g2d.drawImage(op.filter(bufferedImage, null), (int) x, (int) y, null);
+				//double rotationRequired = Math.toRadians(fi);
+				//double locationX = imgWidth / 2;
+				//double locationY = imgHeight / 2;
+				//AffineTransform tx = AffineTransform.getRotateInstance(rotationRequired, locationX, locationY);
+				//AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
+
+				//g2d.drawImage(op.filter(bufferedImage, null), (int) x, (int) y, null);
+				//g2d.translate((int) x, (int) y);
+				g2d.rotate(Math.toRadians(fi), imgWidth / 2, imgHeight / 2);
+				g2d.drawImage(bufferedImage, (int) x, (int) y, null);
 	    	}
 	    	else
-	    		g.drawChars(("Czekaj ładujemy osoby").toCharArray(), 0, 21, (int) x+(imgWidth/4), (int) y+(imgHeight/4));
+	    		g.drawChars(("Nie ma więcej :(").toCharArray(), 0, 21, (int) x+(imgWidth/4), (int) y+(imgHeight/4));
 			}
 	  
 	
