@@ -37,6 +37,7 @@ import utilities.SqlConnection;
 import utilities.User;
 import java.awt.BorderLayout;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 
 public class ChatPanel extends JPanel {
 	
@@ -50,7 +51,7 @@ public class ChatPanel extends JPanel {
 	ConversationPanel conPanel;
 	JComboBox<User> comboBox;
 	
-	public ChatPanel(JPanel panel, int id) {
+	public ChatPanel(JPanel panel,  int id) {
 			
 			this.id=id;
 			//ustawienia panelu

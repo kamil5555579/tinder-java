@@ -182,6 +182,7 @@ public class LoginPanel extends JPanel
     				if (conn!= null)
     	    			conn.close();
     				frame.dispose();
+    				frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
                 } catch (Exception ex) {
                 	JOptionPane.showMessageDialog(
                             null,"Niepoprawny login lub hasło. Spróbuj ponownie.",

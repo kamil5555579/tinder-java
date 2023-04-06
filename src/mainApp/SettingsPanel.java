@@ -14,6 +14,7 @@ import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
@@ -23,14 +24,13 @@ public class SettingsPanel extends JPanel {
 	
 	private JButton buttonSwipe, buttonColor;
 	private JLabel textSettings;
-	private Color newColor;
+	Color newColor;
 	
-	public SettingsPanel(JPanel panel, int id) {
+	public SettingsPanel(JPanel panel ,JFrame frame, int id) {
 		
 		// ustawienia panelu
 		
 		setBounds(100, 100, 900, 900);
-		setBackground(new Color(210, 210, 210));
 		setBorder(new LineBorder(new Color(255, 20, 147), 3, true));
 		setLayout(null); 
 

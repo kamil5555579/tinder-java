@@ -26,17 +26,16 @@ public class CardFrame2 extends JFrame{
  
     
     
-    public CardFrame2(int id) throws HeadlessException {
+    public CardFrame2(int id) throws HeadlessException  {
 		super();
 		
 		// ustawienia
 		
 		this.id = id;
-		this.setBackground(Color.white);
 		setBounds(100, 100, 900, 900);
 		setResizable(false);
         setTitle("Tinder");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
         
         // dodawanie paneli
         
@@ -47,27 +46,31 @@ public class CardFrame2 extends JFrame{
 		//frame.setLocationRelativeTo(null);
         
         contentPane.setLayout(new CardLayout());
-        panel4 = new SwipePanel(contentPane, this, id);
+        
         panel6 = new ChatPanel(contentPane, id);
-        panel5 = new SettingsPanel(contentPane,id);
+        panel5 = new SettingsPanel(contentPane,this, id);
+        panel4 = new SwipePanel(contentPane,  id);
         contentPane.add(panel4, "Panel 4"); 
         contentPane.add(panel5, "Panel 5");
         contentPane.add(panel6, "Panel 6");
-        setContentPane(contentPane); //to nie do konca rozumiem co robi  
+        setContentPane(contentPane); 
         setLocationRelativeTo(null);
         //frame.setLocationByPlatform(true); //nie otwiera sie w rogu
         setVisible(true);
         
         // powiadomienie przy wyłączaniu
-        
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
                 super.windowClosing(e); 
-                if(JOptionPane.showConfirmDialog(null, "Czy na pewno chcesz wyjść z aplikacji?", "Potwierdzenie", JOptionPane.YES_NO_OPTION)==0){
-				}
+                if(JOptionPane.showConfirmDialog(null, "Czy na pewno chcesz wyjść z aplikacji?", "Potwierdzenie", JOptionPane.YES_NO_OPTION)!=0){
+                setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+                } else {
+                setDefaultCloseOperation(EXIT_ON_CLOSE);
+                }
             }
         });
+        
 
 	}
 

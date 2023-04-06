@@ -71,7 +71,7 @@ public class SwipePanel extends JPanel {
 	ImagePanel imgPanel;
 	JProgressBar progressBar;
 
-		    public SwipePanel(JPanel panel, JFrame frame, int id) 
+		    public SwipePanel(JPanel panel, int id) 
 		    {
 		    	super();
 		    	this.id=id;
@@ -79,7 +79,7 @@ public class SwipePanel extends JPanel {
 		    	//ustawienia panelu
 		    	
 		    	setBounds(100, 100, 900, 900);
-				//setBackground(new Color(225, 85, 160));
+				
 				setBorder(new LineBorder(new Color(255, 20, 147), 3, true));
 				setLayout(null);
 				
@@ -94,7 +94,7 @@ public class SwipePanel extends JPanel {
 				lblTinder = new JLabel("Tinder");
 				lblTinder.setForeground(new Color(255, 100, 153));
 				lblTinder.setFont(new Font("LM Sans 10", Font.BOLD | Font.ITALIC, 50));
-				lblTinder.setBounds(350, 0, 200, 100);
+				lblTinder.setBounds(350, 125, 200, 100);
 				add(lblTinder);
 	
 		        // przycisk przejscia do wiadomosci
@@ -103,7 +103,7 @@ public class SwipePanel extends JPanel {
 				buttonChat.setBorder(null);
 				buttonChat.setBackground(new Color(255, 240, 245));
 				buttonChat.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 16));
-				buttonChat.setBounds(125, 800, 300, 50);
+				buttonChat.setBounds(50, 50, 300, 50);
 				buttonChat.addActionListener( new ActionListener()
 		        {
 		            public void actionPerformed(ActionEvent e)
@@ -121,7 +121,7 @@ public class SwipePanel extends JPanel {
 				buttonSettings.setBorder(null);
 				buttonSettings.setBackground(new Color(255, 240, 245));
 				buttonSettings.setFont(new Font("Dialog", Font.BOLD, 16));
-				buttonSettings.setBounds(475, 800, 300, 50);
+				buttonSettings.setBounds(550, 50, 300, 50);
 				
 				buttonSettings.addActionListener( new ActionListener()
 		        {
@@ -143,7 +143,7 @@ public class SwipePanel extends JPanel {
 				  } catch (Exception ex) {
 				    System.out.println(ex);
 				  }
-				reject.setBounds(300,675,100,100);
+				reject.setBounds(300,750,100,100);
 				reject.setBackground(new Color(0,0,0,0));
 				add(reject);
 				reject.addActionListener(new ActionListener() {
@@ -152,7 +152,7 @@ public class SwipePanel extends JPanel {
 					public void actionPerformed(ActionEvent e) {
 						if (imgPanel!=null && imgPanel.getImage()!=null)
 						imgPanel.goLeft();
-					}
+						}
 				});
 				
 				// przycisk match
@@ -165,7 +165,7 @@ public class SwipePanel extends JPanel {
 				  } catch (Exception ex) {
 				    System.out.println(ex);
 				  }
-				match.setBounds(500,675,100,100);
+				match.setBounds(500,750,100,100);
 				match.setBackground(new Color(0,0,0,0));
 				add(match);
 				match.addActionListener(new ActionListener() {

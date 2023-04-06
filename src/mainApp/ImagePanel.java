@@ -37,8 +37,8 @@ public class ImagePanel extends JPanel {
 
 	private BufferedImage bufferedImage;
 	double x,y,fi;
-	int imgWidth=400;
-	int imgHeight=400;
+	int imgWidth=450;
+	int imgHeight=450;
 	int panelWidth=900;
 	int panelHeight=900;
 	Timer slideTimer = new Timer();
@@ -106,7 +106,7 @@ public class ImagePanel extends JPanel {
 					}
 			}}
 		});
-
+		
 		
 		
 	}
@@ -115,7 +115,7 @@ public class ImagePanel extends JPanel {
 			panel.repaint();
 			panel.validate();
 	    	if(bufferedImage!=null)
-	    	{
+	    	{	
 				g2d.rotate(Math.toRadians(fi), (int) x + imgWidth / 2, (int) y + imgHeight / 2);
 				g2d.drawImage(bufferedImage, (int) x, (int) y, null);
 				
