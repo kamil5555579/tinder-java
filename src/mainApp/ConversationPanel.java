@@ -1,8 +1,10 @@
 package mainApp;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,6 +19,7 @@ import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingWorker;
 
@@ -37,6 +40,7 @@ public class ConversationPanel extends JPanel {
 	final ScheduledExecutorService scheduler = 
 		       Executors.newScheduledThreadPool(2);
 	private JPanel panel_1;
+	Timestamp last = new Timestamp(0);
 	
 	public ConversationPanel(int id, User current) {
 		
@@ -57,7 +61,10 @@ public class ConversationPanel extends JPanel {
 		panel_1.setBounds(85, 48, 303, 400);
 		add(panel_1);
 		panel_1.setLayout(new BorderLayout(0, 0));
-		panel_1.add(vertical, BorderLayout.PAGE_START);
+		JScrollPane scrollPane = new JScrollPane(vertical);
+		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		scrollPane.setPreferredSize(new Dimension(300, 400));
+		panel_1.add(scrollPane, BorderLayout.PAGE_START);
 		vertical.add(Box.createVerticalStrut(15));
 
 		
@@ -127,8 +134,6 @@ public class ConversationPanel extends JPanel {
 	{
 		scheduler.scheduleAtFixedRate((new Runnable() {
 
-			Timestamp last = new Timestamp(0);
-			
 			@Override
 			public void run() {
     				if(current!=null)
@@ -161,6 +166,7 @@ public class ConversationPanel extends JPanel {
 			    				vertical.add(left);
 			    				left.add(textPanel, BorderLayout.LINE_START);
 		    				}
+		    				vertical.add(Box.createVerticalStrut(15));
 		    				repaint();
 		    				invalidate();
 		    				validate();
@@ -174,7 +180,7 @@ public class ConversationPanel extends JPanel {
 						e.printStackTrace();
 					}
     				}
-			}}), 0, 1, SECONDS);
+			}}), 0, 500, MILLISECONDS);
 	            
 	}
 
@@ -184,6 +190,7 @@ public class ConversationPanel extends JPanel {
 		vertical.revalidate();
 		vertical.repaint();
 		vertical.add(Box.createVerticalStrut(15));
+		last = new Timestamp(0);
 	}
 
 }

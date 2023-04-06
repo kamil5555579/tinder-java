@@ -182,7 +182,8 @@ class DataPanel extends JPanel
 			      String path = f.getAbsolutePath();
 			      ImageIcon icon = new ImageIcon(path);
 			      img = icon.getImage().getScaledInstance(400, 400, Image.SCALE_SMOOTH);
-			      imgLabel.setIcon(new ImageIcon(img));
+			      Image imgTemp = icon.getImage().getScaledInstance(215, 215, Image.SCALE_SMOOTH);
+			      imgLabel.setIcon(new ImageIcon(imgTemp));
 			      
 			}
 	
