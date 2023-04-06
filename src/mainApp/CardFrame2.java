@@ -23,6 +23,7 @@ public class CardFrame2 extends JFrame{
     private SettingsPanel panel5;
     private ChatPanel panel6;
     private static int id;
+ 
     
     
     public CardFrame2(int id) throws HeadlessException {
@@ -32,7 +33,7 @@ public class CardFrame2 extends JFrame{
 		
 		this.id = id;
 		this.setBackground(Color.white);
-		setBounds(100, 100, 1000, 1000);
+		setBounds(100, 100, 900, 900);
 		setResizable(false);
         setTitle("Tinder");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

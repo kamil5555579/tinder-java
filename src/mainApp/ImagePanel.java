@@ -1,5 +1,7 @@
 package mainApp;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
@@ -12,6 +14,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.RoundRectangle2D;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.sql.PreparedStatement;
@@ -36,8 +39,8 @@ public class ImagePanel extends JPanel {
 	double x,y,fi;
 	int imgWidth=400;
 	int imgHeight=400;
-	int panelWidth=1000;
-	int panelHeight=1000;
+	int panelWidth=900;
+	int panelHeight=900;
 	Timer slideTimer = new Timer();
 	SqlConnection sqlConn = new SqlConnection();
 	private Connection conn;
@@ -55,7 +58,7 @@ public class ImagePanel extends JPanel {
 		if(it.hasNext())
 			current=it.next();
 		this.panel = panel;
-		setSize(1000,1000);
+		setSize(900,900);
 		x = this.getWidth()/2 - imgWidth/2;
 		y = this.getHeight()/2 - imgHeight/2;
 		fi=0;
@@ -115,7 +118,15 @@ public class ImagePanel extends JPanel {
 	    	{
 				g2d.rotate(Math.toRadians(fi), (int) x + imgWidth / 2, (int) y + imgHeight / 2);
 				g2d.drawImage(bufferedImage, (int) x, (int) y, null);
-				g2d.drawString("osoba", (int) x, (int) y + imgHeight + 20);
+				
+				g2d.setPaint(new Color(255, 255, 255)); 
+				g2d.fillRect((int) x, (int) y + imgHeight, imgWidth , 75);
+				
+				g2d.setPaint(new Color(0, 0, 0)); 
+				g2d.drawString(current.getFirstname()+" "+current.getLastname(), (int) x, (int) y + imgHeight + 20);
+				g2d.drawString(current.getGender()+" ", (int) x, (int) y + imgHeight + 40);
+				g2d.drawString(Integer.toString(current.getAge())+" lat", (int) x + 100, (int) y + imgHeight + 40);
+				g2d.drawString("Studiuje "+current.getUniversity(), (int) x, (int) y + imgHeight + 60);
 	    	}
 	    	else
 	    		g2d.drawString("Nie ma więcej :(",(int) x+(imgWidth/4), (int) y+(imgHeight/4));

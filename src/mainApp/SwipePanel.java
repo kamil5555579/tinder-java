@@ -78,10 +78,11 @@ public class SwipePanel extends JPanel {
 		    	
 		    	//ustawienia panelu
 		    	
-		    	setBounds(100, 100, 1000, 1000);
+		    	setBounds(100, 100, 900, 900);
 				//setBackground(new Color(225, 85, 160));
 				setBorder(new LineBorder(new Color(255, 20, 147), 3, true));
 				setLayout(null);
+				
 				
 				// załadowanie osób
 				
@@ -93,15 +94,16 @@ public class SwipePanel extends JPanel {
 				lblTinder = new JLabel("Tinder");
 				lblTinder.setForeground(new Color(255, 100, 153));
 				lblTinder.setFont(new Font("LM Sans 10", Font.BOLD | Font.ITALIC, 50));
-				lblTinder.setBounds(400, 20, 151, 72);
+				lblTinder.setBounds(350, 0, 200, 100);
 				add(lblTinder);
 	
 		        // przycisk przejscia do wiadomosci
 				
-				buttonChat = new JButton("Messages");
+				buttonChat = new JButton("Wiadomości");
+				buttonChat.setBorder(null);
 				buttonChat.setBackground(new Color(255, 240, 245));
 				buttonChat.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 16));
-				buttonChat.setBounds(100, 800, 300, 65);
+				buttonChat.setBounds(125, 800, 300, 50);
 				buttonChat.addActionListener( new ActionListener()
 		        {
 		            public void actionPerformed(ActionEvent e)
@@ -115,10 +117,11 @@ public class SwipePanel extends JPanel {
 				
 				// przycisk przejscia do ustawień
 				
-				buttonSettings = new JButton("Settings");
+				buttonSettings = new JButton("Ustawienia");
+				buttonSettings.setBorder(null);
 				buttonSettings.setBackground(new Color(255, 240, 245));
 				buttonSettings.setFont(new Font("Dialog", Font.BOLD, 16));
-				buttonSettings.setBounds(600, 800, 300, 65);
+				buttonSettings.setBounds(475, 800, 300, 50);
 				
 				buttonSettings.addActionListener( new ActionListener()
 		        {
@@ -132,8 +135,16 @@ public class SwipePanel extends JPanel {
 
 				// przycisk reject
 
-				reject = new JButton("reject");
-				reject.setBounds(300,740,100,50);
+				reject = new JButton();
+				reject.setBorder(null);
+				try {
+				    Image img = ImageIO.read(getClass().getResource("break.png"));
+				    reject.setIcon(new ImageIcon(img));
+				  } catch (Exception ex) {
+				    System.out.println(ex);
+				  }
+				reject.setBounds(300,675,100,100);
+				reject.setBackground(new Color(0,0,0,0));
 				add(reject);
 				reject.addActionListener(new ActionListener() {
 					
@@ -146,8 +157,16 @@ public class SwipePanel extends JPanel {
 				
 				// przycisk match
 				
-				match = new JButton("match");
-				match.setBounds(450,740,100,50);
+				match = new JButton();
+				match.setBorder(null);
+				try {
+				    Image img = ImageIO.read(getClass().getResource("full.png"));
+				    match.setIcon(new ImageIcon(img));
+				  } catch (Exception ex) {
+				    System.out.println(ex);
+				  }
+				match.setBounds(500,675,100,100);
+				match.setBackground(new Color(0,0,0,0));
 				add(match);
 				match.addActionListener(new ActionListener() {
 					
@@ -161,12 +180,14 @@ public class SwipePanel extends JPanel {
 				// progress
 				
 				progressBar = new JProgressBar();
-				progressBar.setBounds(400, 366, 203, 32);
+				progressBar.setForeground(new Color(255, 20, 147));
+				progressBar.setBounds(350, 350, 203, 32);
 				add(progressBar);
 				progressBar.setIndeterminate(true);
 						
-				lblWait = new JLabel("czekaj");
-				lblWait.setBounds(400, 336, 203, 20);
+				lblWait = new JLabel("Czekaj!!!");
+				lblWait.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 14));
+				lblWait.setBounds(400, 325, 203, 20);
 				add(lblWait);
 				
 		    }  
