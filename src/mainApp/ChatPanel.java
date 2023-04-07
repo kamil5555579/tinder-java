@@ -38,10 +38,11 @@ import utilities.User;
 import java.awt.BorderLayout;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.SwingConstants;
 
 public class ChatPanel extends JPanel {
 	
-	private JButton buttonSwipe;
+	private JButton buttonSwipe, buttonSettings;
 	SqlConnection sqlConn = new SqlConnection();
 	private Connection conn;
 	User current;
@@ -50,6 +51,7 @@ public class ChatPanel extends JPanel {
 	int id;
 	ConversationPanel conPanel;
 	JComboBox<User> comboBox;
+	JLabel textChat;
 	
 	public ChatPanel(JPanel panel,  int id) {
 			
@@ -62,27 +64,53 @@ public class ChatPanel extends JPanel {
 			//setLayout(null);
 			initializeOthers(id);
 			
-			// powrót do okna głównego
-				
-			buttonSwipe = new JButton("Return");
+			
+			// przycisk przejscia do ustawień
+			
+			buttonSettings = new JButton("Ustawienia");
+			buttonSettings.setBorder(null);
+			buttonSettings.setBackground(new Color(255, 240, 245));
+			buttonSettings.setFont(new Font("Dialog", Font.BOLD, 16));
+			buttonSettings.setBounds(550, 50, 300, 50);;
+			
+			buttonSettings.addActionListener( new ActionListener()
+	        {
+	            public void actionPerformed(ActionEvent e)
+	            {
+	                CardLayout cardLayout = (CardLayout) panel.getLayout();
+	                cardLayout.previous(panel);
+	            }
+	        });
+	        setLayout(null);
+	        add(buttonSettings);
+
+			buttonSwipe = new JButton("Swipe");
+			buttonSwipe.setBorder(null);
 			buttonSwipe.setBackground(new Color(255, 240, 245));
 			buttonSwipe.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 16));
-			buttonSwipe.setBounds(368, 8, 83, 29);
+			buttonSwipe.setBounds(50, 50, 300, 50);
 			buttonSwipe.addActionListener( new ActionListener()
-		       {
-		         public void actionPerformed(ActionEvent e)
-		          {
-		              CardLayout cardLayout = (CardLayout) panel.getLayout();
-		              cardLayout.next(panel);
-		          }
-		       });
-		    setLayout(null);
-		    add(buttonSwipe);
+	        {
+	            public void actionPerformed(ActionEvent e)
+	            {
+	                CardLayout cardLayout = (CardLayout) panel.getLayout();
+	                cardLayout.next(panel);
+	            }
+	        });
+			add(buttonSwipe);
 		    
+			 textChat = new JLabel();
+			 textChat.setHorizontalAlignment(SwingConstants.CENTER);
+			 textChat.setText("Czat");
+			 textChat.setBounds(300, 0, 300, 50);
+			 textChat.setForeground(Color.WHITE);
+			 textChat.setFont(new Font("LM Sans 10", Font.BOLD | Font.ITALIC, 50));
+		     add(textChat);
+			
 		    // wybór osoby do czatowania
 		    
 		    comboBox = new JComboBox<User>();
-		    comboBox.setBounds(103, 94, 124, 21);
+		    comboBox.setBounds(50, 125, 200, 25);
 		    add(comboBox);
 		    comboBox.addActionListener(new ActionListener() {
 				
@@ -91,7 +119,7 @@ public class ChatPanel extends JPanel {
 					if(conPanel == null)
 					{
 						conPanel = new ConversationPanel(id, (User) comboBox.getSelectedItem());
-	    				conPanel.setBounds(350, 100, 500, 500);
+	    				conPanel.setBounds(5, 150, 890, 725);
 	    				add(conPanel);
 					}
 					else
