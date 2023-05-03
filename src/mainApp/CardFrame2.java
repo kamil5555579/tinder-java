@@ -32,7 +32,7 @@ public class CardFrame2 extends JFrame{
 		// ustawienia
 		
 		this.id = id;
-		setBounds(100, 100, 900, 900);
+		setBounds(0, 0, 900, 800);
 		setResizable(false);
         setTitle("Tinder");
         

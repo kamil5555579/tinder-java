@@ -2,6 +2,7 @@ package mainApp;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
@@ -37,10 +38,10 @@ public class ImagePanel extends JPanel {
 
 	private BufferedImage bufferedImage;
 	double x,y,fi;
-	int imgWidth=450;
-	int imgHeight=450;
+	int imgWidth=400;
+	int imgHeight=400;
 	int panelWidth=900;
-	int panelHeight=900;
+	int panelHeight=800;
 	Timer slideTimer = new Timer();
 	SqlConnection sqlConn = new SqlConnection();
 	private Connection conn;
@@ -58,9 +59,9 @@ public class ImagePanel extends JPanel {
 		if(it.hasNext())
 			current=it.next();
 		this.panel = panel;
-		setSize(900,900);
+		setSize(900,800);
 		x = this.getWidth()/2 - imgWidth/2;
-		y = this.getHeight()/2 - imgHeight/2;
+		y = this.getHeight()/2 - imgHeight/2-50;
 		fi=0;
 		setImage(current.getImage());
 		repaint();
@@ -123,6 +124,7 @@ public class ImagePanel extends JPanel {
 				g2d.fillRect((int) x, (int) y + imgHeight, imgWidth , 75);
 				
 				g2d.setPaint(new Color(0, 0, 0)); 
+				g2d.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 10));
 				g2d.drawString(current.getFirstname()+" "+current.getLastname(), (int) x, (int) y + imgHeight + 20);
 				g2d.drawString(current.getGender()+" ", (int) x, (int) y + imgHeight + 40);
 				g2d.drawString(Integer.toString(current.getAge())+" lat", (int) x + 100, (int) y + imgHeight + 40);
@@ -183,7 +185,7 @@ public class ImagePanel extends JPanel {
 		                	 if(x>=panelWidth)
 		                	 {
 		                		 x = panelWidth/2 - imgWidth/2;
-		                		 y = panelHeight/2- imgHeight/2;
+		                		 y = panelHeight/2- imgHeight/2 - 50;
 		                		 fi=0;
 		                		 if(it.hasNext())
 		 						{
@@ -228,7 +230,7 @@ public class ImagePanel extends JPanel {
 		                	 if(x<=-imgWidth)
 		                	 {
 		                		 x = panelWidth/2 - imgWidth/2;
-		                		 y = panelHeight/2- imgHeight/2;
+		                		 y = panelHeight/2- imgHeight/2 - 50;
 		                		 fi=0;
 		                		 if(it.hasNext())
 		 						{

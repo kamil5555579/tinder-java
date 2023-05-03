@@ -30,7 +30,7 @@ public class SettingsPanel extends JPanel {
 		
 		// ustawienia panelu
 		
-		setBounds(100, 100, 900, 900);
+		setBounds(0, 0, 900, 800);
 		setBorder(new LineBorder(new Color(255, 20, 147), 3, true));
 		setLayout(null); 
 
