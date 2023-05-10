@@ -53,8 +53,8 @@ public class ChatPanel extends JPanel {
 	ConversationPanel conPanel;
 	JComboBox<User> comboBox;
 
-	private JLabel lblChat;
-
+	private JLabel lblChat,textChat;
+	
 	
 	public ChatPanel(JPanel panel,  int id) {
 		
