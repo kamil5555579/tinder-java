@@ -22,7 +22,7 @@ import javax.swing.JTextField;
 
 public class SettingsPanel extends JPanel {
 	
-	private JButton buttonSwipe, buttonColor;
+	private JButton buttonSwipe, buttonColor, buttonChat;
 	private JLabel textSettings;
 	Color newColor;
 	
@@ -34,10 +34,26 @@ public class SettingsPanel extends JPanel {
 		setBorder(new LineBorder(new Color(255, 20, 147), 3, true));
 		setLayout(null); 
 
-		buttonSwipe = new JButton("Zpisz zmiany");
+		buttonChat = new JButton("Wiadomości");
+		buttonChat.setBorder(null);
+		buttonChat.setBackground(new Color(255, 240, 245));
+		buttonChat.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 16));
+		buttonChat.setBounds(50, 50, 300, 50);
+		buttonChat.addActionListener( new ActionListener()
+        {
+            public void actionPerformed(ActionEvent e)
+            {
+                CardLayout cardLayout = (CardLayout) panel.getLayout();
+                cardLayout.next(panel);
+            }
+        });
+		add(buttonChat);
+		
+		buttonSwipe = new JButton("Swipe");
+		buttonSwipe.setBorder(null);
 		buttonSwipe.setBackground(new Color(255, 240, 245));
 		buttonSwipe.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 16));
-		buttonSwipe.setBounds(350, 700, 225, 65);
+		buttonSwipe.setBounds(550, 50, 300, 50);
 		buttonSwipe.addActionListener( new ActionListener()
         {
             public void actionPerformed(ActionEvent e)
@@ -46,12 +62,11 @@ public class SettingsPanel extends JPanel {
                 cardLayout.previous(panel);
             }
         });
-		
-        add(buttonSwipe);
+		add(buttonSwipe);
         
         textSettings = new JLabel();
         textSettings.setText("Ustawienia");
-        textSettings.setBounds(300, 0, 300, 100);
+        textSettings.setBounds(300, 0, 300, 50);
         textSettings.setForeground(Color.WHITE);
 		textSettings.setFont(new Font("LM Sans 10", Font.BOLD | Font.ITALIC, 50));
         add(textSettings);

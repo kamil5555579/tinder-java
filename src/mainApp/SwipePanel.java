@@ -52,8 +52,8 @@ public class SwipePanel extends JPanel {
 	
 	private BufferedImage bufferedImage;
 	double x,y,fi;
-	int imgWidth=400;
-	int imgHeight=400;
+	int imgWidth=450;
+	int imgHeight=450;
 	int panelWidth;
 	int panelHeight;
 	Timer slideTimer = new Timer();

@@ -4,6 +4,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
@@ -25,7 +26,9 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.JTextPane;
 import javax.swing.SwingWorker;
 import javax.swing.border.EmptyBorder;
 
@@ -42,6 +45,7 @@ import java.awt.Color;
 import javax.swing.SwingConstants;
 import java.awt.SystemColor;
 
+
 public class ConversationPanel extends JPanel {
 
 	int id;
@@ -57,6 +61,7 @@ public class ConversationPanel extends JPanel {
 	Timestamp last = new Timestamp(0);
 	
 	public ConversationPanel(int id, User current) {
+		setBorder(null);
 		
 		
 		this.id = id;
@@ -66,22 +71,28 @@ public class ConversationPanel extends JPanel {
 		// czat z
 		
 		label2 = new JLabel();
+
 		label2.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 16));
 	    label2.setText("Czat z:" + current.getFirstname());
 	    label2.setBounds(250, 0, 250, 50);
+
 		add(label2);
 		
 		// panel wewnętrzny z wiadomościami
 		
 		panel_1 = new JPanel();
+
 		panel_1.setBounds(0, 50, 650, 500);
 		panel_1.setBackground(new Color(240, 240, 240));
+
 		add(panel_1);
 		panel_1.setLayout(new BorderLayout());
 		JScrollPane scrollPane = new JScrollPane(vertical);
 		scrollPane.setBackground(SystemColor.text);
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+
 		scrollPane.setPreferredSize(new Dimension(650, 500));
+
 		panel_1.add(scrollPane, BorderLayout.PAGE_START);
 		vertical.add(Box.createVerticalStrut(15));
 
@@ -89,6 +100,7 @@ public class ConversationPanel extends JPanel {
 		// wiadomość
 		
 		JTextField msgField = new JTextField("");
+
 		msgField.setBorder(null);
 		msgField.setFont(new Font("Dialog", Font.ITALIC, 14));
 		msgField.setBounds(25, 570, 400, 40);
@@ -99,6 +111,7 @@ public class ConversationPanel extends JPanel {
 		sendBtn.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 16));
 		sendBtn.setBackground(new Color(255, 240, 245));
 		sendBtn.setBounds(460, 570, 175, 40);
+
 		add(sendBtn);
 		sendBtn.addActionListener(new ActionListener() {
 			
@@ -151,6 +164,7 @@ public class ConversationPanel extends JPanel {
 	{
 		this.current = current;
 		label2.setText("czat z:" + current.getFirstname());
+		
 	}
 	
 	void startRunning()
@@ -174,6 +188,7 @@ public class ConversationPanel extends JPanel {
 		    			while(rs.next())
 		    			{
 		    				String text = rs.getString("text");
+
 		    				JLabel output = new JLabel("<html><p style=\"width: 150px\">"+text+"</p></html>");
 		    				JPanel textPanel = new JPanel();
 		    				textPanel.setLayout(new BoxLayout(textPanel, BoxLayout.Y_AXIS));
@@ -192,6 +207,7 @@ public class ConversationPanel extends JPanel {
 		    				time.setText("	"+sdf.format(cal.getTime()));
 		    				textPanel.add(time);
 		    				
+
 		    				if(rs.getInt("sender_id")==id)
 		    				{
 		    					JPanel right = new JPanel(new BorderLayout());
@@ -201,6 +217,7 @@ public class ConversationPanel extends JPanel {
 			    				output.setForeground(Color.WHITE);
 			    				
 		    					right.add(textPanel, BorderLayout.LINE_END);
+
 		    				}
 		    				else
 		    				{
@@ -211,6 +228,7 @@ public class ConversationPanel extends JPanel {
 			    				output.setForeground(Color.GRAY);
 			    				
 			    				left.add(textPanel, BorderLayout.LINE_START);
+
 		    				}
 		    				vertical.add(Box.createVerticalStrut(15));
 		    				repaint();
