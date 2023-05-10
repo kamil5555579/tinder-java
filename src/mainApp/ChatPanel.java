@@ -12,6 +12,7 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.RoundRectangle2D;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -51,16 +52,25 @@ public class ChatPanel extends JPanel {
 	int id;
 	ConversationPanel conPanel;
 	JComboBox<User> comboBox;
-	JLabel textChat;
+
+	private JLabel lblChat;
+
 	
 	public ChatPanel(JPanel panel,  int id) {
+		
+		lblChat = new JLabel("Wiadomości");
+		lblChat.setForeground(new Color(255, 100, 153));
+		lblChat.setFont(new Font("LM Sans 10", Font.BOLD | Font.ITALIC, 30));
+		lblChat.setBounds(350, 0, 200, 75);
+		add(lblChat);
 			
 			this.id=id;
 			//ustawienia panelu
 				
-			setBounds(100, 100, 900, 900);
+			setBounds(0, 0, 900, 800);
 			//setBackground(new Color(255, 153, 204));
 			setBorder(new LineBorder(new Color(255, 20, 147), 3, true));
+			
 			//setLayout(null);
 			initializeOthers(id);
 			
@@ -88,7 +98,9 @@ public class ChatPanel extends JPanel {
 			buttonSwipe.setBorder(null);
 			buttonSwipe.setBackground(new Color(255, 240, 245));
 			buttonSwipe.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 16));
-			buttonSwipe.setBounds(50, 50, 300, 50);
+
+			buttonSwipe.setBounds(656, 12, 140, 50);
+
 			buttonSwipe.addActionListener( new ActionListener()
 	        {
 	            public void actionPerformed(ActionEvent e)
@@ -110,7 +122,11 @@ public class ChatPanel extends JPanel {
 		    // wybór osoby do czatowania
 		    
 		    comboBox = new JComboBox<User>();
-		    comboBox.setBounds(50, 125, 200, 25);
+
+		    comboBox.setBackground(new Color(255, 240, 245));
+		    comboBox.setFont(new Font("Dialog", Font.ITALIC, 12));
+		    comboBox.setBounds(125, 65, 200, 25);
+
 		    add(comboBox);
 		    comboBox.addActionListener(new ActionListener() {
 				
@@ -119,7 +135,9 @@ public class ChatPanel extends JPanel {
 					if(conPanel == null)
 					{
 						conPanel = new ConversationPanel(id, (User) comboBox.getSelectedItem());
-	    				conPanel.setBounds(5, 150, 890, 725);
+
+	    				conPanel.setBounds(125, 100, 650, 625);
+
 	    				add(conPanel);
 					}
 					else
@@ -178,4 +196,30 @@ public class ChatPanel extends JPanel {
        
        worker.execute();
 	}
+	
+	public void paintComponent(Graphics g) {
+	      super.paintComponent(g);
+	      
+	      Graphics2D g2 = (Graphics2D)g;
+
+	      Rectangle2D r2=new Rectangle2D.Double(0,0,getWidth(),getHeight());
+
+	      Color c0=new Color(245, 245, 245), c1= new Color(255, 240, 245);
+
+	      GradientPaint  gp = new GradientPaint(150, 200, c1, 450, 200, c0, false);
+	      g2.setPaint(gp);
+	      g2.fill(r2);
+	      
+	      g2.setPaint(new Color(240, 240, 240)); //szary
+	 
+	      g2.fill(new RoundRectangle2D.Double(120, 95, 660, 635, 40, 40));
+	      
+	      /*
+	      g2.setPaint(new Color(255, 240, 245)); // jasnorozowy
+	      g2.fill(new RoundRectangle2D.Double(100, 420, 230, 50, 40, 40));
+	      g2.fill(new RoundRectangle2D.Double(355, 420, 230, 50, 40, 40));
+	      */
+	     }
 }
+
+

@@ -78,7 +78,7 @@ public class SwipePanel extends JPanel {
 		    	
 		    	//ustawienia panelu
 		    	
-		    	setBounds(100, 100, 900, 900);
+		    	setBounds(0, 0, 900, 800);
 				
 				setBorder(new LineBorder(new Color(255, 20, 147), 3, true));
 				setLayout(null);
@@ -94,16 +94,36 @@ public class SwipePanel extends JPanel {
 				lblTinder = new JLabel("Tinder");
 				lblTinder.setForeground(new Color(255, 100, 153));
 				lblTinder.setFont(new Font("LM Sans 10", Font.BOLD | Font.ITALIC, 50));
-				lblTinder.setBounds(350, 125, 200, 100);
+				lblTinder.setBounds(350, 25, 200, 100);
 				add(lblTinder);
 	
 		        // przycisk przejscia do wiadomosci
 				
+				buttonChat = new JButton();
+				buttonChat.setBorder(null);
+				try {
+				    Image img = ImageIO.read(getClass().getResource("fly2.png"));
+				    buttonChat.setIcon(new ImageIcon(img));
+				  } catch (Exception ex) {
+				    System.out.println(ex);
+				  }
+				buttonChat.setBounds(50, 25, 100, 100);
+				buttonChat.setBackground(new Color(0,0,0,0));
+				add(buttonChat);
+				buttonChat.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e)
+		            {
+		                CardLayout cardLayout = (CardLayout) panel.getLayout();
+		                cardLayout.previous(panel);
+		            }
+				});
+				
+				/*
 				buttonChat = new JButton("Wiadomości");
 				buttonChat.setBorder(null);
 				buttonChat.setBackground(new Color(255, 240, 245));
 				buttonChat.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 16));
-				buttonChat.setBounds(50, 50, 300, 50);
+				buttonChat.setBounds(50, 25, 300, 50);
 				buttonChat.addActionListener( new ActionListener()
 		        {
 		            public void actionPerformed(ActionEvent e)
@@ -113,6 +133,8 @@ public class SwipePanel extends JPanel {
 		            }
 		        });
 				add(buttonChat);
+				*/
+				
 				
 				
 				// przycisk przejscia do ustawień
@@ -121,7 +143,7 @@ public class SwipePanel extends JPanel {
 				buttonSettings.setBorder(null);
 				buttonSettings.setBackground(new Color(255, 240, 245));
 				buttonSettings.setFont(new Font("Dialog", Font.BOLD, 16));
-				buttonSettings.setBounds(550, 50, 300, 50);
+				buttonSettings.setBounds(550, 25, 300, 50);
 				
 				buttonSettings.addActionListener( new ActionListener()
 		        {
@@ -131,6 +153,7 @@ public class SwipePanel extends JPanel {
 		                cardLayout.next(panel);
 		            }
 		        });
+				
 		        add(buttonSettings);
 
 				// przycisk reject
@@ -143,7 +166,7 @@ public class SwipePanel extends JPanel {
 				  } catch (Exception ex) {
 				    System.out.println(ex);
 				  }
-				reject.setBounds(300,750,100,100);
+				reject.setBounds(300,650,100,100);
 				reject.setBackground(new Color(0,0,0,0));
 				add(reject);
 				reject.addActionListener(new ActionListener() {
@@ -165,7 +188,7 @@ public class SwipePanel extends JPanel {
 				  } catch (Exception ex) {
 				    System.out.println(ex);
 				  }
-				match.setBounds(500,750,100,100);
+				match.setBounds(500,650,100,100);
 				match.setBackground(new Color(0,0,0,0));
 				add(match);
 				match.addActionListener(new ActionListener() {
@@ -266,7 +289,7 @@ public class SwipePanel extends JPanel {
 			    			if(it.hasNext())
 							{
 			    				imgPanel = new ImagePanel(id, it, SwipePanel.this);
-			    				imgPanel.setBounds(0, 0, 1000, 1000);
+			    				imgPanel.setBounds(0, 0, 900, 800);
 			    				add(imgPanel);
 			    				progressBar.setVisible(false);
 			    				lblWait.setVisible(false);
