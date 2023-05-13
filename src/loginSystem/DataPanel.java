@@ -220,6 +220,30 @@ class DataPanel extends JPanel
 
 					@Override
 					public void actionPerformed(ActionEvent e) {
+						
+						
+						if(txtName.getText().equals("Imię")||txtSurname.getText().equals("Nazwisko")||f==null) {
+							if (txtName.getText().equals("Imię")) {
+							JOptionPane.showMessageDialog(
+		                            null,"Nie podano imienia. Podaj imię!",
+		                            "Błąd uzupełniania danych",
+		                            JOptionPane.ERROR_MESSAGE);
+							}
+							if (txtSurname.getText().equals("Nazwisko")) {
+								JOptionPane.showMessageDialog(
+			                            null,"Nie podano nazwiska. Podaj nazwisko!",
+			                            "Błąd uzupełniania danych",
+			                            JOptionPane.ERROR_MESSAGE);
+								}
+							if (f==null) {
+								JOptionPane.showMessageDialog(
+			                            null,"Nie wybrano zdjęcia. Wybierz zdjęcie!",
+			                            "Błąd uzupełniania danych",
+			                            JOptionPane.ERROR_MESSAGE);
+							}
+							
+							
+						} else {
 						String firstname = txtName.getText();
 						String lastname = txtSurname.getText();
 						String university = (String) comboBox_2.getSelectedItem();
@@ -233,6 +257,7 @@ class DataPanel extends JPanel
 		                            JOptionPane.ERROR_MESSAGE);
 						}else {
 							
+
 						try {
 							ByteArrayOutputStream os = new ByteArrayOutputStream();
 							BufferedImage bufferedImage = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_RGB);
@@ -252,9 +277,10 @@ class DataPanel extends JPanel
 						save(firstname, lastname, university, is, frame, gender, age, description);
 						
 						}
+						
 					}
 			
-				});
+				}});
 		
         add(btnRegister);
         

@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
+import javax.imageio.ImageIO;
 import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -76,7 +77,7 @@ public class ChatPanel extends JPanel {
 			
 			
 			// przycisk przejscia do ustawień
-			
+			/*
 			buttonSettings = new JButton("Ustawienia");
 			buttonSettings.setBorder(null);
 			buttonSettings.setBackground(new Color(255, 240, 245));
@@ -91,16 +92,25 @@ public class ChatPanel extends JPanel {
 	                cardLayout.previous(panel);
 	            }
 	        });
-	        setLayout(null);
+	        
+	        
 	        add(buttonSettings);
-
-			buttonSwipe = new JButton("Swipe");
+	        */
+			setLayout(null);
+			
+			buttonSwipe = new JButton();
 			buttonSwipe.setBorder(null);
-			buttonSwipe.setBackground(new Color(255, 240, 245));
-			buttonSwipe.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 16));
+			buttonSwipe.setBackground(new Color(0, 0, 0,0));
+		
+			buttonSwipe.setBounds(775, 25, 100, 100);
 
-			buttonSwipe.setBounds(656, 12, 140, 50);
-
+			try {
+			    Image img = ImageIO.read(getClass().getResource("back2.png"));
+			    buttonSwipe.setIcon(new ImageIcon(img));
+			  } catch (Exception ex) {
+			    System.out.println(ex);
+			  }
+			
 			buttonSwipe.addActionListener( new ActionListener()
 	        {
 	            public void actionPerformed(ActionEvent e)
@@ -111,6 +121,7 @@ public class ChatPanel extends JPanel {
 	        });
 			add(buttonSwipe);
 		    
+			/*
 			 textChat = new JLabel();
 			 textChat.setHorizontalAlignment(SwingConstants.CENTER);
 			 textChat.setText("Czat");
@@ -118,6 +129,7 @@ public class ChatPanel extends JPanel {
 			 textChat.setForeground(Color.WHITE);
 			 textChat.setFont(new Font("LM Sans 10", Font.BOLD | Font.ITALIC, 50));
 		     add(textChat);
+		     */
 			
 		    // wybór osoby do czatowania
 		    

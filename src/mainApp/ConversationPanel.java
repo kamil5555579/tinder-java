@@ -198,13 +198,13 @@ public class ConversationPanel extends JPanel {
 		    				output.setOpaque(true);
 		    				textPanel.add(output);
 		    				
-		    				Calendar cal = Calendar.getInstance();   
-		    				SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+		    				   
+		    				SimpleDateFormat sdf = new SimpleDateFormat("d.MM.yyyy HH:mm:ss");
 		    				
 		    				JLabel time = new JLabel();
-		    				time.setFont(new Font("Dialog", Font.PLAIN| Font.ITALIC, 8));
-		    				time.setForeground(Color.LIGHT_GRAY);
-		    				time.setText("	"+sdf.format(cal.getTime()));
+		    				time.setFont(new Font("Dialog", Font.PLAIN| Font.ITALIC, 9));
+		    				time.setForeground(Color.GRAY);
+		    				time.setText("	"+sdf.format(rs.getTimestamp("date")));
 		    				textPanel.add(time);
 		    				
 

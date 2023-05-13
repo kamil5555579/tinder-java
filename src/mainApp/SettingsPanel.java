@@ -81,6 +81,7 @@ public class SettingsPanel extends JPanel {
 
 		//przycisk przejścia do wiadomości
 		
+
 		buttonChat = new JButton("Wiadomości");
 		buttonChat.setBorder(null);
 		buttonChat.setBackground(new Color(255, 240, 245));
@@ -95,14 +96,20 @@ public class SettingsPanel extends JPanel {
             }
         });
 		add(buttonChat);
-		
+
 		// przycisk przejścia do swipowania
 		
 		buttonSwipe = new JButton("Swipe");
 		buttonSwipe.setBorder(null);
-		buttonSwipe.setBackground(new Color(255, 240, 245));
-		buttonSwipe.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 16));
-		buttonSwipe.setBounds(550, 50, 300, 50);
+		buttonSwipe.setBackground(new Color(0,0,0,0));
+		
+		buttonSwipe.setBounds(25, 25, 100, 100);
+		try {
+		    Image img = ImageIO.read(getClass().getResource("back3.png"));
+		    buttonSwipe.setIcon(new ImageIcon(img));
+		  } catch (Exception ex) {
+		    System.out.println(ex);
+		  }
 		buttonSwipe.addActionListener( new ActionListener()
         {
             public void actionPerformed(ActionEvent e)
@@ -118,15 +125,14 @@ public class SettingsPanel extends JPanel {
 		
         textSettings = new JLabel();
         textSettings.setText("Ustawienia");
-        textSettings.setBounds(300, 0, 300, 50);
-        textSettings.setForeground(Color.WHITE);
-		textSettings.setFont(new Font("LM Sans 10", Font.BOLD | Font.ITALIC, 50));
+        textSettings.setBounds(400, 15, 300, 50);
+        textSettings.setForeground(new Color(255, 100, 153));
+		textSettings.setFont(new Font("LM Sans 10", Font.BOLD | Font.ITALIC, 40));
         add(textSettings);
-        
-        // ustawianie tła
         
         buttonColor=new JButton ("Wybierz kolor tła");
         buttonColor.setLocation(350, 600);
+        buttonColor.setBackground(Color.white);
         buttonColor.setSize(250, 50);
         buttonColor.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
@@ -352,21 +358,31 @@ public class SettingsPanel extends JPanel {
         
 	
 	
-	 public void paintComponent(Graphics g) {
+	public void paintComponent(Graphics g) {
 	      super.paintComponent(g);
 	      
 	      Graphics2D g2 = (Graphics2D)g;
-	    
+
+	      Rectangle2D r2=new Rectangle2D.Double(0,0,getWidth(),getHeight());
+
+	      Color c0=new Color(245, 245, 245), c1= new Color(255, 240, 245);
+
+	      GradientPaint  gp = new GradientPaint(150, 200, c1, 450, 200, c0, false);
+	      g2.setPaint(gp);
+	      g2.fill(r2);
+	      
 	      g2.setPaint(new Color(240, 240, 240)); //szary
 	 
-	      g2.fill(new RoundRectangle2D.Double(50, 100, 800, 725, 40, 40));
+	      g2.fill(new RoundRectangle2D.Double(120, 95, 660, 635, 40, 40));
 	      
-	      
+	      /*
 	      g2.setPaint(new Color(255, 240, 245)); // jasnorozowy
-	      g2.fill(new RoundRectangle2D.Double(300, 600, 230, 50, 40, 40));
-	      
-	      
+	      g2.fill(new RoundRectangle2D.Double(100, 420, 230, 50, 40, 40));
+	      g2.fill(new RoundRectangle2D.Double(355, 420, 230, 50, 40, 40));
+	      */
 	     }
+	
+
 	 }
 
 
