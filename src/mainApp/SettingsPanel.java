@@ -127,11 +127,11 @@ public class SettingsPanel extends JPanel {
 		
         textSettings = new JLabel();
         textSettings.setText("Ustawienia");
-        textSettings.setBounds(400, 15, 300, 50);
+        textSettings.setBounds(350, 15, 300, 50);
         textSettings.setForeground(new Color(255, 100, 153));
 		textSettings.setFont(new Font("LM Sans 10", Font.BOLD | Font.ITALIC, 40));
         add(textSettings);
-        
+        /*
         buttonColor=new JButton ("Wybierz kolor tła");
         buttonColor.setLocation(350, 600);
         buttonColor.setBackground(Color.white);
@@ -144,14 +144,14 @@ public class SettingsPanel extends JPanel {
 		}); // fancy z wykładu
 		
 		add(buttonColor);
-		
+		*/
 		//opis
 		
 				txtDescription = new JTextPane();
 				//txtDescription.setHorizontalAlignment(SwingConstants.LEFT);
 				txtDescription.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 				txtDescription.setCaretColor(new Color(0, 0, 0));
-				txtDescription.setBounds(135, 240, 215, 210);
+				txtDescription.setBounds(135, 320, 250, 230);
 				txtDescription.setBackground(new Color(240, 240, 240));
 				add(txtDescription);
 				txtDescription.setFont(new Font("Dialog", Font.ITALIC, 12));
@@ -164,10 +164,10 @@ public class SettingsPanel extends JPanel {
 		  	    "Inna" };
 				comboBox = new JComboBox(gender);
 				comboBox.setBackground(new Color(240, 240, 240));
-				comboBox.setBounds(135, 137, 215, 30);
+				comboBox.setBounds(150, 200, 215, 30);
 				add(comboBox);
 				//comboBox.setBackground(new Color(255, 240, 245));
-				comboBox.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 14));
+				comboBox.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 16));
 				
 				//wybór wydziału
 				
@@ -178,8 +178,8 @@ public class SettingsPanel extends JPanel {
 				comboBox_2.setBackground(new Color(255, 255, 255));
 				//comboBox_2.setOpaque(true);
 				comboBox_2.setBorder(null);
-				comboBox_2.setBounds(135, 185, 215, 30);
-				comboBox_2.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 14));
+				comboBox_2.setBounds(150, 250, 215, 30);
+				comboBox_2.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 16));
 				comboBox_2.setBackground(new Color(240, 240, 240));
 				add(comboBox_2);
 			
@@ -190,9 +190,9 @@ public class SettingsPanel extends JPanel {
 				
 				txtAge = new PTextField("Wiek");
 				txtAge.setBorder(null);
-				txtAge.setBounds(362, 137, 215, 30);
+				txtAge.setBounds(450, 200, 215, 30);
 				add(txtAge);
-				txtAge.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 14));
+				txtAge.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 16));
 				txtAge.setBackground(new Color(240, 240, 240));
 				//txtAge.setBackground(new Color(255, 240, 245));
 				txtAge.setColumns(10);
@@ -201,21 +201,21 @@ public class SettingsPanel extends JPanel {
 				
 				txtName = new PTextField("Imię");
 				txtName.setBorder(null);
-				txtName.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 14));
+				txtName.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 16));
 				txtName.setColumns(10);
 				txtName.setBackground(new Color(240, 240, 240));
-				txtName.setBounds(135, 94, 215, 30);
+				txtName.setBounds(150, 150, 215, 30);
 				add(txtName);
 				
 				//nazwisko
 				
 				txtSurname = new PTextField("Nazwisko");
 				txtSurname.setBorder(null);
-				txtSurname.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 14));
+				txtSurname.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 16));
 				((JTextField) txtSurname).setColumns(10);
 				//txtSurname.setBackground(new Color(255, 240, 245));
 				txtSurname.setBackground(new Color(240, 240, 240));
-				txtSurname.setBounds(362, 95, 215, 30);
+				txtSurname.setBounds(450, 150, 215, 30);
 				add(txtSurname);
 				
 				//zdjecie
@@ -226,11 +226,11 @@ public class SettingsPanel extends JPanel {
 				imgButton.setBorder(null);
 				//imgButton.setBackground(new Color(255, 240, 245));
 				imgButton.setBackground(new Color(240, 240, 240));
-				imgButton.setBounds(360, 185, 215, 30);
+				imgButton.setBounds(450, 250, 215, 30);
 				add(imgButton);
 				
 				imgLabel = new JLabel("");
-				imgLabel.setBounds(360,240,215,215);
+				imgLabel.setBounds(450,300,250,250);
 				add(imgLabel);
 				
 				imgButton.addActionListener(new ActionListener()
@@ -257,7 +257,7 @@ public class SettingsPanel extends JPanel {
 				btnRegister = new JButton("Zapisz");
 				btnRegister.setBackground(new Color(255, 240, 245));
 				btnRegister.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 18));
-				btnRegister.setBounds(120, 490, 475, 40);
+				btnRegister.setBounds(200, 600, 475, 40);
 				btnRegister.setBorder(null);
 				add(btnRegister);
 				
@@ -306,8 +306,14 @@ public class SettingsPanel extends JPanel {
 		        
 		        JLabel lblOpowiedzOSobie = new JLabel("Opowiedz o sobie");
 		        lblOpowiedzOSobie.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 14));
-		        lblOpowiedzOSobie.setBounds(165, 220, 180, 25);
+		        lblOpowiedzOSobie.setBounds(165, 300, 180, 25);
 		        add(lblOpowiedzOSobie);
+		        
+		        JLabel lblEdytujSwjProfil = new JLabel("Edytuj Swój profil!");
+		        lblEdytujSwjProfil.setHorizontalAlignment(SwingConstants.CENTER);
+		        lblEdytujSwjProfil.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 18));
+		        lblEdytujSwjProfil.setBounds(150, 100, 600, 50);
+		        add(lblEdytujSwjProfil);
 			
 			}
 				
@@ -383,8 +389,6 @@ public class SettingsPanel extends JPanel {
 	      g2.fill(new RoundRectangle2D.Double(355, 420, 230, 50, 40, 40));
 	      */
 	     }
-	
-
 	 }
 
 
