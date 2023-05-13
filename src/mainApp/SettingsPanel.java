@@ -82,6 +82,7 @@ public class SettingsPanel extends JPanel {
 		//przycisk przejścia do wiadomości
 		
 
+		/*
 		buttonChat = new JButton("Wiadomości");
 		buttonChat.setBorder(null);
 		buttonChat.setBackground(new Color(255, 240, 245));
@@ -96,10 +97,11 @@ public class SettingsPanel extends JPanel {
             }
         });
 		add(buttonChat);
+		*/
 
 		// przycisk przejścia do swipowania
 		
-		buttonSwipe = new JButton("Swipe");
+		buttonSwipe = new JButton();
 		buttonSwipe.setBorder(null);
 		buttonSwipe.setBackground(new Color(0,0,0,0));
 		
