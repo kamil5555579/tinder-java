@@ -102,7 +102,7 @@ public class SwipePanel extends JPanel {
 				buttonChat = new JButton();
 				buttonChat.setBorder(null);
 				try {
-				    Image img = ImageIO.read(getClass().getResource("fly2.png"));
+				    Image img = ImageIO.read(getClass().getResource("fly3.png"));
 				    buttonChat.setIcon(new ImageIcon(img));
 				  } catch (Exception ex) {
 				    System.out.println(ex);
@@ -139,12 +139,17 @@ public class SwipePanel extends JPanel {
 				
 				// przycisk przejscia do ustawień
 				
-				buttonSettings = new JButton("Ustawienia");
+				buttonSettings = new JButton();
 				buttonSettings.setBorder(null);
-				buttonSettings.setBackground(new Color(255, 240, 245));
-				buttonSettings.setFont(new Font("Dialog", Font.BOLD, 16));
-				buttonSettings.setBounds(550, 25, 300, 50);
+				buttonSettings.setBackground(new Color(0, 0, 0,0));
 				
+				buttonSettings.setBounds(750, 25, 100, 100);
+				try {
+				    Image img4 = ImageIO.read(getClass().getResource("settings.png"));
+				    buttonSettings.setIcon(new ImageIcon(img4));
+				  } catch (Exception ex) {
+				    System.out.println(ex);
+				  }
 				buttonSettings.addActionListener( new ActionListener()
 		        {
 		            public void actionPerformed(ActionEvent e)

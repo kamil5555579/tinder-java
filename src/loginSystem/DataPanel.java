@@ -181,7 +181,7 @@ class DataPanel extends JPanel
 			      f = fileChooser.getSelectedFile();
 			      String path = f.getAbsolutePath();
 			      ImageIcon icon = new ImageIcon(path);
-			      img = icon.getImage().getScaledInstance(400, 400, Image.SCALE_SMOOTH);
+			      img = new ImageIcon(icon.getImage().getScaledInstance(400, 400, Image.SCALE_SMOOTH)).getImage();
 			      Image imgTemp = icon.getImage().getScaledInstance(215, 215, Image.SCALE_SMOOTH);
 			      imgLabel.setIcon(new ImageIcon(imgTemp));
 			      
@@ -220,9 +220,36 @@ class DataPanel extends JPanel
 
 					@Override
 					public void actionPerformed(ActionEvent e) {
+						
+						
+						if(txtName.getText().equals("Imię")||txtSurname.getText().equals("Nazwisko")||f==null) {
+							if (txtName.getText().equals("Imię")) {
+							JOptionPane.showMessageDialog(
+		                            null,"Nie podano imienia. Podaj imię!",
+		                            "Błąd uzupełniania danych",
+		                            JOptionPane.ERROR_MESSAGE);
+							}
+							if (txtSurname.getText().equals("Nazwisko")) {
+								JOptionPane.showMessageDialog(
+			                            null,"Nie podano nazwiska. Podaj nazwisko!",
+			                            "Błąd uzupełniania danych",
+			                            JOptionPane.ERROR_MESSAGE);
+								}
+							if (f==null) {
+								JOptionPane.showMessageDialog(
+			                            null,"Nie wybrano zdjęcia. Wybierz zdjęcie!",
+			                            "Błąd uzupełniania danych",
+			                            JOptionPane.ERROR_MESSAGE);
+							}
+							
+							
+						} else {
 						String firstname = txtName.getText();
 						String lastname = txtSurname.getText();
 						String university = (String) comboBox_2.getSelectedItem();
+						String gender = (String) comboBox.getSelectedItem();
+						int age = Integer.parseInt(txtAge.getText());
+						String description = txtDescription.getText();
 						if (f==null) {
 							JOptionPane.showMessageDialog(
 		                            null,"Nie wybrano zdjęcia. Wybierz zdjęcie!",
@@ -230,6 +257,7 @@ class DataPanel extends JPanel
 		                            JOptionPane.ERROR_MESSAGE);
 						}else {
 							
+
 						try {
 							ByteArrayOutputStream os = new ByteArrayOutputStream();
 							BufferedImage bufferedImage = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_RGB);
@@ -246,12 +274,13 @@ class DataPanel extends JPanel
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
-						save(firstname, lastname, university, is, frame);
+						save(firstname, lastname, university, is, frame, gender, age, description);
 						
 						}
+						
 					}
 			
-				});
+				}});
 		
         add(btnRegister);
         
@@ -271,7 +300,7 @@ class DataPanel extends JPanel
 	
 	//zapisanie danych i przejście do aplikacji
 	
-	public void save(String firstname, String lastname, String university, InputStream is, JFrame frame) 
+	public void save(String firstname, String lastname, String university, InputStream is, JFrame frame, String gender, int age, String description) 
 	{
 		 SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>(){
 	       	 
@@ -280,12 +309,15 @@ class DataPanel extends JPanel
 	            	conn = sqlConn.connect();
 	    			PreparedStatement prep;
 
-	    			prep = conn.prepareStatement("INSERT INTO userdata (user_id, firstname, lastname, university, image) VALUES (?,?,?,?,?)");
+	    			prep = conn.prepareStatement("INSERT INTO userdata (user_id, firstname, lastname, university, gender, age, image, description) VALUES (?,?,?,?,?,?,?,?)");
 	    			prep.setLong(1, id);
 	    			prep.setString(2, firstname);
 	    			prep.setString(3, lastname);
 	    			prep.setString(4, university);
-	    			prep.setBinaryStream(5,is, (int) f.length());
+	    			prep.setString(5, gender);
+	    			prep.setInt(6, age);
+	    			prep.setBinaryStream(7,is, (int) f.length());
+	    			prep.setString(8, description);
 	    			prep.executeUpdate();
 	    			
 	                return null;
