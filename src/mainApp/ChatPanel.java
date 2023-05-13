@@ -132,7 +132,7 @@ public class ChatPanel extends JPanel {
 		     */
 			
 		    // wybór osoby do czatowania
-		    
+			
 		    comboBox = new JComboBox<User>();
 
 		    comboBox.setBackground(new Color(255, 240, 245));
@@ -157,7 +157,7 @@ public class ChatPanel extends JPanel {
 						conPanel.setUser((User) comboBox.getSelectedItem());
 					
 				}
-			});
+			}); 
 	}
 		 
 	// funkcja ładująca sparowanie osoby
