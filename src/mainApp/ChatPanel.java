@@ -109,6 +109,9 @@ public class ChatPanel extends JPanel {
 	            {
 	                CardLayout cardLayout = (CardLayout) panel.getLayout();
 	                cardLayout.next(panel);
+	                panel.repaint();
+    				panel.invalidate();
+    				panel.validate();
 	            }
 	        });
 			add(buttonSwipe);
