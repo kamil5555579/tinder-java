@@ -85,7 +85,6 @@ class DataPanel extends JPanel
 		//opis
 		
 		txtDescription = new JTextPane();
-		//txtDescription.setHorizontalAlignment(SwingConstants.LEFT);
 		txtDescription.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		txtDescription.setCaretColor(new Color(0, 0, 0));
 		txtDescription.setBounds(135, 240, 215, 210);
@@ -93,7 +92,6 @@ class DataPanel extends JPanel
 		add(txtDescription);
 		txtDescription.setFont(new Font("Dialog", Font.ITALIC, 12));
 		txtDescription.setBorder(null);
-		//txtDescription.setColumns(10);
 		
 		//wybór płci
 		
@@ -103,7 +101,6 @@ class DataPanel extends JPanel
 		comboBox.setBackground(new Color(240, 240, 240));
 		comboBox.setBounds(135, 137, 215, 30);
 		add(comboBox);
-		//comboBox.setBackground(new Color(255, 240, 245));
 		comboBox.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 14));
 		
 		//wybór wydziału
@@ -113,7 +110,6 @@ class DataPanel extends JPanel
 		
 		comboBox_2 = new JComboBox(faculty);
 		comboBox_2.setBackground(new Color(255, 255, 255));
-		//comboBox_2.setOpaque(true);
 		comboBox_2.setBorder(null);
 		comboBox_2.setBounds(135, 185, 215, 30);
 		comboBox_2.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 14));
@@ -121,8 +117,6 @@ class DataPanel extends JPanel
 		add(comboBox_2);
 	
 
-		
-		
 		//wiek
 		
 		txtAge = new PTextField("Wiek");
@@ -150,7 +144,6 @@ class DataPanel extends JPanel
 		txtSurname.setBorder(null);
 		txtSurname.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 14));
 		txtSurname.setColumns(10);
-		//txtSurname.setBackground(new Color(255, 240, 245));
 		txtSurname.setBackground(new Color(240, 240, 240));
 		txtSurname.setBounds(362, 95, 215, 30);
 		add(txtSurname);
@@ -161,7 +154,6 @@ class DataPanel extends JPanel
 		imgButton.setHorizontalAlignment(SwingConstants.LEFT);
 		imgButton.setBackground(new Color(255, 255, 255));
 		imgButton.setBorder(null);
-		//imgButton.setBackground(new Color(255, 240, 245));
 		imgButton.setBackground(new Color(240, 240, 240));
 		imgButton.setBounds(360, 185, 215, 30);
 		add(imgButton);
@@ -198,13 +190,6 @@ class DataPanel extends JPanel
 		lblTinder.setBounds(155, 12, 410, 65);
 		add(lblTinder);
 		
-		/* logowanie
-		JButton button = new JButton("Log in");
-		button.setBackground(new Color(255, 240, 245));
-		button.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 14));
-		button.setBounds(124, 279, 170, 50);
-		add(button);
-		*/
 		
 		//zapisanie i przejscie do aplikacji
 		
@@ -364,10 +349,6 @@ class DataPanel extends JPanel
 	      g2.setPaint(new Color(240, 240, 240)); //szary
 	      g2.fill(new RoundRectangle2D.Double(115, 80, 485, 400, 40, 40));
 	   
-	      //g2.setPaint(new Color(0, 0, 0)); //czarny
-	      //g2.draw(new RoundRectangle2D.Double(125, 90, 225, 40, 40, 40));
-	     // g2.draw(new RoundRectangle2D.Double(125, 180, 225, 40, 40, 40));
-	      
 	      g2.setPaint(new Color(255, 240, 245)); // jasnorozowy
 	      g2.fill(new RoundRectangle2D.Double(110, 485, 495, 50, 40, 40));
 	    

@@ -124,7 +124,7 @@ public class ImagePanel extends JPanel {
 				g2d.fillRect((int) x, (int) y + imgHeight, imgWidth , 75);
 				
 				g2d.setPaint(new Color(0, 0, 0)); 
-				g2d.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 10));
+				g2d.setFont(new Font("LM Sans 10", Font.BOLD | Font.ITALIC, 16));
 				g2d.drawString(current.getFirstname()+" "+current.getLastname(), (int) x, (int) y + imgHeight + 20);
 				g2d.drawString(current.getGender()+" ", (int) x, (int) y + imgHeight + 40);
 				g2d.drawString(Integer.toString(current.getAge())+" lat", (int) x + 100, (int) y + imgHeight + 40);

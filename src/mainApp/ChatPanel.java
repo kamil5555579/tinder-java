@@ -81,10 +81,8 @@ public class ChatPanel extends JPanel {
 			//ustawienia panelu
 				
 			setBounds(0, 0, 900, 800);
-			//setBackground(new Color(255, 153, 204));
 			setBorder(new LineBorder(new Color(255, 20, 147), 3, true));
-			
-			//setLayout(null);
+
 			initializeOthers(id);
 			setLayout(null);
 			
@@ -120,7 +118,7 @@ public class ChatPanel extends JPanel {
 		    // wybór osoby do czatowania
 			listaElementy = new DefaultListModel<User>();
 			lista = new JList<User>(listaElementy);
-			lista.setFont(new Font("LM Sans 10", Font.ITALIC, 16));
+			lista.setFont(new Font("LM Sans 10", Font.ITALIC, 18));
 			lista.setCellRenderer(new DefaultListCellRenderer() {
 	            @Override
 	            public Component getListCellRendererComponent(JList<?> list, Object value, int index,
@@ -193,7 +191,6 @@ public class ChatPanel extends JPanel {
 	    			while(it.hasNext())
 					{
 	    				listaElementy.addElement(it.next());
-	    				//comboBox.addItem(it.next());
 					}
             		if (conn!= null)
     	    			conn.close();
@@ -215,7 +212,7 @@ public class ChatPanel extends JPanel {
 
 	      Rectangle2D r2=new Rectangle2D.Double(0,0,getWidth(),getHeight());
 
-	      Color c0=new Color(245, 245, 245), c1= new Color(255, 240, 245);
+	      Color c0=new Color(255, 255, 255), c1= new Color(255, 215, 230);
 
 	      GradientPaint  gp = new GradientPaint(150, 200, c1, 450, 200, c0, false);
 	      g2.setPaint(gp);
@@ -228,11 +225,7 @@ public class ChatPanel extends JPanel {
 	      g2.setPaint(Color.WHITE); 
 	      
 	      g2.fill(new RoundRectangle2D.Double(25, 95, 195, 635, 40, 40));
-	      /*
-	      g2.setPaint(new Color(255, 240, 245)); // jasnorozowy
-	      g2.fill(new RoundRectangle2D.Double(100, 420, 230, 50, 40, 40));
-	      g2.fill(new RoundRectangle2D.Double(355, 420, 230, 50, 40, 40));
-	      */
+	      
 	     }
 }
 

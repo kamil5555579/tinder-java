@@ -79,13 +79,6 @@ public class LoginPanel extends JPanel
 
 			//login
 			
-	    	/*panel_2 = new JPanel();
-	    	panel_2.setBackground(new Color(255, 255, 255));
-	    	panel_2.setBounds(105, 195, 470, 80);
-			panel_2.setLayout(null);
-			add(panel_2);
-	    	*/
-			
 			txtUsername = new PTextField("Nazwa użytkownika");
 			txtUsername.setBorder(null);
 			txtUsername.setBackground(new Color(240, 240, 240));
@@ -95,13 +88,7 @@ public class LoginPanel extends JPanel
 			add(txtUsername);
 			
 			//hasło
-			/*
-			panel_1 = new JPanel();
-			panel_1.setLayout(null);
-			panel_1.setBackground(Color.WHITE);
-			panel_1.setBounds(105, 305, 470, 80);
-			add(panel_1);
-			*/
+
 			pwdPassword = new PPasswordField("Haslo");
 			pwdPassword.setBorder(null);
 			pwdPassword.setBackground(new Color(240, 240, 240));

@@ -29,7 +29,6 @@ public class CardFrame extends JFrame {
 			// ustawienia
 			
 			setTitle("Logowanie i rejestracja");
-	        //setDefaultCloseOperation(EXIT_ON_CLOSE);
 	        
 			setBounds(100, 100, 700, 600);
 			setResizable(false);
@@ -49,7 +48,6 @@ public class CardFrame extends JFrame {
 	        contentPane.add(panel3, "Panel 3");
 	        setContentPane(contentPane); //to nie do konca rozumiem co robi  
 	        setLocationRelativeTo(null);
-	        //frame.setLocationByPlatform(true); //nie otwiera sie w rogu
 	        setVisible(true);
 	        
 	        // powiadomienie przy wyłączaniu

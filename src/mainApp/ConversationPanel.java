@@ -103,7 +103,7 @@ public class ConversationPanel extends JPanel {
 
 		
 		JScrollPane scrollPane = new JScrollPane(panel_1);
-		scrollPane.setBackground(SystemColor.text);
+		scrollPane.setBackground(new Color(240, 240, 240));
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
 		scrollPane.setPreferredSize(new Dimension(650, 500));
@@ -226,7 +226,7 @@ public class ConversationPanel extends JPanel {
 		    				if(rs.getInt("sender_id")==id)
 		    				{
 		    					JPanel right = new JPanel(new BorderLayout());
-		    					
+		    					right.setBackground(new Color(240, 240, 240));
 			    				vertical.add(right);
 			    				vertical.add(Box.createVerticalStrut(15));
 			    				output.setBackground(new Color (65,105,225));
@@ -239,6 +239,7 @@ public class ConversationPanel extends JPanel {
 		    				else
 		    				{
 		    					JPanel left = new JPanel(new BorderLayout());
+		    					left.setBackground(new Color(240, 240, 240));
 			    				vertical.add(left);
 			    				vertical.add(Box.createVerticalStrut(15));
 			    				output.setBackground(Color.WHITE);
@@ -285,17 +286,11 @@ public class ConversationPanel extends JPanel {
 
 	      Rectangle2D r2=new Rectangle2D.Double(0,0,getWidth(),getHeight());
 
-	      //Color c0=new Color(240, 240, 240), c1= new Color(255, 240, 245);
-
-	      //GradientPaint  gp = new GradientPaint(150, 200, c1, 450, 200, c0, false);
-	      //g2.setPaint(gp);
-	      //g2.fill(r2);
-	      
 	      g2.setPaint(new Color(255, 255, 255)); //szary
 	 
 	      g2.fill(new RoundRectangle2D.Double(15, 565, 425, 50, 40, 40));
 	      
-	      g2.setPaint(new Color(255, 240, 245)); //szary
+	      g2.setPaint(new Color(240, 240, 240)); 
 	 	 
 	      g2.fill(new RoundRectangle2D.Double(450, 565, 190, 50, 40, 40));
 	      

@@ -55,13 +55,6 @@ class RegisterPanel extends JPanel
 		setLayout(null);
 		
 		//login
-		/*
-		panel_2 = new JPanel();
-		panel_2.setLayout(null);
-		panel_2.setBackground(new Color(255, 255, 255));
-		panel_2.setBounds(105, 115, 470, 80);
-		add(panel_2);
-		*/
 		
 		txtUsername = new PTextField("Nazwa użytkownika");
 		txtUsername.setFont(new Font("Dialog", Font.ITALIC, 18));
@@ -72,13 +65,6 @@ class RegisterPanel extends JPanel
 		add(txtUsername);
 		
 		//hasło
-		/*
-		panel_1 = new JPanel();
-		panel_1.setLayout(null);
-		panel_1.setBackground(Color.WHITE);
-		panel_1.setBounds(105, 215, 470, 80);
-		add(panel_1);
-		*/
 		
 		password1 = new PPasswordField("Hasło");
 		password1.setFont(new Font("Dialog", Font.ITALIC, 18));
@@ -88,13 +74,7 @@ class RegisterPanel extends JPanel
 		add(password1);
 		
 		//powtórz hasło
-		/*
-		panel_3 = new JPanel();
-		panel_3.setLayout(null);
-		panel_3.setBackground(Color.WHITE);
-		panel_3.setBounds(105, 315, 470, 80);
-		add(panel_3);
-		*/		
+				
 		password2 = new PPasswordField("Powtórz hasło");
 		password2.setFont(new Font("Dialog", Font.ITALIC, 18));
 		password2.setBackground(new Color(240, 240, 240));
@@ -117,7 +97,6 @@ class RegisterPanel extends JPanel
 		button.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 16));
 		button.setBorder(null);
 		button.setBounds(115, 423, 195, 45);
-		//add(button);
 		button.addActionListener( new ActionListener()
         {
             public void actionPerformed(ActionEvent e)

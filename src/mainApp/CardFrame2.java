@@ -41,10 +41,7 @@ public class CardFrame2 extends JFrame{
         // dodawanie paneli
         
         JPanel contentPane = new JPanel();
-		//contentPane.setBackground(new Color(200, 105, 180));
-		//contentPane.setBorder(new LineBorder(new Color(255, 20, 147), 3, true));
 		setContentPane(contentPane);
-		//frame.setLocationRelativeTo(null);
         
         contentPane.setLayout(new CardLayout());
         
@@ -56,7 +53,6 @@ public class CardFrame2 extends JFrame{
         contentPane.add(panel6, "Panel 6");
         setContentPane(contentPane); 
         setLocationRelativeTo(null);
-        //frame.setLocationByPlatform(true); //nie otwiera sie w rogu
         setVisible(true);
         
         // powiadomienie przy wyłączaniu
