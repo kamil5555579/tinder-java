@@ -21,8 +21,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 import javax.imageio.ImageIO;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
@@ -39,6 +41,7 @@ import com.mysql.jdbc.Connection;
 
 import utilities.PTextField;
 import utilities.SqlConnection;
+import utilities.User;
 
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
@@ -66,13 +69,14 @@ public class SettingsPanel extends JPanel {
 	private SqlConnection sqlConn = new SqlConnection();
     private Connection conn;
 	private int id;
+	private User me;
 
 
 	
 	public SettingsPanel(JPanel panel ,JFrame frame, int id) {
 		
 		this.id=id;
-		
+		initializeMe(id);
 		// ustawienia panelu
 		
 		setBounds(0, 0, 900, 800);
@@ -151,7 +155,7 @@ public class SettingsPanel extends JPanel {
 				//txtDescription.setHorizontalAlignment(SwingConstants.LEFT);
 				txtDescription.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 				txtDescription.setCaretColor(new Color(0, 0, 0));
-				txtDescription.setBounds(135, 320, 250, 230);
+				txtDescription.setBounds(180, 320, 250, 230);
 				txtDescription.setBackground(new Color(240, 240, 240));
 				add(txtDescription);
 				txtDescription.setFont(new Font("Dialog", Font.ITALIC, 12));
@@ -164,7 +168,7 @@ public class SettingsPanel extends JPanel {
 		  	    "Inna" };
 				comboBox = new JComboBox(gender);
 				comboBox.setBackground(new Color(240, 240, 240));
-				comboBox.setBounds(150, 200, 215, 30);
+				comboBox.setBounds(180, 200, 215, 30);
 				add(comboBox);
 				//comboBox.setBackground(new Color(255, 240, 245));
 				comboBox.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 16));
@@ -178,7 +182,7 @@ public class SettingsPanel extends JPanel {
 				comboBox_2.setBackground(new Color(255, 255, 255));
 				//comboBox_2.setOpaque(true);
 				comboBox_2.setBorder(null);
-				comboBox_2.setBounds(150, 250, 215, 30);
+				comboBox_2.setBounds(180, 250, 215, 30);
 				comboBox_2.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 16));
 				comboBox_2.setBackground(new Color(240, 240, 240));
 				add(comboBox_2);
@@ -190,7 +194,7 @@ public class SettingsPanel extends JPanel {
 				
 				txtAge = new PTextField("Wiek");
 				txtAge.setBorder(null);
-				txtAge.setBounds(450, 200, 215, 30);
+				txtAge.setBounds(480, 200, 215, 30);
 				add(txtAge);
 				txtAge.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 16));
 				txtAge.setBackground(new Color(240, 240, 240));
@@ -204,7 +208,7 @@ public class SettingsPanel extends JPanel {
 				txtName.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 16));
 				txtName.setColumns(10);
 				txtName.setBackground(new Color(240, 240, 240));
-				txtName.setBounds(150, 150, 215, 30);
+				txtName.setBounds(180, 150, 215, 30);
 				add(txtName);
 				
 				//nazwisko
@@ -215,7 +219,7 @@ public class SettingsPanel extends JPanel {
 				((JTextField) txtSurname).setColumns(10);
 				//txtSurname.setBackground(new Color(255, 240, 245));
 				txtSurname.setBackground(new Color(240, 240, 240));
-				txtSurname.setBounds(450, 150, 215, 30);
+				txtSurname.setBounds(480, 150, 215, 30);
 				add(txtSurname);
 				
 				//zdjecie
@@ -226,11 +230,11 @@ public class SettingsPanel extends JPanel {
 				imgButton.setBorder(null);
 				//imgButton.setBackground(new Color(255, 240, 245));
 				imgButton.setBackground(new Color(240, 240, 240));
-				imgButton.setBounds(450, 250, 215, 30);
+				imgButton.setBounds(480, 250, 215, 30);
 				add(imgButton);
 				
 				imgLabel = new JLabel("");
-				imgLabel.setBounds(450,300,250,250);
+				imgLabel.setBounds(480,275,250,250);
 				add(imgLabel);
 				
 				imgButton.addActionListener(new ActionListener()
@@ -245,7 +249,7 @@ public class SettingsPanel extends JPanel {
 					      f = fileChooser.getSelectedFile();
 					      String path = f.getAbsolutePath();
 					      ImageIcon icon = new ImageIcon(path);
-					      Image imgTemp = icon.getImage().getScaledInstance(215, 215, Image.SCALE_SMOOTH);
+					      Image imgTemp = icon.getImage().getScaledInstance(250, 250, Image.SCALE_SMOOTH);
 					      img = new ImageIcon(icon.getImage().getScaledInstance(400, 400, Image.SCALE_SMOOTH)).getImage();
 					      imgLabel.setIcon(new ImageIcon(imgTemp));
 					}
@@ -364,6 +368,50 @@ public class SettingsPanel extends JPanel {
 
 	}
         
+	public void initializeMe(int id)
+	{
+		SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>(){
+	       	 
+            @Override
+            protected Void doInBackground() throws Exception {
+            	conn = sqlConn.connect();
+    			PreparedStatement prep;
+
+    			prep = conn.prepareStatement("SELECT * FROM userdata WHERE user_id =(?)");
+    			prep.setInt(1, id);
+    			ResultSet rs = prep.executeQuery();
+    			if (rs.next())
+    			{
+    				byte[] imageData = rs.getBytes("image");
+    				Image imageTemp = new ImageIcon(new ImageIcon(imageData).getImage().getScaledInstance(400, 400, Image.SCALE_SMOOTH)).getImage();
+    				me = new User(id, rs.getString("firstname"), rs.getString("lastname"), rs.getString("university"), rs.getString("gender"), rs.getInt("age"), imageTemp);
+    				txtSurname.setText(me.getLastname());
+    				txtName.setText(me.getFirstname());
+    				txtAge.setText(Integer.toString(me.getAge()));
+    				comboBox.setSelectedItem(me.getGender());
+    				comboBox_2.setSelectedItem(me.getUniversity());
+    
+    			}
+				return null;
+            }
+
+            @Override
+            protected void done() {
+                try {
+                	if (conn!= null)
+    	    			conn.close();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+            
+          
+       };
+       
+       worker.execute();
+       
+      
+	}
 	
 	
 	public void paintComponent(Graphics g) {
@@ -382,12 +430,7 @@ public class SettingsPanel extends JPanel {
 	      g2.setPaint(new Color(240, 240, 240)); //szary
 	 
 	      g2.fill(new RoundRectangle2D.Double(120, 95, 660, 635, 40, 40));
-	      
-	      /*
-	      g2.setPaint(new Color(255, 240, 245)); // jasnorozowy
-	      g2.fill(new RoundRectangle2D.Double(100, 420, 230, 50, 40, 40));
-	      g2.fill(new RoundRectangle2D.Double(355, 420, 230, 50, 40, 40));
-	      */
+	   
 	     }
 	 }
 
