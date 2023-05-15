@@ -390,6 +390,7 @@ public class SettingsPanel extends JPanel {
     				txtAge.setText(Integer.toString(me.getAge()));
     				comboBox.setSelectedItem(me.getGender());
     				comboBox_2.setSelectedItem(me.getUniversity());
+    				imgLabel.setIcon(new ImageIcon(me.getImage()));
     
     			}
 				return null;

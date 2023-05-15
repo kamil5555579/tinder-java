@@ -76,11 +76,11 @@ public class ImagePanel extends JPanel {
 					
 					if(e.getX() >= panelWidth/2)
 					{
-						y= (3*panelWidth/4 - 0.5*e.getX()- imgHeight/2);
+						y= (3*panelWidth/4 - 0.5*e.getX()- imgHeight/2) -100;
 						fi= (0.25*(e.getX() - panelWidth/2));
 					}
 					else
-						y= (0.5*e.getX() +panelWidth/4 - imgHeight/2);
+						y= (0.5*e.getX() +panelWidth/4 - imgHeight/2) -100;
 						fi= (0.25*(e.getX() - panelWidth/2));
 					repaint();
         		}}
@@ -101,7 +101,7 @@ public class ImagePanel extends JPanel {
 					else
 					{
 						x = panelWidth/2 - imgWidth/2;
-	           		 	y = panelHeight/2- imgHeight/2;
+	           		 	y = panelHeight/2- imgHeight/2 -50;
 	           		 	fi=0;
 	           		 	repaint();
 					}
@@ -185,7 +185,7 @@ public class ImagePanel extends JPanel {
 		                	 if(x>=panelWidth)
 		                	 {
 		                		 x = panelWidth/2 - imgWidth/2;
-		                		 y = panelHeight/2- imgHeight/2 - 50;
+		                		 y = panelHeight/2- imgHeight/2 -50;
 		                		 fi=0;
 		                		 if(it.hasNext())
 		 						{
@@ -230,7 +230,7 @@ public class ImagePanel extends JPanel {
 		                	 if(x<=-imgWidth)
 		                	 {
 		                		 x = panelWidth/2 - imgWidth/2;
-		                		 y = panelHeight/2- imgHeight/2 - 50;
+		                		 y = panelHeight/2- imgHeight/2 -50;
 		                		 fi=0;
 		                		 if(it.hasNext())
 		 						{
