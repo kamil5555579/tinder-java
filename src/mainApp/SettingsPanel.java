@@ -384,13 +384,14 @@ public class SettingsPanel extends JPanel {
     			{
     				byte[] imageData = rs.getBytes("image");
     				Image imageTemp = new ImageIcon(new ImageIcon(imageData).getImage().getScaledInstance(400, 400, Image.SCALE_SMOOTH)).getImage();
-    				me = new User(id, rs.getString("firstname"), rs.getString("lastname"), rs.getString("university"), rs.getString("gender"), rs.getInt("age"), imageTemp);
+    				me = new User(id, rs.getString("firstname"), rs.getString("lastname"), rs.getString("university"), rs.getString("gender"), rs.getInt("age"), imageTemp, rs.getString("description"));
     				txtSurname.setText(me.getLastname());
     				txtName.setText(me.getFirstname());
     				txtAge.setText(Integer.toString(me.getAge()));
     				comboBox.setSelectedItem(me.getGender());
     				comboBox_2.setSelectedItem(me.getUniversity());
     				imgLabel.setIcon(new ImageIcon(me.getImage()));
+    				txtDescription.setText(me.getDescription());
     
     			}
 				return null;

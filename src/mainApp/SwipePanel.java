@@ -118,25 +118,6 @@ public class SwipePanel extends JPanel {
 		            }
 				});
 				
-				/*
-				buttonChat = new JButton("Wiadomości");
-				buttonChat.setBorder(null);
-				buttonChat.setBackground(new Color(255, 240, 245));
-				buttonChat.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 16));
-				buttonChat.setBounds(50, 25, 300, 50);
-				buttonChat.addActionListener( new ActionListener()
-		        {
-		            public void actionPerformed(ActionEvent e)
-		            {
-		                CardLayout cardLayout = (CardLayout) panel.getLayout();
-		                cardLayout.previous(panel);
-		            }
-		        });
-				add(buttonChat);
-				*/
-				
-				
-				
 				// przycisk przejscia do ustawień
 				
 				buttonSettings = new JButton();
@@ -242,7 +223,7 @@ public class SwipePanel extends JPanel {
 		    			{
 		    				byte[] imageData = rs.getBytes("image");
 		    				Image imageTemp = new ImageIcon(new ImageIcon(imageData).getImage().getScaledInstance(imgWidth, imgHeight, Image.SCALE_SMOOTH)).getImage();
-		    				me = new User(id, rs.getString("firstname"), rs.getString("lastname"), rs.getString("university"), rs.getString("gender"), rs.getInt("age"), imageTemp);
+		    				me = new User(id, rs.getString("firstname"), rs.getString("lastname"), rs.getString("university"), rs.getString("gender"), rs.getInt("age"), imageTemp, rs.getString("description"));
 		    			}
 						return null;
 		            }
@@ -281,7 +262,7 @@ public class SwipePanel extends JPanel {
 		    			{
 		    				byte[] imageData = rs.getBytes("image");
 		    				Image imageTemp = new ImageIcon(new ImageIcon(imageData).getImage().getScaledInstance(imgWidth, imgHeight, Image.SCALE_SMOOTH)).getImage();
-		    				users.add(new User(rs.getInt("user_id"), rs.getString("firstname"), rs.getString("lastname"), rs.getString("university"), rs.getString("gender"), rs.getInt("age"), imageTemp));
+		    				users.add(new User(rs.getInt("user_id"), rs.getString("firstname"), rs.getString("lastname"), rs.getString("university"), rs.getString("gender"), rs.getInt("age"), imageTemp, rs.getString("description")));
 		    			}
 		    			
 						return null;

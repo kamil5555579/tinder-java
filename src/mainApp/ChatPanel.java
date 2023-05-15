@@ -4,6 +4,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GradientPaint;
@@ -26,6 +27,7 @@ import java.util.concurrent.ScheduledExecutorService;
 
 import javax.imageio.ImageIO;
 import javax.swing.Box;
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -61,7 +63,7 @@ public class ChatPanel extends JPanel {
 	JComboBox<User> comboBox;
 	JScrollPane listScrollPane;
 	DefaultListModel listaElementy;
-	JList lista;
+	JList<User> lista;
 
 	private JLabel lblChat,textChat;
 	
@@ -84,29 +86,9 @@ public class ChatPanel extends JPanel {
 			
 			//setLayout(null);
 			initializeOthers(id);
-			
-			
-			// przycisk przejscia do ustawień
-			/*
-			buttonSettings = new JButton("Ustawienia");
-			buttonSettings.setBorder(null);
-			buttonSettings.setBackground(new Color(255, 240, 245));
-			buttonSettings.setFont(new Font("Dialog", Font.BOLD, 16));
-			buttonSettings.setBounds(550, 50, 300, 50);;
-			
-			buttonSettings.addActionListener( new ActionListener()
-	        {
-	            public void actionPerformed(ActionEvent e)
-	            {
-	                CardLayout cardLayout = (CardLayout) panel.getLayout();
-	                cardLayout.previous(panel);
-	            }
-	        });
-	        
-	        
-	        add(buttonSettings);
-	        */
 			setLayout(null);
+			
+			// przejście do swipowania
 			
 			buttonSwipe = new JButton();
 			buttonSwipe.setBorder(null);
@@ -131,20 +113,19 @@ public class ChatPanel extends JPanel {
 	        });
 			add(buttonSwipe);
 		    
-			/*
-			 textChat = new JLabel();
-			 textChat.setHorizontalAlignment(SwingConstants.CENTER);
-			 textChat.setText("Czat");
-			 textChat.setBounds(300, 0, 300, 50);
-			 textChat.setForeground(Color.WHITE);
-			 textChat.setFont(new Font("LM Sans 10", Font.BOLD | Font.ITALIC, 50));
-		     add(textChat);
-		     */
-			
+
 		    // wybór osoby do czatowania
-			listaElementy = new DefaultListModel();
-			lista = new JList(listaElementy);
+			listaElementy = new DefaultListModel<User>();
+			lista = new JList<User>(listaElementy);
 			lista.setFont(new Font("LM Sans 10", Font.ITALIC, 16));
+			lista.setCellRenderer(new DefaultListCellRenderer() {
+	            @Override
+	            public Component getListCellRendererComponent(JList<?> list, Object value, int index,
+	                                                          boolean isSelected, boolean cellHasFocus) {
+	                String name = ((User) value).getFirstname(); // Wyodrębnienie samej nazwy
+	                return super.getListCellRendererComponent(list, name, index, isSelected, cellHasFocus);
+	            }
+	        });
 		     
 			 JScrollPane listScrollPane = new JScrollPane(lista);
 			 listScrollPane.setBounds(30, 110, 175, 600);
@@ -172,34 +153,6 @@ public class ChatPanel extends JPanel {
 					
 				});
 			
-		   /*
-		    comboBox = new JComboBox<User>();
-
-		    comboBox.setBackground(new Color(255, 240, 245));
-		    comboBox.setFont(new Font("Dialog", Font.ITALIC, 12));
-		    comboBox.setBounds(125, 65, 200, 25);
-
-		    add(comboBox);
-		    comboBox.addActionListener(new ActionListener() {
-				
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					if(conPanel == null)
-					{
-						conPanel = new ConversationPanel(id, (User) comboBox.getSelectedItem());
-
-	    				conPanel.setBounds(125, 100, 650, 625);
-
-	    				add(conPanel);
-					}
-					else
-						conPanel.refresh();
-						conPanel.setUser((User) comboBox.getSelectedItem());
-					
-				}
-			});
-		   */ 
-		  
 	}
 		 
 	// funkcja ładująca sparowanie osoby
@@ -225,7 +178,7 @@ public class ChatPanel extends JPanel {
     			{
     				byte[] imageData = rs.getBytes("image");
     				Image imageTemp = new ImageIcon(new ImageIcon(imageData).getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH)).getImage();
-    				users.add(new User(rs.getInt("user_id"), rs.getString("firstname"), rs.getString("lastname"), rs.getString("university"), rs.getString("gender"), rs.getInt("age"), imageTemp));
+    				users.add(new User(rs.getInt("user_id"), rs.getString("firstname"), rs.getString("lastname"), rs.getString("university"), rs.getString("gender"), rs.getInt("age"), imageTemp, rs.getString("description")));
     			}
 				return null;
             }

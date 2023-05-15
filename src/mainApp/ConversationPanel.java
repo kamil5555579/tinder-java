@@ -25,6 +25,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -57,8 +58,9 @@ public class ConversationPanel extends JPanel {
 	Box vertical = Box.createVerticalBox();
 	final ScheduledExecutorService scheduler = 
 		       Executors.newScheduledThreadPool(2);
-	private JPanel panel_1;
+	private JPanel panel_1,panel_2;
 	Timestamp last = new Timestamp(0);
+	JScrollBar verticalScrollBar;
 	
 	public ConversationPanel(int id, User current) {
 		setBorder(null);
@@ -87,16 +89,27 @@ public class ConversationPanel extends JPanel {
 		panel_1.setLayout(new BorderLayout());
 		add(panel_1);
 		
+		// panel zewnętrzny
+		
+		panel_2 = new JPanel();
+
+		panel_2.setBounds(0, 50, 650, 500);
+		panel_2.setBackground(new Color(240, 240, 240));
+		panel_2.setLayout(new BorderLayout());
+		add(panel_2);
+		
 		
 		vertical.add(Box.createVerticalStrut(15));
 
-		JScrollPane scrollPane = new JScrollPane(vertical);
+		
+		JScrollPane scrollPane = new JScrollPane(panel_1);
 		scrollPane.setBackground(SystemColor.text);
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
 		scrollPane.setPreferredSize(new Dimension(650, 500));
-
-		panel_1.add(scrollPane, BorderLayout.PAGE_START);
+		verticalScrollBar = scrollPane.getVerticalScrollBar();
+		
+		panel_2.add(scrollPane, BorderLayout.PAGE_START);
 		
 		
 		// wiadomość
@@ -220,7 +233,7 @@ public class ConversationPanel extends JPanel {
 			    				output.setForeground(Color.WHITE);
 			    				
 		    					right.add(textPanel, BorderLayout.LINE_END);
-		    					//panel_1.add(vertical, BorderLayout.PAGE_START);
+		    					panel_1.add(vertical, BorderLayout.PAGE_START);
 
 		    				}
 		    				else
@@ -232,7 +245,7 @@ public class ConversationPanel extends JPanel {
 			    				output.setForeground(Color.GRAY);
 			    				
 			    				left.add(textPanel, BorderLayout.LINE_START);
-			    				//panel_1.add(vertical, BorderLayout.PAGE_START);
+			    				panel_1.add(vertical, BorderLayout.PAGE_START);
 
 		    				}
 		    				vertical.add(Box.createVerticalStrut(15));
@@ -240,6 +253,9 @@ public class ConversationPanel extends JPanel {
 		    				invalidate();
 		    				validate();
 			    			last = rs.getTimestamp("date");
+			    			int extent = verticalScrollBar.getModel().getExtent();
+			                int maximum = verticalScrollBar.getMaximum();
+			                verticalScrollBar.setValue(maximum - extent);
 		    			}
 		    			
 		    			if(conn2!=null)
@@ -249,7 +265,7 @@ public class ConversationPanel extends JPanel {
 						e.printStackTrace();
 					}
     				}
-			}}), 0, 500, MILLISECONDS);
+			}}), 0, 100, MILLISECONDS);
 	            
 	}
 
