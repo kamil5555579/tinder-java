@@ -84,9 +84,12 @@ public class ConversationPanel extends JPanel {
 
 		panel_1.setBounds(0, 50, 650, 500);
 		panel_1.setBackground(new Color(240, 240, 240));
-
-		add(panel_1);
 		panel_1.setLayout(new BorderLayout());
+		add(panel_1);
+		
+		
+		vertical.add(Box.createVerticalStrut(15));
+
 		JScrollPane scrollPane = new JScrollPane(vertical);
 		scrollPane.setBackground(SystemColor.text);
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -94,8 +97,7 @@ public class ConversationPanel extends JPanel {
 		scrollPane.setPreferredSize(new Dimension(650, 500));
 
 		panel_1.add(scrollPane, BorderLayout.PAGE_START);
-		vertical.add(Box.createVerticalStrut(15));
-
+		
 		
 		// wiadomość
 		
@@ -211,23 +213,26 @@ public class ConversationPanel extends JPanel {
 		    				if(rs.getInt("sender_id")==id)
 		    				{
 		    					JPanel right = new JPanel(new BorderLayout());
+		    					
 			    				vertical.add(right);
-			    				
+			    				vertical.add(Box.createVerticalStrut(15));
 			    				output.setBackground(new Color (65,105,225));
 			    				output.setForeground(Color.WHITE);
 			    				
 		    					right.add(textPanel, BorderLayout.LINE_END);
+		    					//panel_1.add(vertical, BorderLayout.PAGE_START);
 
 		    				}
 		    				else
 		    				{
 		    					JPanel left = new JPanel(new BorderLayout());
 			    				vertical.add(left);
-			    				
+			    				vertical.add(Box.createVerticalStrut(15));
 			    				output.setBackground(Color.WHITE);
 			    				output.setForeground(Color.GRAY);
 			    				
 			    				left.add(textPanel, BorderLayout.LINE_START);
+			    				//panel_1.add(vertical, BorderLayout.PAGE_START);
 
 		    				}
 		    				vertical.add(Box.createVerticalStrut(15));

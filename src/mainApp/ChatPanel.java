@@ -4,6 +4,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
@@ -25,13 +26,18 @@ import java.util.concurrent.ScheduledExecutorService;
 
 import javax.imageio.ImageIO;
 import javax.swing.Box;
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingWorker;
 import javax.swing.border.LineBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import com.mysql.jdbc.Connection;
 
@@ -53,6 +59,9 @@ public class ChatPanel extends JPanel {
 	int id;
 	ConversationPanel conPanel;
 	JComboBox<User> comboBox;
+	JScrollPane listScrollPane;
+	DefaultListModel listaElementy;
+	JList lista;
 
 	private JLabel lblChat,textChat;
 	
@@ -66,6 +75,7 @@ public class ChatPanel extends JPanel {
 		add(lblChat);
 			
 			this.id=id;
+			
 			//ustawienia panelu
 				
 			setBounds(0, 0, 900, 800);
@@ -102,7 +112,7 @@ public class ChatPanel extends JPanel {
 			buttonSwipe.setBorder(null);
 			buttonSwipe.setBackground(new Color(0, 0, 0,0));
 		
-			buttonSwipe.setBounds(775, 25, 100, 100);
+			buttonSwipe.setBounds(800, 0, 100, 100);
 
 			try {
 			    Image img = ImageIO.read(getClass().getResource("back2.png"));
@@ -132,7 +142,37 @@ public class ChatPanel extends JPanel {
 		     */
 			
 		    // wybór osoby do czatowania
+			listaElementy = new DefaultListModel();
+			lista = new JList(listaElementy);
+			lista.setFont(new Font("LM Sans 10", Font.ITALIC, 16));
+		     
+			 JScrollPane listScrollPane = new JScrollPane(lista);
+			 listScrollPane.setBounds(30, 110, 175, 600);
+			 listScrollPane.setBorder(null);
+			 
+			 add(listScrollPane);
+			 lista.addListSelectionListener(new ListSelectionListener() {
+				    @Override
+				    public void valueChanged(ListSelectionEvent e)
+				    {	
+				    	if(conPanel == null) {
+					        if(!e.getValueIsAdjusting()) {
+					            conPanel = new ConversationPanel(id, (User) lista.getSelectedValue());
+					            conPanel.setBounds(225, 100, 650, 625);
+					            add(conPanel);
+					        } }
+					        else {
+								conPanel.refresh();
+								conPanel.setUser((User) lista.getSelectedValue());
+					        }
+					        
+				    	}
+				    
+
+					
+				});
 			
+		   /*
 		    comboBox = new JComboBox<User>();
 
 		    comboBox.setBackground(new Color(255, 240, 245));
@@ -157,7 +197,9 @@ public class ChatPanel extends JPanel {
 						conPanel.setUser((User) comboBox.getSelectedItem());
 					
 				}
-			}); 
+			});
+		   */ 
+		  
 	}
 		 
 	// funkcja ładująca sparowanie osoby
@@ -194,7 +236,8 @@ public class ChatPanel extends JPanel {
                 	it = users.listIterator();
 	    			while(it.hasNext())
 					{
-	    				comboBox.addItem(it.next());
+	    				listaElementy.addElement(it.next());
+	    				//comboBox.addItem(it.next());
 					}
             		if (conn!= null)
     	    			conn.close();
@@ -224,8 +267,11 @@ public class ChatPanel extends JPanel {
 	      
 	      g2.setPaint(new Color(240, 240, 240)); //szary
 	 
-	      g2.fill(new RoundRectangle2D.Double(120, 95, 660, 635, 40, 40));
+	      g2.fill(new RoundRectangle2D.Double(220, 95, 660, 635, 40, 40));
 	      
+	      g2.setPaint(Color.WHITE); 
+	      
+	      g2.fill(new RoundRectangle2D.Double(25, 95, 195, 635, 40, 40));
 	      /*
 	      g2.setPaint(new Color(255, 240, 245)); // jasnorozowy
 	      g2.fill(new RoundRectangle2D.Double(100, 420, 230, 50, 40, 40));
