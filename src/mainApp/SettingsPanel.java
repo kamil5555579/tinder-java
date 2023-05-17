@@ -9,8 +9,11 @@ import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
@@ -70,6 +73,8 @@ public class SettingsPanel extends JPanel {
     private Connection conn;
 	private int id;
 	private User me;
+	private BufferedImage bufferedImage;
+	private Rectangle rectangle;
 
 
 	
@@ -83,16 +88,33 @@ public class SettingsPanel extends JPanel {
 		setBorder(new LineBorder(new Color(255, 20, 147), 3, true));
 		setLayout(null); 
 		
+		try {
+		    bufferedImage = ImageIO.read(getClass().getResource("back3.png"));
+		  } catch (Exception ex) {
+		    System.out.println(ex);
+		  }
+		
+		addMouseListener(new MouseAdapter() {
+			 public void mouseClicked(MouseEvent e) {
+				if (e.getX()>25 && e.getX()<125 && e.getY()>25 && e.getY()<125)
+				{
+					CardLayout cardLayout = (CardLayout) panel.getLayout();
+	                cardLayout.previous(panel);
+				}
+				repaint();
+	        }
+		});
 
 		// przycisk przejścia do swipowania
 		
+		/*
 		buttonSwipe = new JButton();
 		buttonSwipe.setBorder(null);
 		buttonSwipe.setBackground(new Color(0,0,0,0));
 		
 		buttonSwipe.setBounds(25, 25, 100, 100);
 		try {
-		    Image img = ImageIO.read(getClass().getResource("back3.png"));
+		    Image bufferedImage = ImageIO.read(getClass().getResource("back3.png"));
 		    buttonSwipe.setIcon(new ImageIcon(img));
 		  } catch (Exception ex) {
 		    System.out.println(ex);
@@ -106,7 +128,7 @@ public class SettingsPanel extends JPanel {
             }
         });
 		add(buttonSwipe);
-        
+        */
 		
 		// label ustawienia
 		
@@ -392,6 +414,7 @@ public class SettingsPanel extends JPanel {
 	 
 	      g2.fill(new RoundRectangle2D.Double(120, 95, 660, 635, 40, 40));
 	   
+	      g2.drawImage(bufferedImage , 25, 25, 100, 100, null);
 	     }
 	 }
 
