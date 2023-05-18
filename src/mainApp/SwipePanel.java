@@ -3,9 +3,12 @@ package mainApp;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -14,6 +17,8 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
+import java.awt.geom.RoundRectangle2D;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -65,11 +70,11 @@ public class SwipePanel extends JPanel {
 	List<User> users = new ArrayList<User>();
 	Iterator<User> it = null;
 	int id;
-	private JButton buttonChat, buttonSettings;
 	private JLabel lblTinder, lblWait;
-	private JButton reject,match;
 	ImagePanel imgPanel;
 	JProgressBar progressBar;
+	private BufferedImage imageSettings, imageChat, imageReject, imageMatch;
+	private Rectangle rectangleChat, rectangleSettings, rectangleMatch, rectangleReject;
 
 		    public SwipePanel(JPanel panel, int id) 
 		    {
@@ -99,90 +104,86 @@ public class SwipePanel extends JPanel {
 	
 		        // przycisk przejscia do wiadomosci
 				
-				buttonChat = new JButton();
-				buttonChat.setBorder(null);
 				try {
-				    Image img = ImageIO.read(getClass().getResource("fly3.png"));
-				    buttonChat.setIcon(new ImageIcon(img));
+				    imageChat = ImageIO.read(getClass().getResource("fly3.png"));
 				  } catch (Exception ex) {
 				    System.out.println(ex);
 				  }
-				buttonChat.setBounds(50, 25, 100, 100);
-				buttonChat.setBackground(new Color(0,0,0,0));
-				add(buttonChat);
-				buttonChat.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e)
-		            {
-		                CardLayout cardLayout = (CardLayout) panel.getLayout();
-		                cardLayout.previous(panel);
-		            }
-				});
-				
-				// przycisk przejscia do ustawień
-				
-				buttonSettings = new JButton();
-				buttonSettings.setBorder(null);
-				buttonSettings.setBackground(new Color(0, 0, 0,0));
-				
-				buttonSettings.setBounds(750, 25, 100, 100);
-				try {
-				    Image img4 = ImageIO.read(getClass().getResource("settings.png"));
-				    buttonSettings.setIcon(new ImageIcon(img4));
-				  } catch (Exception ex) {
-				    System.out.println(ex);
-				  }
-				buttonSettings.addActionListener( new ActionListener()
-		        {
-		            public void actionPerformed(ActionEvent e)
-		            {
-		                CardLayout cardLayout = (CardLayout) panel.getLayout();
-		                cardLayout.next(panel);
-		            }
-		        });
-				
-		        add(buttonSettings);
-
-				// przycisk reject
-
-				reject = new JButton();
-				reject.setBorder(null);
-				try {
-				    Image img = ImageIO.read(getClass().getResource("break.png"));
-				    reject.setIcon(new ImageIcon(img));
-				  } catch (Exception ex) {
-				    System.out.println(ex);
-				  }
-				reject.setBounds(300,650,100,100);
-				reject.setBackground(new Color(0,0,0,0));
-				add(reject);
-				reject.addActionListener(new ActionListener() {
+				rectangleChat = new Rectangle(50, 25, 100, 100);
+				addMouseListener(new MouseAdapter() {
 					
 					@Override
-					public void actionPerformed(ActionEvent e) {
-						if (imgPanel!=null && imgPanel.getImage()!=null)
-						imgPanel.goLeft();
+					 public void mouseClicked(MouseEvent e) {
+						if (e.getX()>rectangleChat.getX() && e.getX()<(rectangleChat.getX()+rectangleChat.getWidth()) && e.getY()>rectangleChat.getY() && e.getY()<(rectangleChat.getHeight()+rectangleChat.getY()))
+						{
+							CardLayout cardLayout = (CardLayout) panel.getLayout();
+							cardLayout.previous(panel);
 						}
+						repaint();
+			        }
 				});
+				// przycisk przejscia do ustawień
+				
+				
+				try {
+				    imageSettings = ImageIO.read(getClass().getResource("settings.png"));
+				  } catch (Exception ex) {
+				    System.out.println(ex);
+				  }
+				rectangleSettings = new Rectangle(750,25,100,100);
+				addMouseListener(new MouseAdapter() {
+					
+					@Override
+					 public void mouseClicked(MouseEvent e) {
+						if (e.getX()>rectangleSettings.getX() && e.getX()<(rectangleSettings.getX()+rectangleSettings.getWidth()) && e.getY()>rectangleSettings.getY() && e.getY()<(rectangleSettings.getHeight()+rectangleSettings.getY()))
+						{
+							CardLayout cardLayout = (CardLayout) panel.getLayout();
+							cardLayout.next(panel);
+						}
+						repaint();
+			        }
+				});
+			
+		      
+				// przycisk reject
+
+				try {
+				    imageReject = ImageIO.read(getClass().getResource("break.png"));
+				  } catch (Exception ex) {
+				    System.out.println(ex);
+				  }
+				rectangleReject = new Rectangle (300,650,100,100);
+				addMouseListener(new MouseAdapter() {
+					
+					@Override
+					 public void mouseClicked(MouseEvent e) {
+						 Point point = e.getPoint();
+						 if(rectangleReject.contains(point)) {
+							 if (imgPanel!=null && imgPanel.getImage()!=null)
+									imgPanel.goLeft();
+						}
+					 }
+				});
+				
 				
 				// przycisk match
 				
-				match = new JButton();
-				match.setBorder(null);
 				try {
-				    Image img = ImageIO.read(getClass().getResource("full.png"));
-				    match.setIcon(new ImageIcon(img));
+				    imageMatch = ImageIO.read(getClass().getResource("full.png"));
 				  } catch (Exception ex) {
 				    System.out.println(ex);
 				  }
-				match.setBounds(500,650,100,100);
-				match.setBackground(new Color(0,0,0,0));
-				add(match);
-				match.addActionListener(new ActionListener() {
+				
+				rectangleMatch = new Rectangle (500,650,100,100);
+				addMouseListener(new MouseAdapter() {
 					
 					@Override
-					public void actionPerformed(ActionEvent e) {
-					if (imgPanel!=null && imgPanel.getImage()!=null)
-					imgPanel.goRight();
+					public void mouseClicked(MouseEvent e) {
+						Point pointMatch = e.getPoint();
+						if(rectangleMatch.contains(pointMatch)) {
+							if (imgPanel!=null && imgPanel.getImage()!=null)
+							imgPanel.goRight();	
+						}
 					}
 				});
 				
@@ -200,10 +201,7 @@ public class SwipePanel extends JPanel {
 				add(lblWait);
 				
 		    }  
-		    
-		    
-		    
-			
+		 
 		    
 		    // funkcja ładująca dane użytkownika
 			
@@ -299,4 +297,18 @@ public class SwipePanel extends JPanel {
 		       
 		       worker.execute();
 			}
+
+
+
+public void paintComponent(Graphics g) {
+    super.paintComponent(g);
+    
+    Graphics2D g2 = (Graphics2D)g;
+    
+    g2.drawImage(imageSettings ,(int) rectangleSettings.getX() , (int) rectangleSettings.getY(),(int) rectangleSettings.getWidth(), (int) rectangleSettings.getHeight(), null);
+    g2.drawImage(imageChat ,(int) rectangleChat.getX() , (int) rectangleChat.getY(),(int) rectangleChat.getWidth(), (int) rectangleChat.getHeight(), null);
+    g2.drawImage(imageReject ,(int) rectangleReject.getX() , (int) rectangleReject.getY(),(int) rectangleReject.getWidth(), (int) rectangleReject.getHeight(), null);
+    g2.drawImage(imageMatch ,(int) rectangleMatch.getX() , (int) rectangleMatch.getY(),(int) rectangleMatch.getWidth(), (int) rectangleMatch.getHeight(), null);
+   }
+
 }
