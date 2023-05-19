@@ -273,7 +273,7 @@ public class SwipePanel extends JPanel {
 			    			if(it.hasNext())
 							{
 			    				imgPanel = new ImagePanel(id, it, SwipePanel.this);
-			    				imgPanel.setBounds(0, 0, 900, 800);
+			    				imgPanel.setBounds(0, 125, 900, 550);
 			    				add(imgPanel);
 			    				progressBar.setVisible(false);
 			    				lblWait.setVisible(false);

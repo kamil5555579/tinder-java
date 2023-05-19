@@ -41,7 +41,7 @@ public class ImagePanel extends JPanel {
 	int imgWidth=400;
 	int imgHeight=400;
 	int panelWidth=900;
-	int panelHeight=800;
+	int panelHeight=550;
 	Timer slideTimer = new Timer();
 	SqlConnection sqlConn = new SqlConnection();
 	private Connection conn;
@@ -59,7 +59,7 @@ public class ImagePanel extends JPanel {
 		if(it.hasNext())
 			current=it.next();
 		this.panel = panel;
-		setSize(900,800);
+		setSize(900,550);
 		x = this.getWidth()/2 - imgWidth/2;
 		y = this.getHeight()/2 - imgHeight/2-50;
 		fi=0;
