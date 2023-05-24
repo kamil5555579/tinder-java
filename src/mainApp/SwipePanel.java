@@ -50,6 +50,8 @@ import com.mysql.jdbc.Connection;
 
 import utilities.SqlConnection;
 import utilities.User;
+import utilities.UserPreferences;
+
 import javax.swing.JProgressBar;
 
 public class SwipePanel extends JPanel {
@@ -75,6 +77,7 @@ public class SwipePanel extends JPanel {
 	JProgressBar progressBar;
 	private BufferedImage imageSettings, imageChat, imageReject, imageMatch;
 	private Rectangle rectangleChat, rectangleSettings, rectangleMatch, rectangleReject;
+	UserPreferences myPreferences = new UserPreferences();
 
 		    public SwipePanel(JPanel panel, int id) 
 		    {
@@ -90,7 +93,7 @@ public class SwipePanel extends JPanel {
 				
 				
 				// załadowanie osób
-				
+				initializeMyPreferences(id);
 				//initializeMe(id); tutaj raczej niepotrzebne
 				initializeOthers(id);
 				
@@ -241,6 +244,51 @@ public class SwipePanel extends JPanel {
 		       worker.execute();
 			}
 			
+			// ładowanie preferencji
+			
+			public void initializeMyPreferences(int id)
+			{
+				SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>(){
+			       	 
+		            @Override
+		            protected Void doInBackground() throws Exception {
+		            	conn = sqlConn.connect();
+		    			PreparedStatement prep;
+
+		    			List<String> genders = new ArrayList<String>();
+		    			
+		    			prep = conn.prepareStatement("SELECT g.gender_name "
+		    					+ " FROM user_preferred_genders pg "
+		    					+ " JOIN genders g "
+		    					+ " ON g.gender_id = pg.gender_id "
+		    					+ " WHERE user_id =(?)");
+		    			prep.setInt(1, id);
+		    			ResultSet rs = prep.executeQuery();
+		    			while(rs.next())
+		    			{
+		    				String name = rs.getString("gender_name");
+		    				genders.add(name);
+		    			}
+	    				myPreferences.setGenders(genders);
+						return null;
+		            }
+
+		            @Override
+		            protected void done() {
+		                try {
+		                	if (conn!= null)
+		    	    			conn.close();
+		                } catch (Exception ex) {
+		                    ex.printStackTrace();
+		                }
+		                System.out.println(myPreferences.getGenders());
+		            }
+
+		       };
+		       
+		       worker.execute();
+			}
+			
 			// funkcja ładująca innych użytkowników
 			
 			public void initializeOthers(int id)
@@ -252,7 +300,11 @@ public class SwipePanel extends JPanel {
 		            	conn = sqlConn.connect();
 		    			PreparedStatement prep;
 
-		    			prep = conn.prepareStatement("SELECT * FROM userdata WHERE user_id NOT IN (SELECT stranger_id FROM matches WHERE user_id = (?)) AND user_id !=(?)");
+		    			prep = conn.prepareStatement("SELECT * FROM userdata "
+		    					+ "WHERE user_id NOT IN "
+		    					+ "(SELECT stranger_id FROM matches "
+		    					+ "WHERE user_id = (?)) AND user_id !=(?) "
+		    					+ "AND ");
 		    			prep.setInt(1, id);
 		    			prep.setInt(2, id);
 		    			ResultSet rs = prep.executeQuery();
