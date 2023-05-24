@@ -1,6 +1,7 @@
 package mainApp;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
+
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 import java.awt.BorderLayout;
@@ -9,6 +10,8 @@ import java.awt.Dimension;
 import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import java.sql.PreparedStatement;
@@ -32,6 +35,8 @@ import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.SwingWorker;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import com.mysql.jdbc.Connection;
 
@@ -54,6 +59,7 @@ public class ConversationPanel extends JPanel {
 	SqlConnection sqlConn = new SqlConnection();
 	private Connection conn;
 	Connection conn2;
+	Connection conn3;
 	JLabel label2;
 	Box vertical = Box.createVerticalBox();
 	final ScheduledExecutorService scheduler = 
@@ -61,6 +67,9 @@ public class ConversationPanel extends JPanel {
 	private JPanel panel_1,panel_2;
 	Timestamp last = new Timestamp(0);
 	JScrollBar verticalScrollBar;
+	JButton loadButton;
+	boolean scrollDown = true;
+	int maxMsg = 6;
 	
 	public ConversationPanel(int id, User current) {
 		setBorder(null);
@@ -79,6 +88,21 @@ public class ConversationPanel extends JPanel {
 	    label2.setBounds(250, 0, 250, 50);
 
 		add(label2);
+		
+		// załaduj więcej
+		
+		loadButton = new JButton("załaduj");
+		loadButton.setBounds(450, 0, 50, 50);
+		add(loadButton);
+		loadButton.addActionListener(new ActionListener()
+				{
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						loadMore();
+					}
+			
+				});
 		
 		// panel wewnętrzny z wiadomościami
 		
@@ -108,7 +132,17 @@ public class ConversationPanel extends JPanel {
 
 		scrollPane.setPreferredSize(new Dimension(650, 500));
 		verticalScrollBar = scrollPane.getVerticalScrollBar();
-		
+		/* scroll listener
+		 verticalScrollBar.addAdjustmentListener(new AdjustmentListener() {
+	            @Override
+	            public void adjustmentValueChanged(AdjustmentEvent e) {
+	                if (e.getValue() == verticalScrollBar.getMinimum() && verticalScrollBar.getMaximum()!=0) {
+	                    // Perform the action when scroll bar reaches the top
+	                    System.out.println("Scroll bar reached the top!");
+	                }
+	            }
+	        });
+		*/
 		panel_2.add(scrollPane, BorderLayout.PAGE_START);
 		
 		
@@ -179,6 +213,7 @@ public class ConversationPanel extends JPanel {
 	{
 		this.current = current;
 		label2.setText("czat z:" + current.getFirstname());
+		maxMsg = 6;
 		
 	}
 	
@@ -193,12 +228,18 @@ public class ConversationPanel extends JPanel {
     					conn2 = sqlConn.connect();
 		    			try {
 	    				PreparedStatement prep;
-						prep = conn2.prepareStatement("SELECT * FROM messages WHERE ((sender_id=(?) AND receiver_id=(?)) OR (sender_id=(?) AND receiver_id=(?))) AND date > (?)");
+						prep = conn2.prepareStatement("SELECT * FROM "
+								+ "(SELECT * FROM messages "
+								+ "WHERE ((sender_id=(?) AND receiver_id=(?)) OR (sender_id=(?) AND receiver_id=(?))) AND date > (?)"
+								+ " ORDER BY date DESC "
+								+ "LIMIT ?) AS subquery "
+								+ "ORDER BY date ASC");
 						prep.setInt(1, id);
 		    			prep.setInt(2, current.getId());
 		    			prep.setInt(3, current.getId());
 		    			prep.setInt(4, id);
 		    			prep.setTimestamp(5, last);
+		    			prep.setInt(6, maxMsg);
 		    			ResultSet rs = prep.executeQuery();
 		    			while(rs.next())
 		    			{
@@ -254,9 +295,12 @@ public class ConversationPanel extends JPanel {
 		    				invalidate();
 		    				validate();
 			    			last = rs.getTimestamp("date");
-			    			int extent = verticalScrollBar.getModel().getExtent();
-			                int maximum = verticalScrollBar.getMaximum();
-			                verticalScrollBar.setValue(maximum - extent);
+			    			if(scrollDown)
+			    			{
+				    			int extent = verticalScrollBar.getModel().getExtent();
+				                int maximum = verticalScrollBar.getMaximum();
+				                verticalScrollBar.setValue(maximum - extent);
+			    			}
 		    			}
 		    			
 		    			if(conn2!=null)
@@ -268,6 +312,20 @@ public class ConversationPanel extends JPanel {
     				}
 			}}), 0, 100, MILLISECONDS);
 	            
+	}
+	
+	void loadMore()
+	{
+		scrollDown = false;
+		maxMsg +=2;
+		refresh();
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		scrollDown = true;
 	}
 
 	void refresh()
@@ -295,5 +353,4 @@ public class ConversationPanel extends JPanel {
 	      g2.fill(new RoundRectangle2D.Double(450, 565, 190, 50, 40, 40));
 	      
 	     }
-
 }
