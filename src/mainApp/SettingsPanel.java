@@ -25,6 +25,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.Icon;
@@ -50,6 +54,7 @@ import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
 import javax.swing.SwingWorker;
+import javax.swing.JSlider;
 
 public class SettingsPanel extends JPanel {
 	
@@ -73,10 +78,14 @@ public class SettingsPanel extends JPanel {
 	private Image image;
 	private BufferedImage imageSwipe;
 	private Rectangle rectangleSwipe = new Rectangle(25 ,25 ,100 ,100);
+	private JTextField txtJo;
+	private JTextField textField_1;
+	SwipePanel swipePanel;
 	
-	public SettingsPanel(JPanel panel ,JFrame frame, int id) {
+	public SettingsPanel(JPanel panel ,JFrame frame, int id,SwipePanel swipePanel) {
 		
 		this.id=id;
+		this.swipePanel=swipePanel;
 		initializeMe(id);
 		
 		// ustawienia panelu
@@ -118,7 +127,7 @@ public class SettingsPanel extends JPanel {
 		textPaneDescription = new JTextPane();
 		textPaneDescription.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		textPaneDescription.setCaretColor(new Color(0, 0, 0));
-		textPaneDescription.setBounds(180, 320, 250, 230);
+		textPaneDescription.setBounds(180, 320, 250, 128);
 		textPaneDescription.setBackground(new Color(240, 240, 240));
 		textPaneDescription.setFont(new Font("Dialog", Font.ITALIC, 12));
 		textPaneDescription.setBorder(null);
@@ -271,8 +280,130 @@ public class SettingsPanel extends JPanel {
 		        lblEdytujSwjProfil.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 18));
 		        lblEdytujSwjProfil.setBounds(150, 100, 600, 50);
 		        add(lblEdytujSwjProfil);
+		        
+		        txtJo = new JTextField();
+		        txtJo.setBackground(new Color(0, 128, 64));
+		        txtJo.setBounds(180, 460, 96, 19);
+		        add(txtJo);
+		        txtJo.setColumns(10);
+		        
+		        textField_1 = new JTextField();
+		        textField_1.setColumns(10);
+		        textField_1.setBackground(new Color(0, 128, 64));
+		        textField_1.setBounds(180, 489, 96, 19);
+		        add(textField_1);
+		        
+		        JSlider slider = new JSlider();
+		        slider.setBounds(414, 513, 200, 6);
+		        add(slider);
+		        
+		        JButton btnNewButton = new JButton("zapisz preferencje");
+		        btnNewButton.setBounds(180, 538, 116, 21);
+		        add(btnNewButton);
+		        btnNewButton.addActionListener(new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						// TODO Auto-generated method stub
+						List<String> genders = Arrays.asList(txtJo.getText().split(" "));
+						List<String> faculties = Arrays.asList(textField_1.getText().split(" "));
+						int age = slider.getValue();
+						System.out.println(age);
+						savePreferences(genders, faculties, 0, age);
+						System.out.println(faculties);
+					}
+				});
 			
 			}		
+
+
+	protected void savePreferences(List<String> genders, List<String> faculties, int ageMin, int ageMax) {
+		SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>(){
+	       	 
+			@Override
+            protected Void doInBackground() throws Exception {
+            	conn = sqlConn.connect();
+            	String selectSql = "SELECT gender_id FROM genders WHERE gender_name IN " +
+                        "(" + String.join(",", Collections.nCopies(genders.size(), "?")) + ")";
+            	PreparedStatement selectStatement = conn.prepareStatement(selectSql);
+			     for (int i = 1; i <= genders.size(); i++) {
+			         selectStatement.setString(i, genders.get(i - 1));
+			     }
+			     ResultSet resultSet = selectStatement.executeQuery();
+			     
+			     String deleteSql = "DELETE FROM user_preferred_genders WHERE user_id = ?";
+		            PreparedStatement deleteStatement = conn.prepareStatement(deleteSql);
+		            deleteStatement.setInt(1, id);
+		            deleteStatement.executeUpdate();
+
+			
+			     // Insert the preferred genders for the user
+			     String insertSql = "INSERT INTO user_preferred_genders (user_id, gender_id) VALUES (?, ?)";
+			     PreparedStatement insertStatement = conn.prepareStatement(insertSql);
+			     while (resultSet.next()) {
+			         int genderId = resultSet.getInt("gender_id");
+			         insertStatement.setInt(1, id);
+			         insertStatement.setInt(2, genderId);
+			         insertStatement.executeUpdate();
+			     }
+
+			     selectSql = "SELECT faculty_id FROM faculties WHERE faculty_name IN " +
+                         "(" + String.join(",", Collections.nCopies(faculties.size(), "?")) + ")";
+			      selectStatement = conn.prepareStatement(selectSql);
+			      for (int i = 1; i <= faculties.size(); i++) {
+			          selectStatement.setString(i, faculties.get(i - 1));
+			      }
+			      resultSet = selectStatement.executeQuery();
+			      
+			      deleteSql = "DELETE FROM user_preferred_faculties WHERE user_id = ?";
+		            deleteStatement = conn.prepareStatement(deleteSql);
+		            deleteStatement.setInt(1, id);
+		            deleteStatement.executeUpdate();
+			
+			      // Insert the preferred faculties for the user
+			      insertSql = "INSERT INTO user_preferred_faculties (user_id, faculty_id) VALUES (?, ?)";
+			      insertStatement = conn.prepareStatement(insertSql);
+			      while (resultSet.next()) {
+			          int facultyId = resultSet.getInt("faculty_id");
+			          insertStatement.setInt(1, id);
+			          insertStatement.setInt(2, facultyId);
+			          insertStatement.executeUpdate();
+			      }
+
+			      PreparedStatement prepUp = conn.prepareStatement("UPDATE userdata SET age_min = (?), age_max = (?) WHERE user_id = (?)");
+			      prepUp.setInt(1, ageMin);
+			      prepUp.setInt(2, ageMax);
+			      prepUp.setInt(3, id);
+			      prepUp.executeUpdate();
+			      System.out.println("Preferred faculties inserted successfully!");
+    			
+                return null;
+            }
+
+            @Override
+            protected void done() {
+                try {
+            		if (conn!= null)
+    	    			conn.close();
+            		swipePanel.initializeMyPreferences(id);
+                } catch (Exception ex) {
+                	JOptionPane.showMessageDialog(
+                            null,"Błąd zapisu danych",
+                            "Błąd zapisu danych",
+                            JOptionPane.ERROR_MESSAGE);
+                }
+                JOptionPane.showMessageDialog(
+                        null,"Zapisano",
+                        "Zapisano dane",
+                        JOptionPane.INFORMATION_MESSAGE);
+            }
+
+       };
+       
+       worker.execute();
+
+		
+	}
 
 
 	public void save(String firstname, String lastname, String university, InputStream is, JFrame frame, String gender, int age, String description) 

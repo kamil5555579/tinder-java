@@ -95,7 +95,7 @@ public class SwipePanel extends JPanel {
 				// załadowanie osób
 				initializeMyPreferences(id);
 				//initializeMe(id); tutaj raczej niepotrzebne
-				initializeOthers(id);
+				
 				
 				// label Tinder
 				
@@ -270,6 +270,36 @@ public class SwipePanel extends JPanel {
 		    				genders.add(name);
 		    			}
 	    				myPreferences.setGenders(genders);
+	    				
+	    				List<String> faculties = new ArrayList<String>();
+		    			
+		    			PreparedStatement prep2 = conn.prepareStatement("SELECT f.faculty_name "
+		    					+ " FROM user_preferred_faculties pf "
+		    					+ " JOIN faculties f "
+		    					+ " ON f.faculty_id = pf.faculty_id "
+		    					+ " WHERE user_id =(?)");
+		    			prep2.setInt(1, id);
+		    			ResultSet rs2 = prep2.executeQuery();
+		    			
+		    			System.out.println(faculties);
+	    				myPreferences.setFaculties(faculties);
+	    				
+		    			while(rs2.next())
+		    			{
+		    				String name = rs2.getString("faculty_name");
+		    				faculties.add(name);
+		    			}
+		    			
+		    			PreparedStatement prep3 = conn.prepareStatement("SELECT age_min, age_max "
+		    					+ "FROM userdata "
+		    					+ "where user_id = (?)");
+		    			prep3.setInt(1, id);
+		    			ResultSet rs3 = prep3.executeQuery();
+		    			if(rs3.next())
+		    			{
+		    				myPreferences.setAgeMin(rs3.getInt("age_min"));
+		    				myPreferences.setAgeMax(rs3.getInt("age_max"));
+		    			}
 						return null;
 		            }
 
@@ -278,10 +308,12 @@ public class SwipePanel extends JPanel {
 		                try {
 		                	if (conn!= null)
 		    	    			conn.close();
+		                	initializeOthers(id);
 		                } catch (Exception ex) {
 		                    ex.printStackTrace();
 		                }
 		                System.out.println(myPreferences.getGenders());
+		                System.out.println(myPreferences.getFaculties());
 		            }
 
 		       };
@@ -300,13 +332,30 @@ public class SwipePanel extends JPanel {
 		            	conn = sqlConn.connect();
 		    			PreparedStatement prep;
 
+		    			String placeholders = String.join(",", ("?").repeat(myPreferences.getGenders().size()));
+		    			String placeholders2 = String.join(",", ("?").repeat(myPreferences.getFaculties().size()));
 		    			prep = conn.prepareStatement("SELECT * FROM userdata "
 		    					+ "WHERE user_id NOT IN "
 		    					+ "(SELECT stranger_id FROM matches "
 		    					+ "WHERE user_id = (?)) AND user_id !=(?) "
-		    					+ "AND ");
+		    					+ "AND gender IN (" + placeholders + ") "
+		    					+ "AND university IN (" + placeholders2 + ") "
+		    							+ "AND age BETWEEN (?) AND (?)");
 		    			prep.setInt(1, id);
 		    			prep.setInt(2, id);
+
+
+		                // Set the parameter values dynamically from the list
+		                for (int i = 0; i < myPreferences.getGenders().size(); i++) {
+		                    prep.setString(i + 3, myPreferences.getGenders().get(i));
+		                }
+		                for (int i = myPreferences.getGenders().size(); i < myPreferences.getGenders().size() + myPreferences.getFaculties().size(); i++) {
+		                    prep.setString(i + 3, myPreferences.getFaculties().get(i-myPreferences.getGenders().size()));
+		                }
+		                
+		                prep.setInt(myPreferences.getGenders().size() + myPreferences.getFaculties().size()+3, myPreferences.getAgeMin());
+		                prep.setInt(myPreferences.getGenders().size() + myPreferences.getFaculties().size()+4, myPreferences.getAgeMax());
+		                
 		    			ResultSet rs = prep.executeQuery();
 		    			while(rs.next())
 		    			{

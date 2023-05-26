@@ -46,8 +46,8 @@ public class CardFrame2 extends JFrame{
         contentPane.setLayout(new CardLayout());
         
         panel6 = new ChatPanel(contentPane, id);
-        panel5 = new SettingsPanel(contentPane,this, id);
         panel4 = new SwipePanel(contentPane,  id);
+        panel5 = new SettingsPanel(contentPane,this, id, panel4);
         contentPane.add(panel4, "Panel 4"); 
         contentPane.add(panel5, "Panel 5");
         contentPane.add(panel6, "Panel 6");
