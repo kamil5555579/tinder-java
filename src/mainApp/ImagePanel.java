@@ -54,6 +54,7 @@ public class ImagePanel extends JPanel {
 	
 	public ImagePanel(int id, Iterator<User> it, SwipePanel panel) {
 		
+		
 		this.id = id;
 		this.it=it;
 		if(it.hasNext())

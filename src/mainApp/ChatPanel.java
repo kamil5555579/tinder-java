@@ -11,10 +11,14 @@ import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
+import java.awt.image.BufferedImage;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -52,7 +56,7 @@ import javax.swing.SwingConstants;
 
 public class ChatPanel extends JPanel {
 	
-	private JButton buttonSwipe, buttonSettings;
+	private JButton buttonSwipe;
 	SqlConnection sqlConn = new SqlConnection();
 	private Connection conn;
 	User current;
@@ -63,7 +67,9 @@ public class ChatPanel extends JPanel {
 	JComboBox<User> comboBox;
 	JScrollPane listScrollPane;
 	DefaultListModel listaElementy;
+	private BufferedImage imageChat;
 	JList<User> lista;
+	private Rectangle rectangleChat = new Rectangle(820, 0, 70, 70);
 
 	private JLabel lblChat,textChat;
 	
@@ -72,7 +78,7 @@ public class ChatPanel extends JPanel {
 		
 		lblChat = new JLabel("Wiadomości");
 		lblChat.setForeground(new Color(255, 100, 153));
-		lblChat.setFont(new Font("LM Sans 10", Font.BOLD | Font.ITALIC, 30));
+		lblChat.setFont(new Font("LM Sans 10", Font.BOLD | Font.ITALIC, 34));
 		lblChat.setBounds(350, 0, 200, 75);
 		add(lblChat);
 			
@@ -95,24 +101,22 @@ public class ChatPanel extends JPanel {
 			buttonSwipe.setBounds(800, 0, 100, 100);
 
 			try {
-			    Image img = ImageIO.read(getClass().getResource("back2.png"));
-			    buttonSwipe.setIcon(new ImageIcon(img));
+			    imageChat = ImageIO.read(getClass().getResource("arrow_chat.PNG"));
 			  } catch (Exception ex) {
 			    System.out.println(ex);
 			  }
 			
-			buttonSwipe.addActionListener( new ActionListener()
-	        {
-	            public void actionPerformed(ActionEvent e)
-	            {
-	                CardLayout cardLayout = (CardLayout) panel.getLayout();
-	                cardLayout.next(panel);
-	                panel.repaint();
-    				panel.invalidate();
-    				panel.validate();
-	            }
-	        });
-			add(buttonSwipe);
+			
+			addMouseListener(new MouseAdapter() {
+				 public void mouseClicked(MouseEvent e) {
+					if (e.getX()>rectangleChat.getX() && e.getX()<(rectangleChat.getX()+rectangleChat.getWidth()) && e.getY()>rectangleChat.getY() && e.getY()<(rectangleChat.getHeight()+rectangleChat.getY()))
+					{
+						CardLayout cardLayout = (CardLayout) panel.getLayout();
+		                cardLayout.next(panel);
+					}
+					repaint();
+		        }
+			});
 		    
 
 		    // wybór osoby do czatowania
@@ -226,6 +230,7 @@ public class ChatPanel extends JPanel {
 	      
 	      g2.fill(new RoundRectangle2D.Double(25, 95, 195, 635, 40, 40));
 	      
+	      g2.drawImage(imageChat ,(int) rectangleChat.getX() ,(int) rectangleChat.getY(), (int) rectangleChat.getWidth(), (int) rectangleChat.getHeight(), null);
 	     }
 }
 

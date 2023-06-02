@@ -77,7 +77,7 @@ public class SettingsPanel extends JPanel {
 	private User me;
 	private Image image;
 	private BufferedImage imageSwipe;
-	private Rectangle rectangleSwipe = new Rectangle(25 ,25 ,100 ,100);
+	private Rectangle rectangleSwipe = new Rectangle(10 ,0 ,70 ,70);
 	private JTextField txtJo;
 	private JTextField textField_1;
 	SwipePanel swipePanel;
@@ -86,7 +86,7 @@ public class SettingsPanel extends JPanel {
 		
 		this.id=id;
 		this.swipePanel=swipePanel;
-		initializeMe(id);
+		//initializeMe(id);
 		
 		// ustawienia panelu
 		
@@ -96,7 +96,7 @@ public class SettingsPanel extends JPanel {
 		
 		
 		try {
-			imageSwipe = ImageIO.read(getClass().getResource("back3.png"));
+			imageSwipe = ImageIO.read(getClass().getResource("arrow_settings.PNG"));
 		  } catch (Exception ex) {
 		    System.out.println(ex);
 		  }
@@ -282,7 +282,7 @@ public class SettingsPanel extends JPanel {
 		        add(lblEdytujSwjProfil);
 		        
 		        txtJo = new JTextField();
-		        txtJo.setBackground(new Color(0, 128, 64));
+		        txtJo.setBackground(Color.WHITE);
 		        txtJo.setBounds(180, 460, 96, 19);
 		        add(txtJo);
 		        txtJo.setColumns(10);
@@ -290,15 +290,15 @@ public class SettingsPanel extends JPanel {
 		        textField_1 = new JTextField();
 		        textField_1.setColumns(10);
 		        textField_1.setBackground(new Color(0, 128, 64));
-		        textField_1.setBounds(180, 489, 96, 19);
+		        textField_1.setBounds(180, 480, 96, 19);
 		        add(textField_1);
 		        
 		        JSlider slider = new JSlider();
-		        slider.setBounds(414, 513, 200, 6);
+		        slider.setBounds(180, 510, 200, 6);
 		        add(slider);
 		        
 		        JButton btnNewButton = new JButton("zapisz preferencje");
-		        btnNewButton.setBounds(180, 538, 116, 21);
+		        btnNewButton.setBounds(180, 530, 116, 21);
 		        add(btnNewButton);
 		        btnNewButton.addActionListener(new ActionListener() {
 					
@@ -308,12 +308,13 @@ public class SettingsPanel extends JPanel {
 						List<String> genders = Arrays.asList(txtJo.getText().split(" "));
 						List<String> faculties = Arrays.asList(textField_1.getText().split(" "));
 						int age = slider.getValue();
-						System.out.println(age);
 						savePreferences(genders, faculties, 0, age);
-						System.out.println(faculties);
+						//System.out.println("wiek"+age);
+						//System.out.println("wydział"+faculties);
+						//System.out.println("płeć"+genders);
 					}
 				});
-			
+		        initializeMe(id);
 			}		
 
 
@@ -375,7 +376,7 @@ public class SettingsPanel extends JPanel {
 			      prepUp.setInt(2, ageMax);
 			      prepUp.setInt(3, id);
 			      prepUp.executeUpdate();
-			      System.out.println("Preferred faculties inserted successfully!");
+			      //System.out.println("Preferred faculties inserted successfully!");
     			
                 return null;
             }
@@ -476,7 +477,6 @@ public class SettingsPanel extends JPanel {
     				comboBoxFaculty.setSelectedItem(me.getUniversity());
     				labelPhoto.setIcon(new ImageIcon(me.getImage()));
     				textPaneDescription.setText(me.getDescription());
-    
     			}
 				return null;
             }

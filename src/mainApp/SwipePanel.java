@@ -281,7 +281,7 @@ public class SwipePanel extends JPanel {
 		    			prep2.setInt(1, id);
 		    			ResultSet rs2 = prep2.executeQuery();
 		    			
-		    			System.out.println(faculties);
+		    			//System.out.println(faculties);
 	    				myPreferences.setFaculties(faculties);
 	    				
 		    			while(rs2.next())
@@ -312,8 +312,8 @@ public class SwipePanel extends JPanel {
 		                } catch (Exception ex) {
 		                    ex.printStackTrace();
 		                }
-		                System.out.println(myPreferences.getGenders());
-		                System.out.println(myPreferences.getFaculties());
+		               //System.out.println(myPreferences.getGenders());
+		               //System.out.println(myPreferences.getFaculties());
 		            }
 
 		       };
