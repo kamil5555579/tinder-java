@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.ComponentOrientation;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
@@ -28,12 +29,14 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -58,7 +61,7 @@ import javax.swing.JSlider;
 
 public class SettingsPanel extends JPanel {
 	
-	private JLabel labelSettings;
+	private JLabel labelSettings, labelGender, labelFaculties, labelAge;
 	private JTextPane textPaneDescription;
 	private JComboBox comboBoxGender;
 	private JComboBox comboBoxFaculty;
@@ -81,6 +84,33 @@ public class SettingsPanel extends JPanel {
 	private JTextField txtJo;
 	private JTextField textField_1;
 	SwipePanel swipePanel;
+	JPanel panelCheckBox;
+	JPanel panelCheckBox2;
+	List<String> genders;
+	List<String> faculties;
+	JCheckBox
+	cb1 = new JCheckBox("Kobiety"),
+	cb2 = new JCheckBox("Mężczyźni"),
+	cb3 = new JCheckBox("Inne");	
+	JCheckBox
+	f1 = new JCheckBox("Architektury"),
+	f2 = new JCheckBox("Administracji"),
+	f3 = new JCheckBox("Budownictwa"),
+	f4 = new JCheckBox("Chemii"),
+	f5 = new JCheckBox("EITI"),
+	f6 = new JCheckBox("Elektryczny"),
+	f7 = new JCheckBox("Fizyki"),
+	f8 = new JCheckBox("IBHIŚ"),
+	f9 = new JCheckBox("Matematyki"),
+	f10 = new JCheckBox("MEL"),
+	f11 = new JCheckBox("SiMR"),
+	f12 = new JCheckBox("Transportu"),
+	f13 = new JCheckBox("Zarządzania"),
+	f14 = new JCheckBox("Inny");
+	
+	
+	
+	
 	
 	public SettingsPanel(JPanel panel ,JFrame frame, int id,SwipePanel swipePanel) {
 		
@@ -144,7 +174,8 @@ public class SettingsPanel extends JPanel {
 				
 		//wybór wydziału
 				
-		String[] faculty = {"Wydział", "Architektury", "Chemii", "Matematyki", "Fizyki", "Inny" };
+		String[] faculty = {"Wydział", "Architektury","Administracji", "Budownictwa", "Chemii","EITI","Elektryczny", "Fizyki", "IBHIŚ","Matematyki","Mechatroniki", "MEL","SiMR","Transportu","Zarządzania"
+		  	    ,"Inny" };
 				
 		comboBoxFaculty = new JComboBox(faculty);
 		comboBoxFaculty.setBackground(new Color(255, 255, 255));
@@ -186,7 +217,7 @@ public class SettingsPanel extends JPanel {
 		
 		//zdjęcie
 		labelPhoto = new JLabel("");
-		labelPhoto.setBounds(480,275,250,250);
+		labelPhoto.setBounds(480,260,200,200);
 		add(labelPhoto);	
 		
 		//przycisk do zmiany zdjecia
@@ -196,7 +227,7 @@ public class SettingsPanel extends JPanel {
 		buttonChoosePhoto.setBackground(new Color(255, 255, 255));
 		buttonChoosePhoto.setBorder(null);
 		buttonChoosePhoto.setBackground(new Color(240, 240, 240));
-		buttonChoosePhoto.setBounds(480, 250, 215, 30);
+		buttonChoosePhoto.setBounds(480, 230, 215, 30);
 		add(buttonChoosePhoto);
 				
 		buttonChoosePhoto.addActionListener(new ActionListener()
@@ -211,7 +242,7 @@ public class SettingsPanel extends JPanel {
 					      f = fileChooser.getSelectedFile();
 					      String path = f.getAbsolutePath();
 					      ImageIcon icon = new ImageIcon(path);
-					      Image imgTemp = icon.getImage().getScaledInstance(250, 250, Image.SCALE_SMOOTH);
+					      Image imgTemp = icon.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
 					      image = new ImageIcon(icon.getImage().getScaledInstance(400, 400, Image.SCALE_SMOOTH)).getImage();
 					      labelPhoto.setIcon(new ImageIcon(imgTemp));
 					}
@@ -222,8 +253,8 @@ public class SettingsPanel extends JPanel {
 				
 		buttonRegister = new JButton("Zapisz");
 		buttonRegister.setBackground(new Color(255, 240, 245));
-		buttonRegister.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 18));
-		buttonRegister.setBounds(200, 600, 475, 40);
+		buttonRegister.setFont(new Font("Dialog", Font.ITALIC, 14));
+		buttonRegister.setBounds(250, 375, 180, 20);
 		buttonRegister.setBorder(null);
 		add(buttonRegister);
 				
@@ -278,37 +309,172 @@ public class SettingsPanel extends JPanel {
 		        JLabel lblEdytujSwjProfil = new JLabel("Edytuj Swój profil");
 		        lblEdytujSwjProfil.setHorizontalAlignment(SwingConstants.CENTER);
 		        lblEdytujSwjProfil.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 18));
-		        lblEdytujSwjProfil.setBounds(150, 100, 600, 50);
+		        lblEdytujSwjProfil.setBounds(150, 100, 600, 40);
 		        add(lblEdytujSwjProfil);
 		        
-		        txtJo = new JTextField();
-		        txtJo.setBackground(Color.WHITE);
-		        txtJo.setBounds(180, 460, 96, 19);
-		        add(txtJo);
-		        txtJo.setColumns(10);
+		        JLabel labelPreferences = new JLabel("Edytuj Swoje preferencje");
+		        labelPreferences.setHorizontalAlignment(SwingConstants.CENTER);
+		        labelPreferences.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 18));
+		        labelPreferences.setBounds(150, 470, 600, 40);
+		        add(labelPreferences);
 		        
-		        textField_1 = new JTextField();
-		        textField_1.setColumns(10);
-		        textField_1.setBackground(new Color(0, 128, 64));
-		        textField_1.setBounds(180, 480, 96, 19);
-		        add(textField_1);
 		        
+			  ActionListener cbListener = new ActionListener() {
+				public void actionPerformed(ActionEvent e) 
+				{
+				      Object obj = e.getSource();
+				      genders = new LinkedList<String>(); 
+				        if (cb1.isSelected()) { 
+				        	genders.add("Kobieta");
+				        	}
+				      
+				        if (cb2.isSelected()) {
+				        	genders.add("Mężczyzna");
+				        	} 
+				        if (cb3.isSelected()) { 
+				        	genders.add("Inna");}
+				          
+				      for (int i = 0; i<genders.size(); i++) {
+				    	  System.out.println("płeć"+genders.get(i));
+		  	  			}
+				      
+				}
+			  };
+			  
+			  cb1.addActionListener(cbListener);
+			  cb2.addActionListener(cbListener);
+			  cb3.addActionListener(cbListener);
+			   
+			  labelGender = new JLabel("Wybierz preferecje płci");
+			  labelGender.setBounds(180, 510, 300, 20);
+			  labelGender.setFont(new Font("Dialog", Font.ITALIC, 14));
+			  add(labelGender);
+			  
+			
+			  
+			  panelCheckBox = new JPanel();
+			  panelCheckBox.setLayout(new FlowLayout(FlowLayout.LEFT));
+			  	    
+			  panelCheckBox.add(cb1);
+			  panelCheckBox.add(cb2);
+			  panelCheckBox.add(cb3);
+			  panelCheckBox.setBounds(180, 530, 300, 30);
+			  add( panelCheckBox);
+			
+			  
+			  
+		        
+		        ActionListener cbListener2 = new ActionListener() {
+					public void actionPerformed(ActionEvent e) 
+					
+					{
+					      Object obj = e.getSource();
+					      faculties = new LinkedList<String>(); 
+					        if (f1.isSelected()) faculties.add("Architektury");
+					        
+					        if (f2.isSelected()) faculties.add("Administracji");
+					        
+					        if (f3.isSelected()) faculties.add("Budownictwa");
+					        
+					        if (f4.isSelected()) faculties.add("Chemii");
+					        
+					        if (f5.isSelected()) faculties.add("EITI");
+					        
+					        if (f6.isSelected()) faculties.add("Elektryczny");
+					        
+					        if (f7.isSelected()) faculties.add("Fizyki");
+					        
+					        if (f8.isSelected()) faculties.add("IBHIŚ");
+					        
+					        if (f9.isSelected()) faculties.add("Matematyki");
+					        
+					        if (f10.isSelected()) faculties.add("Mechatroniki");
+					        
+					        if (f11.isSelected()) faculties.add("MEL");
+					        
+					        if (f12.isSelected()) faculties.add("SiMR");
+					        
+					        if (f13.isSelected()) faculties.add("Transportu");
+					        
+					        if (f14.isSelected()) faculties.add("Zarządzania");
+					       
+					        
+					       
+					        
+					          
+					      for (int i = 0; i<faculties.size(); i++) {
+					    	  System.out.println("wydzial "+faculties.get(i));
+			  	  			}
+					      
+					}
+				  };
+				  
+				  f1.addActionListener(cbListener2);
+				  f2.addActionListener(cbListener2);
+				  f3.addActionListener(cbListener2);
+				  f4.addActionListener(cbListener2);
+				  f5.addActionListener(cbListener2);
+				  f6.addActionListener(cbListener2);
+				  f7.addActionListener(cbListener2);
+				  f8.addActionListener(cbListener2);
+				  f9.addActionListener(cbListener2);
+				  f10.addActionListener(cbListener2);
+				  f11.addActionListener(cbListener2);
+				  f12.addActionListener(cbListener2);
+				  f13.addActionListener(cbListener2);
+				  f14.addActionListener(cbListener2);
+				   
+				  labelFaculties = new JLabel("Wybierz preferecje wydziałów");
+				  labelFaculties.setBounds(180, 570, 400, 20);
+				  labelFaculties.setFont(new Font("Dialog", Font.ITALIC, 14));
+				  add(labelFaculties);
+				  
+				  panelCheckBox2 = new JPanel();
+				  panelCheckBox2.setLayout(new FlowLayout(FlowLayout.LEADING));
+				  	    
+				  panelCheckBox2.add(f1);
+				  panelCheckBox2.add(f2);
+				  panelCheckBox2.add(f3);
+				  panelCheckBox2.add(f4);
+				  panelCheckBox2.add(f5);
+				  panelCheckBox2.add(f6);
+				  panelCheckBox2.add(f7);
+				  panelCheckBox2.add(f8);
+				  panelCheckBox2.add(f9);
+				  panelCheckBox2.add(f10);
+				  panelCheckBox2.add(f11);
+				  panelCheckBox2.add(f12);
+				  panelCheckBox2.add(f13);
+				  panelCheckBox2.add(f14);
+				  panelCheckBox2.setBounds(180, 590, 500, 100);
+				  add( panelCheckBox2);
+
+				  labelAge = new JLabel("Wybierz preferecje wieku");
+				  labelAge.setBounds(480, 510, 300, 20);
+				  labelAge.setFont(new Font("Dialog", Font.ITALIC, 14));
+				  add(labelAge);
+				  
 		        JSlider slider = new JSlider();
-		        slider.setBounds(180, 510, 200, 6);
+		        slider.setBounds(480, 540, 200, 6);
 		        add(slider);
 		        
-		        JButton btnNewButton = new JButton("zapisz preferencje");
-		        btnNewButton.setBounds(180, 530, 116, 21);
+		        JButton btnNewButton = new JButton("Zapisz preferencje");
+		        btnNewButton.setBounds(350, 690, 180, 20);
+		        btnNewButton.setBackground(new Color(255, 240, 245));
+		        btnNewButton.setFont(new Font("Dialog", Font.ITALIC, 14));
+		        btnNewButton.setBorder(null);
 		        add(btnNewButton);
 		        btnNewButton.addActionListener(new ActionListener() {
 					
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						// TODO Auto-generated method stub
-						List<String> genders = Arrays.asList(txtJo.getText().split(" "));
-						List<String> faculties = Arrays.asList(textField_1.getText().split(" "));
+						//List<String> genders = Arrays.asList(txtJo.getText().split(" "));
+						//List<String> faculties = Arrays.asList(textField_1.getText().split(" "));
 						int age = slider.getValue();
+						System.out.println("wydział "+faculties);
 						savePreferences(genders, faculties, 0, age);
+						System.out.println("wydział"+faculties);
 						//System.out.println("wiek"+age);
 						//System.out.println("wydział"+faculties);
 						//System.out.println("płeć"+genders);
@@ -376,8 +542,8 @@ public class SettingsPanel extends JPanel {
 			      prepUp.setInt(2, ageMax);
 			      prepUp.setInt(3, id);
 			      prepUp.executeUpdate();
-			      //System.out.println("Preferred faculties inserted successfully!");
-    			
+			      System.out.println("Preferred faculties inserted successfully!");
+			      System.out.println("save"+faculties);
                 return null;
             }
 

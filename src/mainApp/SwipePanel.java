@@ -75,8 +75,8 @@ public class SwipePanel extends JPanel {
 	private JLabel lblTinder, lblWait;
 	ImagePanel imgPanel;
 	JProgressBar progressBar;
-	private BufferedImage imageSettings, imageChat, imageReject, imageMatch;
-	private Rectangle rectangleChat, rectangleSettings, rectangleMatch, rectangleReject;
+	private BufferedImage imageSettings, imageChat, imageReject, imageMatch, imageTinder;
+	private Rectangle rectangleChat, rectangleSettings, rectangleMatch, rectangleReject, rectangleTinder;
 	UserPreferences myPreferences = new UserPreferences();
 
 		    public SwipePanel(JPanel panel, int id) 
@@ -98,12 +98,18 @@ public class SwipePanel extends JPanel {
 				
 				
 				// label Tinder
-				
+				/*
 				lblTinder = new JLabel("Tinder");
 				lblTinder.setForeground(new Color(255, 100, 153));
 				lblTinder.setFont(new Font("LM Sans 10", Font.BOLD | Font.ITALIC, 50));
 				lblTinder.setBounds(350, 25, 200, 100);
-				add(lblTinder);
+				add(lblTinder);*/
+				try {
+				    imageTinder = ImageIO.read(getClass().getResource("tinder.PNG"));
+				  } catch (Exception ex) {
+				    System.out.println(ex);
+				  }
+				rectangleTinder = new Rectangle(385, 0, 140, 140);
 	
 		        // przycisk przejscia do wiadomosci
 				
@@ -203,6 +209,8 @@ public class SwipePanel extends JPanel {
 				lblWait.setBounds(400, 325, 203, 20);
 				add(lblWait);
 				
+				
+				
 		    }  
 		 
 		    
@@ -269,6 +277,7 @@ public class SwipePanel extends JPanel {
 		    				String name = rs.getString("gender_name");
 		    				genders.add(name);
 		    			}
+		    			
 	    				myPreferences.setGenders(genders);
 	    				
 	    				List<String> faculties = new ArrayList<String>();
@@ -281,8 +290,9 @@ public class SwipePanel extends JPanel {
 		    			prep2.setInt(1, id);
 		    			ResultSet rs2 = prep2.executeQuery();
 		    			
-		    			//System.out.println(faculties);
+		    			
 	    				myPreferences.setFaculties(faculties);
+	    				System.out.println(faculties);
 	    				
 		    			while(rs2.next())
 		    			{
@@ -312,8 +322,8 @@ public class SwipePanel extends JPanel {
 		                } catch (Exception ex) {
 		                    ex.printStackTrace();
 		                }
-		               //System.out.println(myPreferences.getGenders());
-		               //System.out.println(myPreferences.getFaculties());
+		                System.out.println(myPreferences.getGenders());
+		                System.out.println(myPreferences.getFaculties());
 		            }
 
 		       };
@@ -405,11 +415,12 @@ public void paintComponent(Graphics g) {
     super.paintComponent(g);
     
     Graphics2D g2 = (Graphics2D)g;
-    
+   
     g2.drawImage(imageSettings ,(int) rectangleSettings.getX() , (int) rectangleSettings.getY(),(int) rectangleSettings.getWidth(), (int) rectangleSettings.getHeight(), null);
     g2.drawImage(imageChat ,(int) rectangleChat.getX() , (int) rectangleChat.getY(),(int) rectangleChat.getWidth(), (int) rectangleChat.getHeight(), null);
     g2.drawImage(imageReject ,(int) rectangleReject.getX() , (int) rectangleReject.getY(),(int) rectangleReject.getWidth(), (int) rectangleReject.getHeight(), null);
     g2.drawImage(imageMatch ,(int) rectangleMatch.getX() , (int) rectangleMatch.getY(),(int) rectangleMatch.getWidth(), (int) rectangleMatch.getHeight(), null);
+    g2.drawImage(imageTinder ,(int) rectangleTinder.getX() , (int) rectangleTinder.getY(),(int) rectangleTinder.getWidth(), (int) rectangleTinder.getHeight(), null);
    }
 
 }

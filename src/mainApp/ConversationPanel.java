@@ -5,15 +5,20 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.LayoutManager;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
+import java.awt.image.BufferedImage;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -23,6 +28,7 @@ import java.util.Calendar;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
+import javax.imageio.ImageIO;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -67,9 +73,10 @@ public class ConversationPanel extends JPanel {
 	private JPanel panel_1,panel_2;
 	Timestamp last = new Timestamp(0);
 	JScrollBar verticalScrollBar;
-	JButton loadButton;
 	boolean scrollDown = true;
 	int maxMsg = 6;
+	Rectangle rectangleLoad;
+	BufferedImage imageLoad;
 	
 	public ConversationPanel(int id, User current) {
 		setBorder(null);
@@ -91,18 +98,25 @@ public class ConversationPanel extends JPanel {
 		
 		// załaduj więcej
 		
-		loadButton = new JButton("załaduj");
-		loadButton.setBounds(450, 0, 50, 50);
-		add(loadButton);
-		loadButton.addActionListener(new ActionListener()
-				{
-
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						loadMore();
-					}
+		try {
+		    imageLoad = ImageIO.read(getClass().getResource("load_black.PNG"));
+		  } catch (Exception ex) {
+		    System.out.println(ex);
+		  }
+		rectangleLoad = new Rectangle(600,10, 35, 35);
+		addMouseListener(new MouseAdapter() {
 			
-				});
+			@Override
+			 public void mouseClicked(MouseEvent e) {
+				if (e.getX()>rectangleLoad.getX() && e.getX()<(rectangleLoad.getX()+rectangleLoad.getWidth()) && e.getY()>rectangleLoad.getY() && e.getY()<(rectangleLoad.getHeight()+rectangleLoad.getY()))
+				{
+					loadMore();
+				}
+				repaint();
+	        }
+		});
+		
+		
 		
 		// panel wewnętrzny z wiadomościami
 		
@@ -352,5 +366,6 @@ public class ConversationPanel extends JPanel {
 	 	 
 	      g2.fill(new RoundRectangle2D.Double(450, 565, 190, 50, 40, 40));
 	      
+	      g2.drawImage(imageLoad ,(int) rectangleLoad.getX() ,(int) rectangleLoad.getY(), (int) rectangleLoad.getWidth(), (int) rectangleLoad.getHeight(), null);
 	     }
 }

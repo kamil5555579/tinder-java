@@ -105,9 +105,9 @@ class DataPanel extends JPanel
 		
 		//wybór wydziału
 		
-		String[] faculty = {"Wydział", "Architektury", "Chemii", "Matematyki", "Fizyki", 
-  	    "Inny" };
-		
+		String[] faculty = {"Wydział", "Architektury","Administracji", "Budownictwa", "Chemii","EITI","Elektryczny", "Fizyki", "IBHIŚ","Matematyki","Mechatroniki", "MEL","SiMR","Transportu","Zarządzania"
+  	    ,"Inny" };
+	       
 		comboBox_2 = new JComboBox(faculty);
 		comboBox_2.setBackground(new Color(255, 255, 255));
 		comboBox_2.setBorder(null);

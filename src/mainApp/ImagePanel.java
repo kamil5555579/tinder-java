@@ -54,7 +54,6 @@ public class ImagePanel extends JPanel {
 	
 	public ImagePanel(int id, Iterator<User> it, SwipePanel panel) {
 		
-		
 		this.id = id;
 		this.it=it;
 		if(it.hasNext())
@@ -134,6 +133,7 @@ public class ImagePanel extends JPanel {
 	    	else
 	    		g2d.drawString("Nie ma więcej :(",(int) x+(imgWidth/4), (int) y+(imgHeight/4));
 			}
+	  		
 	  
 	
 	void match(User current, boolean decision)
