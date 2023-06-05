@@ -4,12 +4,16 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.ComponentOrientation;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Image;
+import java.awt.Insets;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -46,9 +50,13 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import com.mysql.jdbc.Connection;
 
+import utilities.RangeSlider;
+import utilities.RangeSliderUI;
 import utilities.PTextField;
 import utilities.SqlConnection;
 import utilities.User;
@@ -107,7 +115,9 @@ public class SettingsPanel extends JPanel {
 	f12 = new JCheckBox("Transportu"),
 	f13 = new JCheckBox("Zarządzania"),
 	f14 = new JCheckBox("Inny");
-	
+	private RangeSlider rangeSlider = new RangeSlider();
+	private JLabel rangeSliderValue1 = new JLabel();
+	private JLabel rangeSliderValue2 = new JLabel();
 	
 	
 	
@@ -454,9 +464,38 @@ public class SettingsPanel extends JPanel {
 				  labelAge.setFont(new Font("Dialog", Font.ITALIC, 14));
 				  add(labelAge);
 				  
-		        JSlider slider = new JSlider();
-		        slider.setBounds(480, 540, 200, 6);
-		        add(slider);
+				// slider z dwoma suwakami
+		        rangeSliderValue1.setHorizontalAlignment(JLabel.LEFT);
+		        rangeSliderValue2.setHorizontalAlignment(JLabel.LEFT);
+		        
+		        rangeSlider.setPreferredSize(new Dimension(240, rangeSlider.getPreferredSize().height));
+		        rangeSlider.setMinimum(0);
+		        rangeSlider.setMaximum(100);
+		        
+		        // Add listener to update display.
+		        rangeSlider.addChangeListener(new ChangeListener() {
+		            public void stateChanged(ChangeEvent e) {
+		                RangeSlider slider = (RangeSlider) e.getSource();
+		                rangeSliderValue1.setText("Min wiek: "+String.valueOf(slider.getValue()));
+		                rangeSliderValue2.setText("Max wiek: "+String.valueOf(slider.getUpperValue()));
+		            }
+		        });
+		    
+		       rangeSlider.setValue(20);
+		       rangeSlider.setUpperValue(80);
+		       rangeSliderValue1.setText("Min wiek: "+String.valueOf(rangeSlider.getValue()));
+		       rangeSliderValue2.setText("Max wiek: "+String.valueOf(rangeSlider.getUpperValue()));
+		       rangeSlider.setBounds(480, 540, 200, 20);
+		       add(rangeSlider);
+		       
+		       rangeSliderValue1.setFont(new Font("Dialog", Font.ITALIC, 11));
+		       rangeSliderValue1.setBounds(480, 560, 100, 20);
+		       add(rangeSliderValue1);
+		       
+		       rangeSliderValue2.setFont(new Font("Dialog", Font.ITALIC, 11));
+		       rangeSliderValue2.setBounds(580, 560, 100, 20);
+		       add(rangeSliderValue2);
+		       
 		        
 		        JButton btnNewButton = new JButton("Zapisz preferencje");
 		        btnNewButton.setBounds(350, 690, 180, 20);
@@ -469,15 +508,9 @@ public class SettingsPanel extends JPanel {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						// TODO Auto-generated method stub
-						//List<String> genders = Arrays.asList(txtJo.getText().split(" "));
-						//List<String> faculties = Arrays.asList(textField_1.getText().split(" "));
-						int age = slider.getValue();
-						System.out.println("wydział "+faculties);
-						savePreferences(genders, faculties, 0, age);
-						System.out.println("wydział"+faculties);
-						//System.out.println("wiek"+age);
-						//System.out.println("wydział"+faculties);
-						//System.out.println("płeć"+genders);
+						int ageMin = rangeSlider.getValue();
+						int ageMax = rangeSlider.getUpperValue();
+						savePreferences(genders, faculties, ageMin, ageMax);
 					}
 				});
 		        initializeMe(id);
