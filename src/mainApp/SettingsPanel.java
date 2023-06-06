@@ -167,7 +167,7 @@ public class SettingsPanel extends JPanel {
 		textPaneDescription = new JTextPane();
 		textPaneDescription.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		textPaneDescription.setCaretColor(new Color(0, 0, 0));
-		textPaneDescription.setBounds(180, 310, 250, 128);
+		textPaneDescription.setBounds(180, 310, 250, 140);
 		textPaneDescription.setBackground(new Color(240, 240, 240));
 		textPaneDescription.setFont(new Font("LM Sans", Font.ITALIC, 12));
 		textPaneDescription.setBorder(null);
@@ -265,7 +265,7 @@ public class SettingsPanel extends JPanel {
 		buttonRegister = new JButton("Zapisz profil");
 		buttonRegister.setBackground(new Color(255, 240, 245));
 		buttonRegister.setFont(new Font("LM Sans", Font.ITALIC, 14));
-		buttonRegister.setBounds(350, 450, 180, 20);
+		buttonRegister.setBounds(350, 455, 180, 20);
 		buttonRegister.setBorder(null);
 		add(buttonRegister);
 				
@@ -274,18 +274,53 @@ public class SettingsPanel extends JPanel {
 
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						String firstname = textFieldName.getText();
-						String lastname = textFieldSurname.getText();
-						String university = (String) comboBoxFaculty.getSelectedItem();
-						String gender = (String) comboBoxGender.getSelectedItem();
-						int age = Integer.parseInt(textFieldAge.getText());
-						String description = textPaneDescription.getText();
-						if (f==null) {
+						
+						String firstname;
+						String lastname;
+						String university;
+						String gender;
+						int age;
+						String description;
+						
+						if(textFieldName.getText().equals("Imię")||textFieldSurname.getText().equals("Nazwisko")||f==null) {
+							if (textFieldName.getText().equals("Imię")) {
 							JOptionPane.showMessageDialog(
-		                            null,"Nie wybrano zdjęcia. Wybierz zdjęcie!",
+		                            null,"Nie podano imienia. Podaj imię!",
 		                            "Błąd uzupełniania danych",
 		                            JOptionPane.ERROR_MESSAGE);
+							}
+							if (textFieldSurname.getText().equals("Nazwisko")) {
+								JOptionPane.showMessageDialog(
+			                            null,"Nie podano nazwiska. Podaj nazwisko!",
+			                            "Błąd uzupełniania danych",
+			                            JOptionPane.ERROR_MESSAGE);
+								}
+							if (f==null) {
+								JOptionPane.showMessageDialog(
+			                            null,"Musisz zmienić zdjęcie!",
+			                            "Błąd uzupełniania danych",
+			                            JOptionPane.ERROR_MESSAGE);
+							}
 						}else {
+							try {
+								firstname = textFieldName.getText();
+								lastname = textFieldSurname.getText();
+								university = (String) comboBoxFaculty.getSelectedItem();
+								gender = (String) comboBoxGender.getSelectedItem();
+								age = Integer.parseInt(textFieldAge.getText());
+								description = textPaneDescription.getText();
+								save(firstname, lastname, university, is, frame, gender, age, description);
+							} catch (NumberFormatException e2) {
+								JOptionPane.showMessageDialog(
+			                            null,"Nie możesz w ten sposób zmienić swoich danych!",
+			                            "Błąd zmiany danych",
+			                            JOptionPane.ERROR_MESSAGE);
+								e2.printStackTrace();
+							}
+						}
+						
+						
+						
 							
 						try {
 							ByteArrayOutputStream os = new ByteArrayOutputStream();
@@ -303,10 +338,11 @@ public class SettingsPanel extends JPanel {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
-						save(firstname, lastname, university, is, frame, gender, age, description);
+						
+						
 								
 						}
-					}
+					
 					
 				});
 		

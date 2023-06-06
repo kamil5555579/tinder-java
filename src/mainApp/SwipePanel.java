@@ -87,6 +87,7 @@ public class SwipePanel extends JPanel {
 		    	//ustawienia panelu
 		    	
 		    	setBounds(0, 0, 900, 800);
+		    	setBackground(new Color(245,245,245));
 				
 				setBorder(new LineBorder(new Color(255, 20, 147), 3, true));
 				setLayout(null);
@@ -205,7 +206,7 @@ public class SwipePanel extends JPanel {
 				progressBar.setIndeterminate(true);
 						
 				lblWait = new JLabel("Czekaj!!!");
-				lblWait.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 14));
+				lblWait.setFont((new Font("LM Sans",Font.ITALIC, 14)));
 				lblWait.setBounds(400, 325, 203, 20);
 				add(lblWait);
 				
@@ -394,7 +395,8 @@ public class SwipePanel extends JPanel {
 			    			else
 			    			{
 			    				progressBar.setVisible(false);
-			    				lblWait.setText("zadnych nowych osób");
+			    				lblWait.setText("Żadnych nowych osób");
+			    				lblWait.setFont(new Font("LM Sans",Font.ITALIC, 14));
 			    			}
 		                	if (conn!= null)
 		    	    			conn.close();

@@ -362,7 +362,7 @@ public class ConversationPanel extends JPanel {
 	 
 	      g2.fill(new RoundRectangle2D.Double(15, 565, 425, 50, 40, 40));
 	      
-	      g2.setPaint(new Color(240, 240, 240)); 
+	      g2.setPaint(new Color(255, 240, 245)); 
 	 	 
 	      g2.fill(new RoundRectangle2D.Double(450, 565, 190, 50, 40, 40));
 	      

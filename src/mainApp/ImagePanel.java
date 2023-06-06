@@ -76,11 +76,11 @@ public class ImagePanel extends JPanel {
 					
 					if(e.getX() >= panelWidth/2)
 					{
-						y= (3*panelWidth/4 - 0.5*e.getX()- imgHeight/2) -100;
+						y= (3*panelWidth/4 - 0.5*e.getX()- imgHeight/2 -200);
 						fi= (0.25*(e.getX() - panelWidth/2));
 					}
 					else
-						y= (0.5*e.getX() +panelWidth/4 - imgHeight/2) -100;
+						y= (0.5*e.getX() +panelWidth/4 - imgHeight/2-200);
 						fi= (0.25*(e.getX() - panelWidth/2));
 					repaint();
         		}}
@@ -101,7 +101,7 @@ public class ImagePanel extends JPanel {
 					else
 					{
 						x = panelWidth/2 - imgWidth/2;
-	           		 	y = panelHeight/2- imgHeight/2 -50;
+	           		 	y = panelHeight/2- imgHeight/2 - 50;
 	           		 	fi=0;
 	           		 	repaint();
 					}
@@ -120,19 +120,23 @@ public class ImagePanel extends JPanel {
 				g2d.rotate(Math.toRadians(fi), (int) x + imgWidth / 2, (int) y + imgHeight / 2);
 				g2d.drawImage(bufferedImage, (int) x, (int) y, null);
 				
-				g2d.setPaint(new Color(255, 255, 255)); 
+				g2d.setPaint(Color.WHITE); 
 				g2d.fillRect((int) x, (int) y + imgHeight, imgWidth , 75);
 				
 				g2d.setPaint(new Color(0, 0, 0)); 
-				g2d.setFont(new Font("LM Sans 10", Font.BOLD | Font.ITALIC, 16));
-				g2d.drawString(current.getFirstname()+" "+current.getLastname(), (int) x, (int) y + imgHeight + 20);
-				g2d.drawString(current.getGender()+" ", (int) x, (int) y + imgHeight + 40);
+				g2d.setFont(new Font("LM Sans",Font.BOLD|Font.ITALIC, 16));
+				g2d.drawString(current.getFirstname()+" "+current.getLastname(), (int) x+10, (int) y + imgHeight + 20);
+				g2d.drawString(current.getGender()+" ", (int) x+10, (int) y + imgHeight + 40);
 				g2d.drawString(Integer.toString(current.getAge())+" lat", (int) x + 100, (int) y + imgHeight + 40);
-				g2d.drawString("Studiuje "+current.getUniversity(), (int) x, (int) y + imgHeight + 60);
+				g2d.drawString("Studiuje "+current.getUniversity(), (int) x+10, (int) y + imgHeight + 60);
+				g2d.setPaint(Color.BLACK); 
+				g2d.drawRect((int) x, (int) y + imgHeight, imgWidth , 75);
+				g2d.drawRect((int) x, (int) y, imgWidth , imgHeight);
 	    	}
 	    	else
 	    		g2d.drawString("Nie ma więcej :(",(int) x+(imgWidth/4), (int) y+(imgHeight/4));
 			}
+	  			
 	  		
 	  
 	
@@ -186,7 +190,7 @@ public class ImagePanel extends JPanel {
 		                	 if(x>=panelWidth)
 		                	 {
 		                		 x = panelWidth/2 - imgWidth/2;
-		                		 y = panelHeight/2- imgHeight/2 -50;
+		                		 y = panelHeight/2- imgHeight/2 - 50;
 		                		 fi=0;
 		                		 if(it.hasNext())
 		 						{
@@ -231,7 +235,7 @@ public class ImagePanel extends JPanel {
 		                	 if(x<=-imgWidth)
 		                	 {
 		                		 x = panelWidth/2 - imgWidth/2;
-		                		 y = panelHeight/2- imgHeight/2 -50;
+		                		 y = panelHeight/2- imgHeight/2 - 50;
 		                		 fi=0;
 		                		 if(it.hasNext())
 		 						{
