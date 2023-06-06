@@ -159,7 +159,7 @@ public class SettingsPanel extends JPanel {
         labelSettings.setText("Ustawienia");
         labelSettings.setBounds(350, 15, 300, 50);
         labelSettings.setForeground(new Color(255, 100, 153));
-		labelSettings.setFont(new Font("LM Sans 10", Font.BOLD | Font.ITALIC, 40));
+		labelSettings.setFont(new Font("LM Sans", Font.BOLD | Font.ITALIC, 40));
         add(labelSettings);
        
 		//opis
@@ -167,9 +167,9 @@ public class SettingsPanel extends JPanel {
 		textPaneDescription = new JTextPane();
 		textPaneDescription.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		textPaneDescription.setCaretColor(new Color(0, 0, 0));
-		textPaneDescription.setBounds(180, 320, 250, 128);
+		textPaneDescription.setBounds(180, 310, 250, 128);
 		textPaneDescription.setBackground(new Color(240, 240, 240));
-		textPaneDescription.setFont(new Font("Dialog", Font.ITALIC, 12));
+		textPaneDescription.setFont(new Font("LM Sans", Font.ITALIC, 12));
 		textPaneDescription.setBorder(null);
 		add(textPaneDescription);
 				
@@ -178,8 +178,8 @@ public class SettingsPanel extends JPanel {
 		String[] gender = {"Płeć", "Mężczyzna", "Kobieta","Inna" };
 		comboBoxGender = new JComboBox(gender);
 		comboBoxGender.setBackground(new Color(240, 240, 240));
-		comboBoxGender.setBounds(180, 200, 215, 30);
-		comboBoxGender.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 16));
+		comboBoxGender.setBounds(180, 190, 215, 30);
+		comboBoxGender.setFont(new Font("LM Sans", Font.ITALIC, 14));
 		add(comboBoxGender);
 				
 		//wybór wydziału
@@ -190,8 +190,8 @@ public class SettingsPanel extends JPanel {
 		comboBoxFaculty = new JComboBox(faculty);
 		comboBoxFaculty.setBackground(new Color(255, 255, 255));
 		comboBoxFaculty.setBorder(null);
-		comboBoxFaculty.setBounds(180, 250, 215, 30);
-		comboBoxFaculty.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 16));
+		comboBoxFaculty.setBounds(180, 240, 215, 30);
+		comboBoxFaculty.setFont(new Font("LM Sans", Font.ITALIC, 14));
 		comboBoxFaculty.setBackground(new Color(240, 240, 240));
 		add(comboBoxFaculty);
 			
@@ -199,8 +199,8 @@ public class SettingsPanel extends JPanel {
 				
 		textFieldAge = new PTextField("Wiek");
 		textFieldAge.setBorder(null);
-		textFieldAge.setBounds(480, 200, 215, 30);
-		textFieldAge.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 16));
+		textFieldAge.setBounds(480, 190, 215, 30);
+		textFieldAge.setFont(new Font("LM Sans", Font.ITALIC, 14));
 		textFieldAge.setBackground(new Color(240, 240, 240));
 		textFieldAge.setColumns(10);
 		add(textFieldAge);
@@ -209,7 +209,7 @@ public class SettingsPanel extends JPanel {
 				
 		textFieldName = new PTextField("Imię");
 		textFieldName.setBorder(null);
-		textFieldName.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 16));
+		textFieldName.setFont(new Font("LM Sans", Font.ITALIC, 14));
 		textFieldName.setColumns(10);
 		textFieldName.setBackground(new Color(240, 240, 240));
 		textFieldName.setBounds(180, 150, 215, 30);
@@ -219,7 +219,7 @@ public class SettingsPanel extends JPanel {
 				
 		textFieldSurname = new PTextField("Nazwisko");
 		textFieldSurname.setBorder(null);
-		textFieldSurname.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 16));
+		textFieldSurname.setFont(new Font("LM Sans", Font.ITALIC, 14));
 		((JTextField) textFieldSurname).setColumns(10);
 		textFieldSurname.setBackground(new Color(240, 240, 240));
 		textFieldSurname.setBounds(480, 150, 215, 30);
@@ -227,17 +227,18 @@ public class SettingsPanel extends JPanel {
 		
 		//zdjęcie
 		labelPhoto = new JLabel("");
-		labelPhoto.setBounds(480,260,200,200);
+		labelPhoto.setBounds(480,250,200,200);
 		add(labelPhoto);	
 		
 		//przycisk do zmiany zdjecia
 				
 		buttonChoosePhoto = new JButton("Wybierz zdjęcie");
+		buttonChoosePhoto.setFont(new Font("LM Sans",  Font.ITALIC, 12));
 		buttonChoosePhoto.setHorizontalAlignment(SwingConstants.LEFT);
 		buttonChoosePhoto.setBackground(new Color(255, 255, 255));
 		buttonChoosePhoto.setBorder(null);
 		buttonChoosePhoto.setBackground(new Color(240, 240, 240));
-		buttonChoosePhoto.setBounds(480, 230, 215, 30);
+		buttonChoosePhoto.setBounds(480, 220, 215, 30);
 		add(buttonChoosePhoto);
 				
 		buttonChoosePhoto.addActionListener(new ActionListener()
@@ -261,10 +262,10 @@ public class SettingsPanel extends JPanel {
 				
 				//zapisanie zmian
 				
-		buttonRegister = new JButton("Zapisz");
+		buttonRegister = new JButton("Zapisz profil");
 		buttonRegister.setBackground(new Color(255, 240, 245));
-		buttonRegister.setFont(new Font("Dialog", Font.ITALIC, 14));
-		buttonRegister.setBounds(250, 375, 180, 20);
+		buttonRegister.setFont(new Font("LM Sans", Font.ITALIC, 14));
+		buttonRegister.setBounds(350, 450, 180, 20);
 		buttonRegister.setBorder(null);
 		add(buttonRegister);
 				
@@ -312,19 +313,19 @@ public class SettingsPanel extends JPanel {
 		        add(buttonRegister);
 		        
 		        JLabel lblOpowiedzOSobie = new JLabel("Opowiedz o sobie");
-		        lblOpowiedzOSobie.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 14));
-		        lblOpowiedzOSobie.setBounds(180, 300, 180, 25);
+		        lblOpowiedzOSobie.setFont(new Font("LM Sans", Font.ITALIC, 14));
+		        lblOpowiedzOSobie.setBounds(180, 290, 180, 25);
 		        add(lblOpowiedzOSobie);
 		        
 		        JLabel lblEdytujSwjProfil = new JLabel("Edytuj Swój profil");
 		        lblEdytujSwjProfil.setHorizontalAlignment(SwingConstants.CENTER);
-		        lblEdytujSwjProfil.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 18));
+		        lblEdytujSwjProfil.setFont(new Font("LM Sans", Font.BOLD | Font.ITALIC, 18));
 		        lblEdytujSwjProfil.setBounds(150, 100, 600, 40);
 		        add(lblEdytujSwjProfil);
 		        
 		        JLabel labelPreferences = new JLabel("Edytuj Swoje preferencje");
 		        labelPreferences.setHorizontalAlignment(SwingConstants.CENTER);
-		        labelPreferences.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 18));
+		        labelPreferences.setFont(new Font("LM Sans", Font.BOLD | Font.ITALIC, 18));
 		        labelPreferences.setBounds(150, 470, 600, 40);
 		        add(labelPreferences);
 		        
@@ -354,16 +355,21 @@ public class SettingsPanel extends JPanel {
 			  cb1.addActionListener(cbListener);
 			  cb2.addActionListener(cbListener);
 			  cb3.addActionListener(cbListener);
+			  
+			  cb1.setFont(new Font("LM Sans", Font.ITALIC, 12));
+			  cb2.setFont(new Font("LM Sans", Font.ITALIC, 12));
+			  cb3.setFont(new Font("LM Sans", Font.ITALIC, 12));
 			   
 			  labelGender = new JLabel("Wybierz preferecje płci");
 			  labelGender.setBounds(180, 510, 300, 20);
-			  labelGender.setFont(new Font("Dialog", Font.ITALIC, 14));
+			  labelGender.setFont(new Font("LM Sans", Font.ITALIC, 14));
 			  add(labelGender);
 			  
 			
 			  
 			  panelCheckBox = new JPanel();
 			  panelCheckBox.setLayout(new FlowLayout(FlowLayout.LEFT));
+			  
 			  	    
 			  panelCheckBox.add(cb1);
 			  panelCheckBox.add(cb2);
@@ -433,10 +439,26 @@ public class SettingsPanel extends JPanel {
 				  f12.addActionListener(cbListener2);
 				  f13.addActionListener(cbListener2);
 				  f14.addActionListener(cbListener2);
+				  
+				  f1.setFont(new Font("LM Sans", Font.ITALIC, 12));
+				  f2.setFont(new Font("LM Sans", Font.ITALIC, 12));
+				  f3.setFont(new Font("LM Sans", Font.ITALIC, 12));
+				  f4.setFont(new Font("LM Sans", Font.ITALIC, 12));
+				  f5.setFont(new Font("LM Sans", Font.ITALIC, 12));
+				  f6.setFont(new Font("LM Sans", Font.ITALIC, 12));
+				  f7.setFont(new Font("LM Sans", Font.ITALIC, 12));
+				  f8.setFont(new Font("LM Sans", Font.ITALIC, 12));
+				  f9.setFont(new Font("LM Sans", Font.ITALIC, 12));
+				  f10.setFont(new Font("LM Sans", Font.ITALIC, 12));
+				  f11.setFont(new Font("LM Sans", Font.ITALIC, 12));
+				  f12.setFont(new Font("LM Sans", Font.ITALIC, 12));
+				  f13.setFont(new Font("LM Sans", Font.ITALIC, 12)); 
+				  f14.setFont(new Font("LM Sans", Font.ITALIC, 12));
+				 
 				   
 				  labelFaculties = new JLabel("Wybierz preferecje wydziałów");
 				  labelFaculties.setBounds(180, 570, 400, 20);
-				  labelFaculties.setFont(new Font("Dialog", Font.ITALIC, 14));
+				  labelFaculties.setFont(new Font("LM Sans", Font.ITALIC, 14));
 				  add(labelFaculties);
 				  
 				  panelCheckBox2 = new JPanel();
@@ -461,7 +483,7 @@ public class SettingsPanel extends JPanel {
 
 				  labelAge = new JLabel("Wybierz preferecje wieku");
 				  labelAge.setBounds(480, 510, 300, 20);
-				  labelAge.setFont(new Font("Dialog", Font.ITALIC, 14));
+				  labelAge.setFont(new Font("LM Sans", Font.ITALIC, 14));
 				  add(labelAge);
 				  
 				// slider z dwoma suwakami
@@ -488,11 +510,11 @@ public class SettingsPanel extends JPanel {
 		       rangeSlider.setBounds(480, 540, 200, 20);
 		       add(rangeSlider);
 		       
-		       rangeSliderValue1.setFont(new Font("Dialog", Font.ITALIC, 11));
+		       rangeSliderValue1.setFont(new Font("LM Sans", Font.ITALIC, 11));
 		       rangeSliderValue1.setBounds(480, 560, 100, 20);
 		       add(rangeSliderValue1);
 		       
-		       rangeSliderValue2.setFont(new Font("Dialog", Font.ITALIC, 11));
+		       rangeSliderValue2.setFont(new Font("LM Sans", Font.ITALIC, 11));
 		       rangeSliderValue2.setBounds(580, 560, 100, 20);
 		       add(rangeSliderValue2);
 		       
@@ -500,7 +522,7 @@ public class SettingsPanel extends JPanel {
 		        JButton btnNewButton = new JButton("Zapisz preferencje");
 		        btnNewButton.setBounds(350, 690, 180, 20);
 		        btnNewButton.setBackground(new Color(255, 240, 245));
-		        btnNewButton.setFont(new Font("Dialog", Font.ITALIC, 14));
+		        btnNewButton.setFont(new Font("LM Sans 10", Font.ITALIC, 14));
 		        btnNewButton.setBorder(null);
 		        add(btnNewButton);
 		        btnNewButton.addActionListener(new ActionListener() {

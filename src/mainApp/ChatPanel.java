@@ -69,7 +69,7 @@ public class ChatPanel extends JPanel {
 	DefaultListModel listaElementy;
 	private BufferedImage imageChat;
 	JList<User> lista;
-	private Rectangle rectangleChat = new Rectangle(820, 0, 70, 70);
+	private Rectangle rectangleChat = new Rectangle(810, 0, 70, 70);
 
 	private JLabel lblChat,textChat;
 	
