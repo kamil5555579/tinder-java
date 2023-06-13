@@ -264,7 +264,7 @@ public class ImagePanel extends JPanel {
 				g2d.drawString(current.getFirstname()+" "+current.getLastname(), (int) x+10, (int) y + imgHeight + 20);
 				g2d.drawString(current.getGender()+" ", (int) x+10, (int) y + imgHeight + 40);
 				g2d.drawString(Integer.toString(current.getAge())+" lat", (int) x + 125, (int) y + imgHeight + 40);
-				g2d.drawString("Studiuje "+current.getUniversity(), (int) x+10, (int) y + imgHeight + 60);
+				g2d.drawString("Studiuje na wydziale "+current.getUniversity(), (int) x+10, (int) y + imgHeight + 60);
 				g2d.setPaint(Color.BLACK); 
 				g2d.drawRect((int) x, (int) y + imgHeight, imgWidth , 75);
 				g2d.drawRect((int) x, (int) y, imgWidth , imgHeight);

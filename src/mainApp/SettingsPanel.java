@@ -85,11 +85,12 @@ public class SettingsPanel extends JPanel {
 	private JFileChooser fileChooser = new JFileChooser();
 	private File f = null;
 	private ByteArrayInputStream is = null;
-	private SqlConnection sqlConn = new SqlConnection();
-    private Connection conn;
-	private int id;
-	private User me;
+	SqlConnection sqlConn = new SqlConnection();
+    Connection conn;
+	int id;
+	User me;
 	private Image image;
+	private boolean refresh = false;
 	private BufferedImage imageSwipe;
 	private Rectangle rectangleSwipe = new Rectangle(10 ,0 ,70 ,70);
 	private SwipePanel swipePanel;
@@ -142,7 +143,7 @@ public class SettingsPanel extends JPanel {
 			 public void mouseClicked(MouseEvent e) {
 				if (e.getX()>rectangleSwipe.getX() && e.getX()<(rectangleSwipe.getX()+rectangleSwipe.getWidth()) && e.getY()>rectangleSwipe.getY() && e.getY()<(rectangleSwipe.getHeight()+rectangleSwipe.getY()))
 				{	
-					
+					if(refresh==true) {
 					try {
 	            		CardFrame2 newFrame = new CardFrame2(id);
 	            		newFrame.setVisible(true);
@@ -157,11 +158,10 @@ public class SettingsPanel extends JPanel {
 	                            "Błąd zapisu danych",
 	                            JOptionPane.ERROR_MESSAGE);
 	                }
-	                
-					/*
+					}else {
 					CardLayout cardLayout = (CardLayout) panel.getLayout();
 					cardLayout.previous(panel);
-					*/
+					}
 					
 				}
 				repaint();
@@ -412,22 +412,21 @@ public class SettingsPanel extends JPanel {
 					}
 				}); 
 				
-				if(swipePanel.myPreferences.getGenders().get(0).equals("Kobieta")) {
-					radioButton1.setSelected(true);
-					genders.clear();
-					genders.add("Kobieta");
+				if(swipePanel.myPreferences.getGenders().isEmpty()==false) {
+					if(swipePanel.myPreferences.getGenders().get(0).equals("Kobieta")) {
+						radioButton1.setSelected(true);
+						genders.clear();
+						genders.add("Kobieta");
+					} else if(swipePanel.myPreferences.getGenders().get(0).equals("Mężczyzna")) {
+						radioButton2.setSelected(true);
+						genders.clear();
+						genders.add("Mężczyzna");
+					} else if(swipePanel.myPreferences.getGenders().get(0).equals("Inna")) {
+						radioButton3.setSelected(true);
+						genders.clear();
+						genders.add("Inna");
 					}
-				if(swipePanel.myPreferences.getGenders().get(0).equals("Mężczyzna")) {
-					radioButton2.setSelected(true);
-					genders.clear();
-					genders.add("Mężczyzna");
-					}
-				if(swipePanel.myPreferences.getGenders().get(0).equals("Inna")) {
-					radioButton3.setSelected(true);
-					genders.clear();
-					genders.add("Inna");
-					}
-				
+				}
 				
 				panelCheckBox = new JPanel();
 				panelCheckBox.setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -591,19 +590,66 @@ public class SettingsPanel extends JPanel {
 				labelFaculties.setBounds(180, 570, 400, 20);
 				labelFaculties.setFont(new Font("LM Sans", Font.ITALIC, 14));
 				add(labelFaculties);
-				  
-				  if(swipePanel.myPreferences.getFaculties().get(0).equals("Chemii")) {
+				 
+				if(swipePanel.myPreferences.getFaculties().isEmpty()==false) {
+				  if(swipePanel.myPreferences.getFaculties().get(0).equals("Architektury")) {
+					  radioButton10.setSelected(true);
+					  faculties.clear();
+					  faculties.add("Architektury");
+				  } else if(swipePanel.myPreferences.getFaculties().get(0).equals("Administracji")) {
+					  radioButton11.setSelected(true);
+					  faculties.clear();
+					  faculties.add("Administracji");
+				  } else if(swipePanel.myPreferences.getFaculties().get(0).equals("Chemii")) {
 					  radioButton13.setSelected(true);
 					  faculties.clear();
 					  faculties.add("Chemii");
-				  }
-				  
-				  if(swipePanel.myPreferences.getFaculties().get(0).equals("Fizyki")) {
+				  }else if(swipePanel.myPreferences.getFaculties().get(0).equals("Fizyki")) {
 					  radioButton16.setSelected(true);
 					  faculties.clear();
 					  faculties.add("Fizyki");
+				  }else if(swipePanel.myPreferences.getFaculties().get(0).equals("EITI")) {
+					  radioButton14.setSelected(true);
+					  faculties.clear();
+					  faculties.add("EITI");
+				  }else if(swipePanel.myPreferences.getFaculties().get(0).equals("Elektryczny")) {
+					  radioButton15.setSelected(true);
+					  faculties.clear();
+					  faculties.add("Elektryczny");
+				  }else if(swipePanel.myPreferences.getFaculties().get(0).equals("IBHIŚ")) {
+					  radioButton17.setSelected(true);
+					  faculties.clear();
+					  faculties.add("IBHIŚ");
+				  }else if(swipePanel.myPreferences.getFaculties().get(0).equals("Matematyki")) {
+					  radioButton18.setSelected(true);
+					  faculties.clear();
+					  faculties.add("Matematyki");
+				  }else if(swipePanel.myPreferences.getFaculties().get(0).equals("MEL")) {
+					  radioButton19.setSelected(true);
+					  faculties.clear();
+					  faculties.add("MEL");
+				  }else if(swipePanel.myPreferences.getFaculties().get(0).equals("SiMR")) {
+					  radioButton20.setSelected(true);
+					  faculties.clear();
+					  faculties.add("SiMR");
+				  }else if(swipePanel.myPreferences.getFaculties().get(0).equals("Transportu")) {
+					  radioButton21.setSelected(true);
+					  faculties.clear();
+					  faculties.add("Transportu");
+				  }else if(swipePanel.myPreferences.getFaculties().get(0).equals("Zarządzania")) {
+					  radioButton22.setSelected(true);
+					  faculties.clear();
+					  faculties.add("Zarządzania");
+				  }else if(swipePanel.myPreferences.getFaculties().get(0).equals("Inny")) {
+					  radioButton23.setSelected(true);
+					  faculties.clear();
+					  faculties.add("Inny");
+				  }else if(swipePanel.myPreferences.getFaculties().get(0).equals("Mechatroniki")) {
+					  radioButton24.setSelected(true);
+					  faculties.clear();
+					  faculties.add("Mechatroniki");
 				  }
-				 
+				}
 				  panelCheckBox2 = new JPanel();
 				  panelCheckBox2.setLayout(new FlowLayout(FlowLayout.LEADING));
 				  	    
@@ -647,7 +693,6 @@ public class SettingsPanel extends JPanel {
 			            }
 			        });
 			       
-			       
 			       rangeSlider.setValue(swipePanel.myPreferences.getAgeMin());
 			       rangeSlider.setUpperValue(swipePanel.myPreferences.getAgeMax());
 			       
@@ -679,7 +724,7 @@ public class SettingsPanel extends JPanel {
 							int ageMin = rangeSlider.getValue();
 							int ageMax = rangeSlider.getUpperValue();
 							savePreferences(genders, faculties, ageMin, ageMax);
-							
+							refresh=true;
 						}
 					});
 			        

@@ -64,7 +64,7 @@ public class SwipePanel extends JPanel {
 	Timer slideTimer = new Timer();
 	
 	SqlConnection sqlConn = new SqlConnection();
-	private Connection conn;
+	Connection conn;
 	User me;
 	User current;
 	List<User> users = new ArrayList<User>();

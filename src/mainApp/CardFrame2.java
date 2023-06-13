@@ -19,10 +19,10 @@ import javax.swing.border.LineBorder;
 public class CardFrame2 extends JFrame{
 
 	private JPanel contentPane;
-    private SwipePanel panel4;
-    private SettingsPanel panel5;
-    private ChatPanel panel6;
-    private static int id;
+    SwipePanel panel4;
+    SettingsPanel panel5;
+    ChatPanel panel6;
+    static int id;
  
     
     
