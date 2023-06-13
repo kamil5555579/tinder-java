@@ -56,9 +56,9 @@ import javax.swing.SwingConstants;
 
 public class ChatPanel extends JPanel {
 	
-	private SqlConnection sqlConn = new SqlConnection();
-	private Connection conn;
-	private User current;
+	SqlConnection sqlConn = new SqlConnection();
+	Connection conn;
+	User current;
 	private List<User> users = new ArrayList<User>();
 	private Iterator<User> it = null;
 	int id;
@@ -86,6 +86,9 @@ public class ChatPanel extends JPanel {
 			setBorder(new LineBorder(new Color(255, 20, 147), 3, true));
 
 			initializeOthers(id);
+			conPanel.refresh();
+			conPanel.revalidate();
+			conPanel.repaint();
 			setLayout(null);
 
 			try {

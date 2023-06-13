@@ -66,11 +66,11 @@ class DataPanel extends JPanel
 	private JLabel imgLabel;
 	private JComboBox comboBox_2;
 	private int id;
-	private SqlConnection sqlConn = new SqlConnection();
+	SqlConnection sqlConn = new SqlConnection();
 	private JFileChooser fileChooser = new JFileChooser();
 	private File f=null;
 	private InputStream is=null;
-	private Connection conn;
+	Connection conn;
 	Image img;
 
 	public DataPanel(JPanel panel, JFrame frame)  {
