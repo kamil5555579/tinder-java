@@ -60,23 +60,23 @@ import java.awt.SystemColor;
 
 public class ConversationPanel extends JPanel {
 
-	int id;
-	User current;
-	SqlConnection sqlConn = new SqlConnection();
+	private int id;
+	private User current;
+	private SqlConnection sqlConn = new SqlConnection();
 	private Connection conn;
-	Connection conn2;
-	Connection conn3;
-	JLabel label2;
-	Box vertical = Box.createVerticalBox();
-	final ScheduledExecutorService scheduler = 
+	private Connection conn2;
+	private Connection conn3;
+	private JLabel labelChat;
+	private Box vertical = Box.createVerticalBox();
+	private final ScheduledExecutorService scheduler = 
 		       Executors.newScheduledThreadPool(2);
-	private JPanel panel_1,panel_2;
-	Timestamp last = new Timestamp(0);
-	JScrollBar verticalScrollBar;
-	boolean scrollDown = true;
-	int maxMsg = 6;
-	Rectangle rectangleLoad;
-	BufferedImage imageLoad;
+	private JPanel insidePanel,outsidePanel;
+	private Timestamp last = new Timestamp(0);
+	private JScrollBar verticalScrollBar;
+	private boolean scrollDown = true;
+	private int maxMsg = 6;
+	private Rectangle rectangleLoad;
+	private BufferedImage imageLoad;
 	
 	public ConversationPanel(int id, User current) {
 		setBorder(null);
@@ -85,16 +85,13 @@ public class ConversationPanel extends JPanel {
 		this.id = id;
 		this.current = current;
 		setLayout(null);
+	
 		
-		// czat z
-		
-		label2 = new JLabel();
-
-		label2.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 16));
-	    label2.setText("Czat z:" + current.getFirstname());
-	    label2.setBounds(250, 0, 250, 50);
-
-		add(label2);
+		labelChat = new JLabel();
+		labelChat.setFont(new Font("LM Sans", Font.BOLD | Font.ITALIC, 16));
+	    labelChat.setText("Czat z:" + current.getFirstname());
+	    labelChat.setBounds(250, 0, 250, 50);
+		add(labelChat);
 		
 		// załaduj więcej
 		
@@ -120,44 +117,32 @@ public class ConversationPanel extends JPanel {
 		
 		// panel wewnętrzny z wiadomościami
 		
-		panel_1 = new JPanel();
-
-		panel_1.setBounds(0, 50, 650, 500);
-		panel_1.setBackground(new Color(240, 240, 240));
-		panel_1.setLayout(new BorderLayout());
-		add(panel_1);
+		insidePanel = new JPanel();
+		insidePanel.setBounds(0, 50, 650, 500);
+		insidePanel.setBackground(new Color(240, 240, 240));
+		insidePanel.setLayout(new BorderLayout());
+		add(insidePanel);
 		
 		// panel zewnętrzny
 		
-		panel_2 = new JPanel();
-
-		panel_2.setBounds(0, 50, 650, 500);
-		panel_2.setBackground(new Color(240, 240, 240));
-		panel_2.setLayout(new BorderLayout());
-		add(panel_2);
+		outsidePanel = new JPanel();
+		outsidePanel.setBounds(0, 50, 650, 500);
+		outsidePanel.setBackground(new Color(240, 240, 240));
+		outsidePanel.setLayout(new BorderLayout());
+		add(outsidePanel);
 		
 		
 		vertical.add(Box.createVerticalStrut(15));
 
 		
-		JScrollPane scrollPane = new JScrollPane(panel_1);
+		JScrollPane scrollPane = new JScrollPane(insidePanel);
 		scrollPane.setBackground(new Color(240, 240, 240));
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
 		scrollPane.setPreferredSize(new Dimension(650, 500));
 		verticalScrollBar = scrollPane.getVerticalScrollBar();
-		/* scroll listener
-		 verticalScrollBar.addAdjustmentListener(new AdjustmentListener() {
-	            @Override
-	            public void adjustmentValueChanged(AdjustmentEvent e) {
-	                if (e.getValue() == verticalScrollBar.getMinimum() && verticalScrollBar.getMaximum()!=0) {
-	                    // Perform the action when scroll bar reaches the top
-	                    System.out.println("Scroll bar reached the top!");
-	                }
-	            }
-	        });
-		*/
-		panel_2.add(scrollPane, BorderLayout.PAGE_START);
+		
+		outsidePanel.add(scrollPane, BorderLayout.PAGE_START);
 		
 		
 		// wiadomość
@@ -165,13 +150,13 @@ public class ConversationPanel extends JPanel {
 		JTextField msgField = new JTextField("");
 
 		msgField.setBorder(null);
-		msgField.setFont(new Font("Dialog", Font.ITALIC, 14));
+		msgField.setFont(new Font("LM Sans", Font.ITALIC, 14));
 		msgField.setBounds(25, 570, 400, 40);
 		add(msgField);
 	
 		JButton sendBtn = new JButton("Wyślij");
 		sendBtn.setBorder(null);
-		sendBtn.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 16));
+		sendBtn.setFont(new Font("LM Sans", Font.BOLD | Font.ITALIC, 16));
 		sendBtn.setBackground(new Color(255, 240, 245));
 		sendBtn.setBounds(460, 570, 175, 40);
 
@@ -226,7 +211,7 @@ public class ConversationPanel extends JPanel {
 	void setUser(User current)
 	{
 		this.current = current;
-		label2.setText("czat z:" + current.getFirstname());
+		labelChat.setText("czat z:" + current.getFirstname());
 		maxMsg = 6;
 		
 	}
@@ -263,7 +248,7 @@ public class ConversationPanel extends JPanel {
 		    				JPanel textPanel = new JPanel();
 		    				textPanel.setLayout(new BoxLayout(textPanel, BoxLayout.Y_AXIS));
 		    				output.setBackground(new Color (65,105,225));
-		    				output.setFont(new Font("Dialog", Font.PLAIN| Font.ITALIC, 14));
+		    				output.setFont(new Font("LM Sans", Font.PLAIN| Font.ITALIC, 14));
 		    				output.setBorder(new EmptyBorder(10,10,15,50));
 		    				output.setOpaque(true);
 		    				textPanel.add(output);
@@ -272,7 +257,7 @@ public class ConversationPanel extends JPanel {
 		    				SimpleDateFormat sdf = new SimpleDateFormat("d.MM.yyyy HH:mm:ss");
 		    				
 		    				JLabel time = new JLabel();
-		    				time.setFont(new Font("Dialog", Font.PLAIN| Font.ITALIC, 9));
+		    				time.setFont(new Font("LM Sans", Font.PLAIN| Font.ITALIC, 9));
 		    				time.setForeground(Color.GRAY);
 		    				time.setText("	"+sdf.format(rs.getTimestamp("date")));
 		    				textPanel.add(time);
@@ -288,7 +273,7 @@ public class ConversationPanel extends JPanel {
 			    				output.setForeground(Color.WHITE);
 			    				
 		    					right.add(textPanel, BorderLayout.LINE_END);
-		    					panel_1.add(vertical, BorderLayout.PAGE_START);
+		    					insidePanel.add(vertical, BorderLayout.PAGE_START);
 
 		    				}
 		    				else
@@ -301,7 +286,7 @@ public class ConversationPanel extends JPanel {
 			    				output.setForeground(Color.GRAY);
 			    				
 			    				left.add(textPanel, BorderLayout.LINE_START);
-			    				panel_1.add(vertical, BorderLayout.PAGE_START);
+			    				insidePanel.add(vertical, BorderLayout.PAGE_START);
 
 		    				}
 		    				vertical.add(Box.createVerticalStrut(15));

@@ -56,31 +56,27 @@ import javax.swing.SwingConstants;
 
 public class ChatPanel extends JPanel {
 	
-	private JButton buttonSwipe;
-	SqlConnection sqlConn = new SqlConnection();
+	private SqlConnection sqlConn = new SqlConnection();
 	private Connection conn;
-	User current;
-	List<User> users = new ArrayList<User>();
-	Iterator<User> it = null;
+	private User current;
+	private List<User> users = new ArrayList<User>();
+	private Iterator<User> it = null;
 	int id;
-	ConversationPanel conPanel;
-	JComboBox<User> comboBox;
-	JScrollPane listScrollPane;
-	DefaultListModel listaElementy;
+	private ConversationPanel conPanel;
+	private DefaultListModel listaElementy;
 	private BufferedImage imageChat;
-	JList<User> lista;
+	private JList<User> lista;
 	private Rectangle rectangleChat = new Rectangle(810, 0, 70, 70);
-
-	private JLabel lblChat,textChat;
+	private JLabel labelChat;
 	
 	
 	public ChatPanel(JPanel panel,  int id) {
-		
-		lblChat = new JLabel("Wiadomości");
-		lblChat.setForeground(new Color(255, 100, 153));
-		lblChat.setFont(new Font("LM Sans 10", Font.BOLD | Font.ITALIC, 34));
-		lblChat.setBounds(350, 0, 200, 75);
-		add(lblChat);
+			
+			labelChat = new JLabel("Wiadomości");
+			labelChat.setForeground(new Color(255, 100, 153));
+			labelChat.setFont(new Font("LM Sans", Font.ITALIC, 30));
+			labelChat.setBounds(350, 0, 200, 75);
+			add(labelChat);
 			
 			this.id=id;
 			
@@ -91,21 +87,12 @@ public class ChatPanel extends JPanel {
 
 			initializeOthers(id);
 			setLayout(null);
-			
-			// przejście do swipowania
-			
-			buttonSwipe = new JButton();
-			buttonSwipe.setBorder(null);
-			buttonSwipe.setBackground(new Color(0, 0, 0,0));
-		
-			buttonSwipe.setBounds(800, 0, 100, 100);
 
 			try {
 			    imageChat = ImageIO.read(getClass().getResource("arrow_chat.PNG"));
 			  } catch (Exception ex) {
 			    System.out.println(ex);
 			  }
-			
 			
 			addMouseListener(new MouseAdapter() {
 				 public void mouseClicked(MouseEvent e) {
@@ -122,7 +109,7 @@ public class ChatPanel extends JPanel {
 		    // wybór osoby do czatowania
 			listaElementy = new DefaultListModel<User>();
 			lista = new JList<User>(listaElementy);
-			lista.setFont(new Font("LM Sans 10", Font.ITALIC, 18));
+			lista.setFont(new Font("LM Sans", Font.ITALIC, 14));
 			lista.setCellRenderer(new DefaultListCellRenderer() {
 	            @Override
 	            public Component getListCellRendererComponent(JList<?> list, Object value, int index,
@@ -153,9 +140,6 @@ public class ChatPanel extends JPanel {
 					        }
 					        
 				    	}
-				    
-
-					
 				});
 			
 	}

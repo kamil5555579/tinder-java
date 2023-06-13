@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
@@ -63,6 +64,8 @@ public class ImagePanel extends JPanel {
 		x = this.getWidth()/2 - imgWidth/2;
 		y = this.getHeight()/2 - imgHeight/2-50;
 		fi=0;
+		
+	    
 		setImage(current.getImage());
 		repaint();
 		
@@ -111,34 +114,7 @@ public class ImagePanel extends JPanel {
 		
 		
 	}
-	  public void paintComponent(Graphics g) {
-			Graphics2D g2d = (Graphics2D) g;
-			panel.repaint();
-			panel.validate();
-	    	if(bufferedImage!=null)
-	    	{	
-				g2d.rotate(Math.toRadians(fi), (int) x + imgWidth / 2, (int) y + imgHeight / 2);
-				g2d.drawImage(bufferedImage, (int) x, (int) y, null);
-				
-				g2d.setPaint(Color.WHITE); 
-				g2d.fillRect((int) x, (int) y + imgHeight, imgWidth , 75);
-				
-				g2d.setPaint(new Color(0, 0, 0)); 
-				g2d.setFont(new Font("LM Sans",Font.BOLD|Font.ITALIC, 16));
-				g2d.drawString(current.getFirstname()+" "+current.getLastname(), (int) x+10, (int) y + imgHeight + 20);
-				g2d.drawString(current.getGender()+" ", (int) x+10, (int) y + imgHeight + 40);
-				g2d.drawString(Integer.toString(current.getAge())+" lat", (int) x + 100, (int) y + imgHeight + 40);
-				g2d.drawString("Studiuje "+current.getUniversity(), (int) x+10, (int) y + imgHeight + 60);
-				g2d.setPaint(Color.BLACK); 
-				g2d.drawRect((int) x, (int) y + imgHeight, imgWidth , 75);
-				g2d.drawRect((int) x, (int) y, imgWidth , imgHeight);
-	    	}
-	    	else
-	    		g2d.drawString("Nie ma więcej :(",(int) x+(imgWidth/4), (int) y+(imgHeight/4));
-			}
-	  			
-	  		
-	  
+	
 	
 	void match(User current, boolean decision)
 	{
@@ -261,13 +237,40 @@ public class ImagePanel extends JPanel {
 
 	void setImage(Image image)
 	{
+		
 		bufferedImage = new BufferedImage(imgWidth, imgHeight, BufferedImage.TYPE_INT_RGB);
-		bufferedImage.getGraphics().drawImage(image, 0, 0 , null);
+		bufferedImage.getGraphics().drawImage(image, 0, 0,this.imgWidth,this.imgHeight , null);
 	}
 	
 	BufferedImage getImage()
 	{
 		return bufferedImage;
 	}
+	
+	 public void paintComponent(Graphics g) {
+			Graphics2D g2d = (Graphics2D) g;
+			panel.repaint();
+			panel.validate();
+	    	if(bufferedImage!=null)
+	    	{	
+				g2d.rotate(Math.toRadians(fi), (int) x + imgWidth / 2, (int) y + imgHeight / 2);
+				g2d.drawImage(bufferedImage, (int) x, (int) y, null);
+				
+				g2d.setPaint(Color.WHITE); 
+				g2d.fillRect((int) x, (int) y + imgHeight, imgWidth , 75);
+				
+				g2d.setPaint(new Color(0, 0, 0)); 
+				g2d.setFont(new Font("LM Sans",Font.BOLD|Font.ITALIC, 16));
+				g2d.drawString(current.getFirstname()+" "+current.getLastname(), (int) x+10, (int) y + imgHeight + 20);
+				g2d.drawString(current.getGender()+" ", (int) x+10, (int) y + imgHeight + 40);
+				g2d.drawString(Integer.toString(current.getAge())+" lat", (int) x + 125, (int) y + imgHeight + 40);
+				g2d.drawString("Studiuje "+current.getUniversity(), (int) x+10, (int) y + imgHeight + 60);
+				g2d.setPaint(Color.BLACK); 
+				g2d.drawRect((int) x, (int) y + imgHeight, imgWidth , 75);
+				g2d.drawRect((int) x, (int) y, imgWidth , imgHeight);
+	    	}
+	    	else
+	    		g2d.drawString("Nie ma więcej :(",(int) x+(imgWidth/4), (int) y+(imgHeight/4));
+			}
 }
 
