@@ -56,8 +56,6 @@ import javax.swing.JProgressBar;
 
 public class SwipePanel extends JPanel {
 
-	
-	private BufferedImage bufferedImage;
 	double x,y,fi;
 	int imgWidth=450;
 	int imgHeight=450;
@@ -72,7 +70,7 @@ public class SwipePanel extends JPanel {
 	List<User> users = new ArrayList<User>();
 	Iterator<User> it = null;
 	int id;
-	private JLabel lblTinder, lblWait;
+	private JLabel lblWait;
 	ImagePanel imgPanel;
 	JProgressBar progressBar;
 	private BufferedImage imageSettings, imageChat, imageReject, imageMatch, imageTinder;
@@ -88,7 +86,6 @@ public class SwipePanel extends JPanel {
 		    	
 		    	setBounds(0, 0, 900, 800);
 		    	setBackground(new Color(245,245,245));
-				
 				setBorder(new LineBorder(new Color(255, 20, 147), 3, true));
 				setLayout(null);
 				
@@ -97,14 +94,6 @@ public class SwipePanel extends JPanel {
 				initializeMyPreferences(id);
 				//initializeMe(id); tutaj raczej niepotrzebne
 				
-				
-				// label Tinder
-				/*
-				lblTinder = new JLabel("Tinder");
-				lblTinder.setForeground(new Color(255, 100, 153));
-				lblTinder.setFont(new Font("LM Sans 10", Font.BOLD | Font.ITALIC, 50));
-				lblTinder.setBounds(350, 25, 200, 100);
-				add(lblTinder);*/
 				try {
 				    imageTinder = ImageIO.read(getClass().getResource("tinder.PNG"));
 				  } catch (Exception ex) {
@@ -112,8 +101,7 @@ public class SwipePanel extends JPanel {
 				  }
 				rectangleTinder = new Rectangle(385, 0, 140, 140);
 	
-		        // przycisk przejscia do wiadomosci
-				
+		        // przycisk przejscia do wiadomosci	
 				try {
 				    imageChat = ImageIO.read(getClass().getResource("fly3.png"));
 				  } catch (Exception ex) {
@@ -132,9 +120,8 @@ public class SwipePanel extends JPanel {
 						repaint();
 			        }
 				});
+				
 				// przycisk przejscia do ustawień
-				
-				
 				try {
 				    imageSettings = ImageIO.read(getClass().getResource("settings.png"));
 				  } catch (Exception ex) {
@@ -154,9 +141,7 @@ public class SwipePanel extends JPanel {
 			        }
 				});
 			
-		      
 				// przycisk reject
-
 				try {
 				    imageReject = ImageIO.read(getClass().getResource("break.png"));
 				  } catch (Exception ex) {
@@ -177,7 +162,6 @@ public class SwipePanel extends JPanel {
 				
 				
 				// przycisk match
-				
 				try {
 				    imageMatch = ImageIO.read(getClass().getResource("full.png"));
 				  } catch (Exception ex) {
@@ -198,7 +182,6 @@ public class SwipePanel extends JPanel {
 				});
 				
 				// progress
-				
 				progressBar = new JProgressBar();
 				progressBar.setForeground(new Color(255, 20, 147));
 				progressBar.setBounds(350, 350, 203, 32);
@@ -293,7 +276,6 @@ public class SwipePanel extends JPanel {
 		    			
 		    			
 	    				myPreferences.setFaculties(faculties);
-	    				System.out.println(faculties);
 	    				
 		    			while(rs2.next())
 		    			{
@@ -323,8 +305,7 @@ public class SwipePanel extends JPanel {
 		                } catch (Exception ex) {
 		                    ex.printStackTrace();
 		                }
-		                System.out.println(myPreferences.getGenders());
-		                System.out.println(myPreferences.getFaculties());
+		             
 		            }
 
 		       };
@@ -366,7 +347,7 @@ public class SwipePanel extends JPanel {
 		                
 		                prep.setInt(myPreferences.getGenders().size() + myPreferences.getFaculties().size()+3, myPreferences.getAgeMin());
 		                prep.setInt(myPreferences.getGenders().size() + myPreferences.getFaculties().size()+4, myPreferences.getAgeMax());
-		                
+		         
 		    			ResultSet rs = prep.executeQuery();
 		    			while(rs.next())
 		    			{
@@ -382,6 +363,7 @@ public class SwipePanel extends JPanel {
 		            protected void done() {
 		                try {
 		                	it = users.listIterator();
+		                	
 			    			if(it.hasNext())
 							{
 			    				imgPanel = new ImagePanel(id, it, SwipePanel.this);

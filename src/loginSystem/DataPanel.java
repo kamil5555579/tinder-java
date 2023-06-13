@@ -202,68 +202,81 @@ class DataPanel extends JPanel
 		
 		btnRegister.addActionListener( new ActionListener()
 				{
-
+				
+					String firstname;
+					String lastname;
+					String university;
+					String gender;
+					int age;
+					String description;
+			
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						
-						
-						if(txtName.getText().equals("Imię")||txtSurname.getText().equals("Nazwisko")||f==null) {
-							if (txtName.getText().equals("Imię")) {
-							JOptionPane.showMessageDialog(
-		                            null,"Nie podano imienia. Podaj imię!",
-		                            "Błąd uzupełniania danych",
-		                            JOptionPane.ERROR_MESSAGE);
-							}
-							if (txtSurname.getText().equals("Nazwisko")) {
+						try {
+							firstname = txtName.getText();
+							lastname = txtSurname.getText();
+							university = (String) comboBox_2.getSelectedItem();
+							gender = (String) comboBox.getSelectedItem();
+							age = Integer.parseInt(txtAge.getText());
+							description = txtDescription.getText();
+							
+							if(txtName.getText().equals("Imię")||txtSurname.getText().equals("Nazwisko")) {
+								if (txtName.getText().equals("Imię")) {
 								JOptionPane.showMessageDialog(
-			                            null,"Nie podano nazwiska. Podaj nazwisko!",
+			                            null,"Nie podano imienia. Podaj imię!",
 			                            "Błąd uzupełniania danych",
 			                            JOptionPane.ERROR_MESSAGE);
 								}
+								if (txtSurname.getText().equals("Nazwisko")) {
+									JOptionPane.showMessageDialog(
+				                            null,"Nie podano nazwiska. Podaj nazwisko!",
+				                            "Błąd uzupełniania danych",
+				                            JOptionPane.ERROR_MESSAGE);
+								}
+							}else {
+							
 							if (f==null) {
 								JOptionPane.showMessageDialog(
 			                            null,"Nie wybrano zdjęcia. Wybierz zdjęcie!",
 			                            "Błąd uzupełniania danych",
 			                            JOptionPane.ERROR_MESSAGE);
-							}
-							
-							
-						} else {
-						String firstname = txtName.getText();
-						String lastname = txtSurname.getText();
-						String university = (String) comboBox_2.getSelectedItem();
-						String gender = (String) comboBox.getSelectedItem();
-						int age = Integer.parseInt(txtAge.getText());
-						String description = txtDescription.getText();
-						if (f==null) {
-							JOptionPane.showMessageDialog(
-		                            null,"Nie wybrano zdjęcia. Wybierz zdjęcie!",
-		                            "Błąd uzupełniania danych",
-		                            JOptionPane.ERROR_MESSAGE);
-						}else {
-							
+							}else {
+								
 
-						try {
-							ByteArrayOutputStream os = new ByteArrayOutputStream();
-							BufferedImage bufferedImage = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_RGB);
-							bufferedImage.getGraphics().drawImage(img, 0, 0 , null);
-							ImageIO.write( bufferedImage, "gif", os);
-							is = new ByteArrayInputStream(os.toByteArray());
-							os.close();
-						} catch (FileNotFoundException e1) {
-							JOptionPane.showMessageDialog(
-		                            null,"Błąd dostępu do pliku.",
-		                            "Błąd dostępu do danych",
-		                            JOptionPane.ERROR_MESSAGE);
-						} catch (IOException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-						save(firstname, lastname, university, is, frame, gender, age, description);
-						
-						}
-						
+							try {
+								ByteArrayOutputStream os = new ByteArrayOutputStream();
+								BufferedImage bufferedImage = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_RGB);
+								bufferedImage.getGraphics().drawImage(img, 0, 0 , null);
+								ImageIO.write( bufferedImage, "gif", os);
+								is = new ByteArrayInputStream(os.toByteArray());
+								os.close();
+								save(firstname, lastname, university, is, frame, gender, age, description);
+								System.out.println("Zapisano");
+							} catch (FileNotFoundException e1) {
+								JOptionPane.showMessageDialog(
+			                            null,"Błąd dostępu do pliku.",
+			                            "Błąd dostępu do danych",
+			                            JOptionPane.ERROR_MESSAGE);
+							} catch (IOException e1) {
+								
+								e1.printStackTrace();
+							}
+						}	
 					}
+							
+							
+						} catch (NumberFormatException e2) {
+							JOptionPane.showMessageDialog(
+		                            null,"Nie możesz w ten sposób ustawić swoich danych!",
+		                            "Błąd zapisu danych",
+		                            JOptionPane.ERROR_MESSAGE);
+							
+						}
+						
+						
+						
+					
 			
 				}});
 		
