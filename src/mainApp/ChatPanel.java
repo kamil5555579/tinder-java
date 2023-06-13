@@ -84,11 +84,8 @@ public class ChatPanel extends JPanel {
 				
 			setBounds(0, 0, 900, 800);
 			setBorder(new LineBorder(new Color(255, 20, 147), 3, true));
-
+			listaElementy = new DefaultListModel<User>();
 			initializeOthers(id);
-			conPanel.refresh();
-			conPanel.revalidate();
-			conPanel.repaint();
 			setLayout(null);
 
 			try {
@@ -110,7 +107,6 @@ public class ChatPanel extends JPanel {
 		    
 
 		    // wybór osoby do czatowania
-			listaElementy = new DefaultListModel<User>();
 			lista = new JList<User>(listaElementy);
 			lista.setFont(new Font("LM Sans", Font.ITALIC, 14));
 			lista.setCellRenderer(new DefaultListCellRenderer() {

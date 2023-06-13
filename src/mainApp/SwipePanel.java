@@ -95,11 +95,11 @@ public class SwipePanel extends JPanel {
 				//initializeMe(id); tutaj raczej niepotrzebne
 				
 				try {
-				    imageTinder = ImageIO.read(getClass().getResource("tinder.PNG"));
+				    imageTinder = ImageIO.read(getClass().getResource("logo2.png"));
 				  } catch (Exception ex) {
 				    System.out.println(ex);
 				  }
-				rectangleTinder = new Rectangle(385, 0, 140, 140);
+				rectangleTinder = new Rectangle(385, 20, 140, 140);
 	
 		        // przycisk przejscia do wiadomosci	
 				try {
@@ -143,7 +143,7 @@ public class SwipePanel extends JPanel {
 			
 				// przycisk reject
 				try {
-				    imageReject = ImageIO.read(getClass().getResource("break.png"));
+				    imageReject = ImageIO.read(getClass().getResource("left.png"));
 				  } catch (Exception ex) {
 				    System.out.println(ex);
 				  }
@@ -163,7 +163,7 @@ public class SwipePanel extends JPanel {
 				
 				// przycisk match
 				try {
-				    imageMatch = ImageIO.read(getClass().getResource("full.png"));
+				    imageMatch = ImageIO.read(getClass().getResource("right.png"));
 				  } catch (Exception ex) {
 				    System.out.println(ex);
 				  }

@@ -71,10 +71,10 @@ public class LoginPanel extends JPanel
 			
 			//label Tinder
 			
-			lblTinder = new JLabel("Tinder");
+			lblTinder = new JLabel("Logowanie");
 			lblTinder.setForeground(Color.WHITE);
 			lblTinder.setFont(new Font("LM Sans 10", Font.BOLD | Font.ITALIC, 50));
-			lblTinder.setBounds(275, 12, 234, 131);
+			lblTinder.setBounds(221, 12, 284, 131);
 			add(lblTinder);
 
 			//login

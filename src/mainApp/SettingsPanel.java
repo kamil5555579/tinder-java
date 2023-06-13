@@ -98,6 +98,7 @@ public class SettingsPanel extends JPanel {
 	private JPanel panelCheckBox2;
 	private List<String> genders;
 	private List<String> faculties;
+	private int length;
 	
 	private JRadioButton radioButton1;
 	private JRadioButton radioButton2;
@@ -290,6 +291,7 @@ public class SettingsPanel extends JPanel {
 					String gender;
 					int age;
 					String description;
+
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						
@@ -313,19 +315,14 @@ public class SettingsPanel extends JPanel {
 					                            JOptionPane.ERROR_MESSAGE);
 								} else {
 								
-									if (f==null) {
-										JOptionPane.showMessageDialog(
-					                            null,"Musisz zmienić zdjęcie!",
-					                            "Błąd uzupełniania danych",
-					                            JOptionPane.ERROR_MESSAGE);
-									}else {
-								
+									
 											try {
 												ByteArrayOutputStream os = new ByteArrayOutputStream();
 												BufferedImage bufferedImage = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_INT_RGB);
 												bufferedImage.getGraphics().drawImage(image, 0, 0 , null);
 												ImageIO.write( bufferedImage, "gif", os);
 												is = new ByteArrayInputStream(os.toByteArray());
+												length = is.available();
 												os.close();
 												save(firstname, lastname, university, is, frame, gender, age, description);
 												System.out.println("Zmieniono");	
@@ -341,7 +338,7 @@ public class SettingsPanel extends JPanel {
 										}
 									}
 								
-							} catch (NumberFormatException e2) {
+							 catch (NumberFormatException e2) {
 								
 								JOptionPane.showMessageDialog(
 			                            null,"Nie możesz w ten sposób zmienić swoich danych!",
@@ -835,7 +832,7 @@ public class SettingsPanel extends JPanel {
 	    			prep.setString(3, university);
 	    			prep.setString(4, gender);
 	    			prep.setInt(5, age);
-	    			prep.setBinaryStream(6,is, (int) f.length());
+	    			prep.setBinaryStream(6,is, length);
 	    			prep.setString(7, description);
 	    			prep.setLong(8, id);
 	    			prep.executeUpdate();
@@ -892,6 +889,7 @@ public class SettingsPanel extends JPanel {
 				    Image imgTemp = icon.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
 				    image = new ImageIcon(icon.getImage().getScaledInstance(400, 400, Image.SCALE_SMOOTH)).getImage();
 				    labelPhoto.setIcon(new ImageIcon(imgTemp));
+				    
     				//labelPhoto.setIcon(new ImageIcon(me.getImage()));
     				textPaneDescription.setText(me.getDescription());
     			}
